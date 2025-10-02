@@ -7,21 +7,21 @@
 .home{
   display: grid;
   margin: auto;
-  padding: 20px 40px;
+  padding: 5px 10px;
   background-color: white;
   justify-content: center;
 
 }
 input, button{
-  width: 250px;
+  width: 200px;
   height: 30px;
   margin-bottom: 15px;
   outline-color: greenyellow;
 }
 input::placeholder{
   color: rgb(87, 86, 86);
-  padding: 10px;
+  padding: 5px;
 }
 button{
-  width:250px ;
+  width:200px ;
 }

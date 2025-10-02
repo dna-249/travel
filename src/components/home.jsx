@@ -4,7 +4,7 @@ const Home =()=>{
     return(
         <div className="body">
                     <div className='home'>
-                        <h3>Welcome to Attasfiyah Portal</h3>
+                        <h4>Welcome to Attasfiyah Portal</h4>
                         <div> 
                                 <input type="text" placeholder="Enter username"/><br />
                                 <input type="password" placeholder="Password" /> <br />
