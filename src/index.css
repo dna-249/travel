@@ -4,6 +4,9 @@
   height: 100vh;
   background-color: aliceblue;
 }
+body{
+  font-family: 'Gill Sans', 'Gill Sans MT';
+}
 .home{
   display: grid;
   margin: auto;
