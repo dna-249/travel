@@ -22,7 +22,7 @@
 input, button{
   width: 200px;
   height: 35px;
-  margin-bottom: 15px;
+  margin-top: 5px;
   outline-color: greenyellow;
 }
 input::placeholder{
@@ -31,4 +31,5 @@ input::placeholder{
 }
 button{
   width:200px ;
+  margin-top: 15px;
 }
