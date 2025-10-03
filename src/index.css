@@ -19,7 +19,7 @@
 
 }
 input, button{
-  width: 250px;
+  width: 200px;
   height: 30px;
   margin-bottom: 15px;
   outline-color: greenyellow;
@@ -29,5 +29,5 @@ input::placeholder{
   padding: 5px;
 }
 button{
-  width:250px ;
+  width:200px ;
 }
