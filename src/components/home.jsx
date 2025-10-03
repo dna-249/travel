@@ -10,7 +10,7 @@ const Home =()=>{
                         <div> 
                                 <input type="text" placeholder="Enter username"/><br />
                                 <input type="password" placeholder="Password" /> <br />
-                                <input style={{width:"10px",height:"10px",marginTop:"10px"}} type="checkbox" placeholder="Password" /> Remember Me<br />
+                                <input style={{width:"15px",height:"15px",marginTop:"10px"}} type="checkbox" placeholder="Password" /> Remember Me<br />
                            <div style={{display:"grid",justifyItems:"center"}}> <button>Sign In</button>  </div>
                            <h5 style={{textAlign:"center"}}>Powered by dnaTech@2025</h5>
                         </div>
