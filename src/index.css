@@ -32,4 +32,6 @@ input::placeholder{
 button{
   width:200px ;
   margin-top: 15px;
+  background-color:rgb(21, 114, 21);
+  color: white;
 }
