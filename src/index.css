@@ -12,6 +12,12 @@
   justify-content: center;
 
 }
+.home2{
+  display: grid;
+  margin: auto;
+  justify-content: center;
+
+}
 input, button{
   width: 200px;
   height: 30px;
