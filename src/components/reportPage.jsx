@@ -11,15 +11,17 @@ const handleDownloadPdf = () => {
     const element = document.querySelector('.report-container'); // Select the content to convert
 
     var opt = {
-        margin:       0.5,
-        filename:     'Sambo_Result_Report.pdf',
-        image:        { type: 'jpeg', quality: 0.98 },
-        html2canvas:  { scale: 1 },
-        jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
-        
-    };
+    margin: 0.5,
+    filename: 'Sambo_Result_Report.pdf',
+    image: { type: 'jpeg', quality: 0.98 },
+    html2canvas: { 
+        scale: 5,
+        media: 'print' // <--- THIS IS THE KEY FIX
+    }, 
+    jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+};
 
-    html2pdf().set(opt).from(element).save();
+html2pdf().set(opt).from(element).save();;
 };
 // ...
 
@@ -72,7 +74,7 @@ const handleDownloadPdf = () => {
       <div className="school-header">
         <img src="/path/to/school_logo.png" alt="School Logo" className="logo" />
         <div className="school-info">
-          <p className="school-name-ar">مدرسة التصفية للتحفيظ والدراسات الإسلامية، أبوجا</p>
+          <p style={{fontSize:"20px"}} className="school-name-ar">مدرسة التصفية للتحفيظ والدراسات الإسلامية، أبوجا</p>
           <h2 className="school-name-en">MADRASAT ALTASFIYAH TAHFEEZ AND ISLAMIYAH SCHOOL, ABUJA</h2>
           <h3 className="report-title">STATEMENT OF RESULT</h3>
         </div>

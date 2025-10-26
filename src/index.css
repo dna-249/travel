@@ -216,3 +216,79 @@ th, td {
     padding-top: 10px;
     border-top: 1px dotted #000;
 }
+
+/* Minimal CSS for the ReportInputForm */
+
+.report-input-form {
+    max-width: 1000px;
+    margin: 40px auto;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    background-color: #f9f9f9;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+input[type="text"], 
+input[type="number"], 
+select, 
+textarea {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box; /* Important for padding/width calculation */
+}
+
+textarea {
+    resize: vertical;
+}
+
+.subject-score-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: center;
+    font-size: 0.9em;
+}
+
+.subject-score-table th, 
+.subject-score-table td {
+    border: 1px solid #ddd;
+    padding: 8px 4px;
+}
+
+.subject-score-table input {
+    width: 90%;
+    text-align: center;
+    padding: 3px;
+    font-size: 1em;
+}
+
+.save-btn {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1.1em;
+    transition: background-color 0.3s;
+}
+
+.save-btn:hover {
+    background-color: #0056b3;
+}
