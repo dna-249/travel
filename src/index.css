@@ -38,8 +38,92 @@ button{
   background-color:rgb(21, 114, 21);
   color: white;
 }
+/* ReportPage.css */
 
+.report-container {
+    /* * IMPORTANT: Maintain the fixed print-ready width. 
+     * This is what forces the content to be wider than the phone screen, 
+     * making the browser's native zoom/scrolling necessary.
+     */
+    width: 8.5in; 
+    
+    margin: 20px auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    font-family: Arial, sans-serif;
+    font-size: 10pt;
+    
+    /* * Optional: If you wrap this component in an outer element, 
+     * you might apply 'overflow-x: auto;' to the wrapper to 
+     * explicitly allow horizontal scrolling, but mobile browsers 
+     * usually handle this automatically due to the fixed width.
+     */
+}
 
+/* * If you wrap the ReportPage component in App.js with a standard div, 
+ * you can ensure horizontal scrolling is possible:
+ */
+/*
+@media (max-width: 600px) {
+    body {
+        overflow-x: auto;
+    }
+}
+*/
+
+/* --- Print Button Styling (Screen View) --- */
+.print-button-container {
+    /* Center the button below the report */
+    text-align: center;
+    margin-top: 30px;
+    padding-bottom: 30px; 
+}
+
+.print-download-btn {
+    /* Applying the requested style: bg green, text white */
+    background-color: #28a745; /* A standard green color */
+    color: white;
+    border: none;
+    padding: 10px 25px;
+    font-size: 16px;
+    font-weight: bold;
+    margin-left: 5px;
+    cursor: pointer;
+    border-radius: 5px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s;
+}
+
+.print-download-btn:hover {
+    background-color: #218838; /* Darker green on hover */
+}
+/* Prevent a table row (tr) or a specific div from being split */
+tr, .no-break {
+    page-break-inside: avoid !important;
+}
+.new-page {
+    page-break-before: always !important;
+}
+    
+
+/* --- Media Query for Printing --- */
+
+/* This section ensures only the necessary elements print */
+@media print {
+    /* HIDE the button when the print dialog opens */
+    .print-button-container,
+    .print-download-btn {
+        display: none;
+    }
+
+    /* Ensure the report itself is optimized for the paper */
+    .report-container {
+        border: none; /* Remove the outer border for printing */
+        margin: 0;
+        padding: 0;
+        width: 100%; /* Take full width of the paper */
+    }
+}
 .report-container {
     width: 8.5in; /* Standard A4/Letter size width for printing */
     margin: 20px auto;

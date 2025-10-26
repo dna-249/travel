@@ -14,8 +14,9 @@ const handleDownloadPdf = () => {
         margin:       0.5,
         filename:     'Sambo_Result_Report.pdf',
         image:        { type: 'jpeg', quality: 0.98 },
-        html2canvas:  { scale: 2 },
+        html2canvas:  { scale: 1 },
         jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
+        
     };
 
     html2pdf().set(opt).from(element).save();
@@ -207,16 +208,19 @@ const handleDownloadPdf = () => {
             <span>Signature & Stamp</span>
             <span>Date</span>
         </div>
-         <div className="print-button-container">
+         
+      </div>
+      <div style={{margin:"auto",alignSelf:"center"}} className="print-button-container">
                 <button 
                     onClick={handlePrint}
                     className="print-download-btn"
                 >
                     🖨️ Print Report
                 </button>
-                 <button onClick={handleDownloadPdf}>Download Report</button>
+                 <button 
+                  className="print-download-btn"
+                onClick={handleDownloadPdf}>Download Report</button>
             </div>
-      </div>
     </div>
   );
 };
