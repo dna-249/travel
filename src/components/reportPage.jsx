@@ -1,8 +1,28 @@
 import React from 'react';// Assume you create this file for styles
+import html2pdf from 'html2pdf.js';
 
-// Import the mock data
 
-const ReportPage = () => {
+const ReportPage = () => {// ReportPage.js (Updated Snippet)
+
+   const handlePrint = () => {
+        window.print();
+    };
+const handleDownloadPdf = () => {
+    const element = document.querySelector('.report-container'); // Select the content to convert
+
+    var opt = {
+        margin:       0.5,
+        filename:     'Sambo_Result_Report.pdf',
+        image:        { type: 'jpeg', quality: 0.98 },
+        html2canvas:  { scale: 2 },
+        jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
+    };
+
+    html2pdf().set(opt).from(element).save();
+};
+// ...
+
+
     const studentData = {
   school: "ALTASFIYAH TAHFEEZ AND ISLAMIYAH SCHOOL, ABUJA",
   studentName: "SAMBO MUHAMMAD MALAMIYO",
@@ -187,6 +207,15 @@ const ReportPage = () => {
             <span>Signature & Stamp</span>
             <span>Date</span>
         </div>
+         <div className="print-button-container">
+                <button 
+                    onClick={handlePrint}
+                    className="print-download-btn"
+                >
+                    🖨️ Print Report
+                </button>
+                 <button onClick={handleDownloadPdf}>Download Report</button>
+            </div>
       </div>
     </div>
   );
