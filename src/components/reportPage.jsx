@@ -46,11 +46,15 @@ html2pdf().set(opt).from(element).save();;
   overallRemark: "EXCELLENT",
   subjects: [
     { name: "QUR'AN", CA1: 5, CA2: 6, Exam: 59, Total: 75, Position: "2nd", Grade: "A", Remark: "EXCELLENT" },
-    { name: "ARABIC LANGUAGE", CA1: 7, CA2: 5, Exam: 54, Total: 74, Position: "4th", Grade: "A", Remark: "EXCELLENT" },
-    { name: "HURUF", CA1: 10, CA2: 8, Exam: 54, Total: 79, Position: "2nd", Grade: "A", Remark: "EXCELLENT" },
-    { name: "ISLAMIC STUDIES", CA1: 5, CA2: 8, Exam: 54, Total: 73, Position: "4th", Grade: "A", Remark: "EXCELLENT" },
-    { name: "MORAL ETHICS", CA1: 10, CA2: 6, Exam: 51, Total: 72, Position: "3rd", Grade: "A", Remark: "EXCELLENT" },
-  ],
+    { name: "TAJWEED", CA1: 7, CA2: 5, Exam: 54, Total: 74, Position: "4th", Grade: "A", Remark: "EXCELLENT" },
+    { name: "TAUHEED", CA1: 10, CA2: 8, Exam: 54, Total: 79, Position: "2nd", Grade: "A", Remark: "EXCELLENT" },
+    { name: "FIQH", CA1: 5, CA2: 8, Exam: 54, Total: 73, Position: "4th", Grade: "A", Remark: "EXCELLENT" },
+    { name: "HADITH", CA1: 10, CA2: 6, Exam: 51, Total: 72, Position: "3rd", Grade: "A", Remark: "EXCELLENT" },
+    { name: "ARABIC", CA1: 10, CA2: 6, Exam: 51, Total: 72, Position: "3rd", Grade: "A", Remark: "EXCELLENT" },
+    { name: "AZKHAR", CA1: 10, CA2: 6, Exam: 51, Total: 72, Position: "3rd", Grade: "A", Remark: "EXCELLENT" },
+    { name: "SIRAH", CA1: 10, CA2: 6, Exam: 51, Total: 72, Position: "3rd", Grade: "A", Remark: "EXCELLENT" },
+    { name: "HURUF", CA1: 10, CA2: 6, Exam: 51, Total: 72, Position: "3rd", Grade: "A", Remark: "EXCELLENT" },
+      ],
   behavior: {
     moralEthics: "EXCELLENT",
     punctuality: "GOOD",
@@ -109,29 +113,7 @@ html2pdf().set(opt).from(element).save();;
         </tbody>
       </table>
 
-      {/* Grading & Remark Summary */}
-      <table className="summary-table">
-        <thead>
-          <tr>
-            <th>No. of Titles Offered: 5</th>
-            <th>Class Highest Final Score: {classHighest}</th>
-            <th>% Average Score: {avgScore}%</th>
-            <th>Class Lowest Final Score: {classLowest}</th>
-            <th>Overall Grade: {overallGrade}</th>
-            <th>Overall REMARK</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>TOTAL SCORE: {totalScore}</td>
-            <td>CLASS POSITION: {classPos}</td>
-            <td>CLASS HIGHEST: {classHighest}</td>
-            <td>GRADE: A</td>
-            <td>REMARK: {overallRemark}</td>
-          </tr>
-        </tbody>
-      </table>
-
+  
       {/* Subject Grades Table */}
       <table className="grades-table">
         <thead>

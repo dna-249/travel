@@ -221,43 +221,7 @@ const ReportInputForm = ({ onSave }) => {
             </table>
             <hr />
 
-            {/* --- 3. Overall Summary --- */}
-            <h3>Overall Grading and Class Performance</h3>
-            <div className="form-grid overall-info-grid">
-                <div>
-                    <label>CLASS HIGHEST (User Input):</label>
-                    <input type="number" name="classHighest" value={formData.classHighest} onChange={handleBasicChange} />
-                </div>
-                <div>
-                    <label>CLASS LOWEST (User Input):</label>
-                    <input type="number" name="classLowest" value={formData.classLowest} onChange={handleBasicChange} />
-                </div>
-                <div>
-                    <label>No. in Class (User Input):</label>
-                    <input type="number" name="noInClass" value={formData.noInClass} onChange={handleBasicChange} />
-                </div>
-                <div style={{backgroundColor: '#e6ffed', padding: '10px', borderRadius: '4px'}}>
-                    <label>Calculated TOTAL SCORE:</label>
-                    <input type="number" readOnly value={formData.totalScore} style={{fontWeight: 'bold'}}/>
-                </div>
-                <div style={{backgroundColor: '#e6ffed', padding: '10px', borderRadius: '4px'}}>
-                    <label>Calculated AVERAGE SCORE:</label>
-                    <input type="number" step="0.01" readOnly value={formData.avgScore} style={{fontWeight: 'bold'}}/>
-                </div>
-                <div style={{backgroundColor: '#ffffe6', padding: '10px', borderRadius: '4px'}}>
-                    <label>Calculated CLASS POSITION:</label>
-                    <input type="text" readOnly value={formData.classPos} style={{fontWeight: 'bold'}}/>
-                </div>
-                <div style={{backgroundColor: '#e6ffed', padding: '10px', borderRadius: '4px'}}>
-                    <label>Calculated OVERALL GRADE:</label>
-                    <input type="text" readOnly value={formData.overallGrade} style={{fontWeight: 'bold'}}/>
-                </div>
-                <div style={{backgroundColor: '#e6ffed', padding: '10px', borderRadius: '4px'}}>
-                    <label>Calculated OVERALL REMARK:</label>
-                    <input type="text" readOnly value={formData.overallRemark} style={{fontWeight: 'bold'}}/>
-                </div>
-            </div>
-            <hr />
+           
 
             {/* --- 4. Behavior/Conduct & Remarks --- */}
             <h3>Behavior and Skills Assessment</h3>
