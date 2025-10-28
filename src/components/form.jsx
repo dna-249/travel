@@ -1,260 +1,435 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 
-// --- Data & Logic Definitions ---
+// Mock API URL for demonstration purposes
+const API_URL = "https://mock-api.dev/student/report/entry";
 
-const BEHAVIOR_OPTIONS = ["EXCELLENT", "GOOD", "FAIR", "POOR"];
-const GENDER_OPTIONS = ["Male", "Female"];
-
-// Scoring thresholds
-const GRADE_THRESHOLDS = [
-    { score: 75, grade: 'A', remark: 'EXCELLENT' },
-    { score: 65, grade: 'B', remark: 'VERY GOOD' },
-    { score: 55, grade: 'C', remark: 'GOOD' },
-    { score: 45, grade: 'D', remark: 'PASS' },
-    { score: 0, grade: 'F', remark: 'FAIL' },
-];
-
-const ordinal = (n) => {
-    const s = ["th", "st", "nd", "rd"];
-    const v = n % 100;
-    return n + (s[(v - 20) % 10] || s[v] || s[0]);
-};
-
-// Initial Data Structure 
-const INITIAL_STUDENT_DATA = {
+// Initial state structure matching the report card data for easy binding
+const INITIAL_FORM_DATA = {
+    // --- School/Student Info (Simplified) ---
     school: "ALTASFIYAH TAHFEEZ AND ISLAMIYAH SCHOOL, ABUJA",
     studentName: "SAMBO MUHAMMAD MALAMIYO",
     class: "NURSERY CLASS 1",
     term: "FIRST TERM",
     session: "ACADEMIC YEAR 2024/2025",
     admissionNo: "ATBS/N1/2017/005",
-    age: 6,
     sex: "Male",
-    house: "A",
-    noInClass: 7,
-    // Editable boundaries for dynamic position calculation
-    classHighest: 580, 
-    classLowest: 372,  
-    // Calculated fields (initialized to safe defaults)
-    totalScore: 0, avgScore: 0, classPos: "", overallGrade: '', overallRemark: '',
-    subjects: [
-        { name: "QUR'AN", CA1: 5, CA2: 6, Exam: 59, Total: 0, Position: "2nd", Grade: "A", Remark: "EXCELLENT" },
-        { name: "ARABIC LANGUAGE", CA1: 7, CA2: 5, Exam: 54, Total: 0, Position: "4th", Grade: "A", Remark: "EXCELLENT" },
-        { name: "HURUF", CA1: 10, CA2: 8, Exam: 54, Total: 0, Position: "2nd", Grade: "A", Remark: "EXCELLENT" },
-        { name: "ISLAMIC STUDIES", CA1: 5, CA2: 8, Exam: 54, Total: 0, Position: "4th", Grade: "A", Remark: "EXCELLENT" },
-        { name: "MORAL ETHICS", CA1: 10, CA2: 6, Exam: 51, Total: 0, Position: "3rd", Grade: "A", Remark: "EXCELLENT" },
-    ],
-    behavior: {
-        moralEthics: "EXCELLENT", punctuality: "GOOD", handWriting: "GOOD", honesty: "GOOD",
-        fluency: "GOOD", selfControl: "GOOD", responsibility: "GOOD", initiative: "GOOD", politeness: "GOOD"
-    },
+    // Fields for student and class details are now strictly limited to the six requested fields
     headRemark: "An excellent result, keep up the good work",
-    classTeacherRemark: "A hardworking learner and shows respect"
+    classTeacherRemark: "A hardworking learner and shows respect",
+
+    // --- Subject Scores ---
+    subjects: [
+        { name: "QUR'AN", CA1: 5, CA2: 6, Ass: 4, Exam: 55 },
+        { name: "TAJWEED", CA1: 7, CA2: 5, Ass: 6, Exam: 54 },
+    ],
 };
 
-// --- CORE CALCULATION FUNCTION ---
-const getGradeAndRemark = (score) => {
-    const gradeItem = GRADE_THRESHOLDS.find(item => score >= item.score);
-    return gradeItem || { grade: 'F', remark: 'FAIL' };
+// --- Stylesheet Object (Replicating Tailwind's visual design) ---
+const styles = {
+    // Container Styles
+    container: {
+        padding: '1rem',
+        backgroundColor: '#f3f4f6', // gray-100
+        minHeight: '100vh',
+        fontFamily: 'sans-serif',
+        WebkitFontSmoothing: 'antialiased',
+        MozOsxFontSmoothing: 'grayscale',
+    },
+    title: {
+        fontSize: '1.5rem', // text-3xl (md)
+        fontWeight: '800', // font-extrabold
+        color: '#1e40af', // blue-800
+        marginBottom: '1.5rem',
+        textAlign: 'center',
+        borderBottom: '4px solid #bfdbfe', // border-blue-200
+        paddingBottom: '0.75rem',
+    },
+    form: {
+        maxWidth: '48rem', // max-w-4xl
+        margin: '0 auto',
+        backgroundColor: '#fff',
+        padding: '2.5rem', // p-10 (md)
+        borderRadius: '0.75rem', // rounded-xl
+        boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)', // shadow-2xl
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '2rem', // space-y-8
+    },
+    // Fieldset Styles
+    fieldset: {
+        padding: '1.25rem',
+        borderRadius: '0.5rem',
+        boxShadow: 'inset 0 2px 4px 0 rgba(0, 0, 0, 0.06)', // shadow-inner
+    },
+    legend: {
+        padding: '0 0.5rem',
+        fontSize: '1.25rem', // text-xl
+        fontWeight: '700', // font-bold
+    },
+    input: {
+        width: '100%',
+        padding: '0.5rem',
+        border: '1px solid #d1d5db', // border-gray-300
+        borderRadius: '0.5rem',
+        boxShadow: '0 1px 2px 0 rgba(0, 0, 0, 0.05)', // shadow-sm
+    },
+    // Subject Entry Specific Styles
+    subjectCard: {
+        padding: '0.75rem',
+        backgroundColor: '#fff',
+        borderRadius: '0.75rem',
+        boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)', // shadow-md
+        marginBottom: '1rem',
+        border: '1px solid #e5e7eb', // border-gray-200
+    },
+    subjectInput: {
+        width: '100%',
+        padding: '0.5rem',
+        marginBottom: '0.75rem',
+        borderBottom: '2px solid #60a5fa', // border-blue-400
+        fontWeight: '700',
+        fontSize: '1rem',
+        backgroundColor: '#f9fafb', // bg-gray-50
+        borderRadius: '0.5rem 0.5rem 0 0',
+        border: 'none',
+    },
+    scoreInput: {
+        width: '100%',
+        padding: '0.5rem',
+        border: '1px solid #d1d5db',
+        borderRadius: '0.5rem',
+        textAlign: 'center',
+        fontSize: '0.875rem', // text-sm
+    },
+    scoreLabel: {
+        display: 'block',
+        fontSize: '0.75rem', // text-xs
+        fontWeight: '600', // font-semibold
+        color: '#4b5563', // text-gray-600
+        marginBottom: '0.25rem',
+    },
+    // Button Styles
+    submitButton: {
+        padding: '0.75rem 2.5rem', // px-10 py-3
+        fontSize: '1.125rem', // text-lg
+        fontWeight: '700', // font-bold
+        color: '#fff',
+        borderRadius: '9999px', // rounded-full
+        boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)', // shadow-xl
+        transition: 'all 0.3s',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        cursor: 'pointer',
+        border: 'none',
+    },
+    // Notification Styles
+    notificationBase: {
+        marginTop: '1rem',
+        marginBottom: '1.5rem',
+        padding: '1rem',
+        textAlign: 'center',
+        fontWeight: '500', // font-medium
+        borderRadius: '0.75rem', // rounded-xl
+        boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)', // shadow-lg
+        transition: 'all 0.3s',
+        border: '2px solid',
+    },
+    notificationSuccess: {
+        backgroundColor: '#d1fae5', // bg-green-100
+        color: '#065f46', // text-green-800
+        borderColor: '#10b981', // border-green-500
+    },
+    notificationError: {
+        backgroundColor: '#fee2e2', // bg-red-100
+        color: '#991b1b', // text-red-800
+        borderColor: '#ef4444', // border-red-500
+    },
 };
 
-const calculateReportData = (currentData) => {
-    let newTotalScore = 0;
-    const numSubjects = currentData.subjects.length;
-    const numInClass = currentData.noInClass || 1; 
-
-    // 1. Calculate subject Totals and Grades
-    const updatedSubjects = (currentData.subjects || []).map(sub => {
-        const total = sub.CA1 + sub.CA2 + sub.Exam;
-        const { grade, remark } = getGradeAndRemark(total);
-        newTotalScore += total;
+// Component to handle the array of subjects (reusable)
+const SubjectEntry = ({ subject, index, handleSubjectChange }) => (
+    <div style={styles.subjectCard}>
+        {/* Subject Name - Full width, more visible */}
+        <input
+            type="text"
+            style={styles.subjectInput}
+            value={subject.name}
+            onChange={(e) => handleSubjectChange(index, 'name', e.target.value)}
+            placeholder="Subject Name"
+        />
         
-        return { ...sub, Total: total, Grade: grade, Remark: remark };
-    });
+        {/* Scores Grid - Simplified to a clean stack for mobile view, ensuring readability */}
+        <div style={{ 
+            display: 'grid', 
+            gridTemplateColumns: 'repeat(2, 1fr)', // Use 2 columns to save vertical space but keep inputs large
+            gap: '0.75rem', 
+        }}>
+            {['CA1', 'CA2', 'Ass', 'Exam'].map((field) => (
+                <div key={field}>
+                    <label style={styles.scoreLabel}>{field}</label>
+                    <input
+                        type="number"
+                        style={styles.scoreInput}
+                        value={subject[field]}
+                        onChange={(e) => handleSubjectChange(index, field, parseInt(e.target.value) || 0)}
+                        placeholder={field}
+                        min="0"
+                        max={field === 'Exam' ? '100' : '20'}
+                    />
+                </div>
+            ))}
+        </div>
+    </div>
+);
 
-    // 2. Calculate Overall Scores
-    const newAvgScore = numSubjects > 0 ? (newTotalScore / numSubjects).toFixed(2) : 0;
-    const overallGradeItem = getGradeAndRemark(Number(newAvgScore));
+// Main Data Entry Form Component
+const DataEntryForm = () => {
+    const [formData, setFormData] = useState(INITIAL_FORM_DATA);
+    const [isPosting, setIsPosting] = useState(false);
+    const [notification, setNotification] = useState(null);
 
-    // 3. Calculate Class Position DYNAMICALLY
-    let newClassPos = ordinal(1);
-    const classHighest = currentData.classHighest;
-    const classLowest = currentData.classLowest;
-    const range = classHighest - classLowest;
-    
-    if (numInClass > 1 && range > 0) {
-        if (newTotalScore >= classHighest) {
-            newClassPos = ordinal(1);
-        } else if (newTotalScore <= classLowest) {
-            newClassPos = ordinal(numInClass);
-        } else {
-            // Linear interpolation to estimate rank between 1 and numInClass
-            const scoreDifference = classHighest - newTotalScore;
-            const normalizedPosition = scoreDifference / range; // 0 (highest) to 1 (lowest)
-
-            // Estimated numerical rank (1st to Nth)
-            let estimatedRank = normalizedPosition * (numInClass - 1) + 1;
-            estimatedRank = Math.round(estimatedRank);
-            
-            // Ensure rank stays within 1 and N
-            estimatedRank = Math.min(numInClass, Math.max(1, estimatedRank));
-            
-            newClassPos = ordinal(estimatedRank);
-        }
-    } else if (numInClass === 1) {
-        newClassPos = ordinal(1);
-    }
-    
-    // 4. Return the fully updated data object
-    return {
-        ...currentData,
-        subjects: updatedSubjects,
-        totalScore: newTotalScore,
-        avgScore: Number(newAvgScore),
-        classPos: newClassPos,
-        overallGrade: overallGradeItem.grade,
-        overallRemark: overallGradeItem.remark,
-    };
-};
-
-
-// ---------------------------------------------
-// --- Report Input Form Component ---
-// ---------------------------------------------
-const ReportInputForm = ({ onSave }) => {
-    const [formData, setFormData] = useState(INITIAL_STUDENT_DATA);
-
-    // --- EFFECT: Auto-calculate totals, grades, and position ---
-    useEffect(() => {
-        setFormData(prevData => calculateReportData(prevData));
-    }, [
-        formData.subjects.map(s => s.CA1 + s.CA2 + s.Exam).join('-'), // Scores
-        formData.classHighest,                                        // Class Highest
-        formData.classLowest,                                         // Class Lowest
-        formData.noInClass                                            // Number in Class
-    ]);
-
-    // Handlers
-    const handleBasicChange = (e) => {
+    // Handler for simple top-level fields
+    const handleChange = (e) => {
         const { name, value, type } = e.target;
-        const finalValue = type === 'number' ? Number(value) : value;
-        setFormData(prev => ({ ...prev, [name]: finalValue }));
-    };
-
-    const handleBehaviorChange = (e) => {
-        const { name, value } = e.target;
         setFormData(prev => ({
             ...prev,
-            behavior: { ...prev.behavior, [name]: value }
+            [name]: type === 'number' ? parseInt(value) || 0 : value
         }));
     };
 
-    const handleSubjectScoreChange = (index, field, value) => {
+    // Handler for Subject array changes
+    const handleSubjectChange = (index, field, value) => {
         const newSubjects = [...formData.subjects];
-        let score = Number(value);
-        if (isNaN(score)) score = 0;
-        
-        const maxScore = field.includes('CA') ? 17 : 66;
-        if (score > maxScore) score = maxScore;
-        if (score < 0) score = 0;
-        
-        newSubjects[index] = { ...newSubjects[index], [field]: score };
-        setFormData(prev => ({ ...prev, subjects: newSubjects }));
+        newSubjects[index] = {
+            ...newSubjects[index],
+            [field]: value
+        };
+        setFormData(prev => ({
+            ...prev,
+            subjects: newSubjects
+        }));
+    };
+    
+    // Add new subject row
+    const addSubject = () => {
+        setFormData(prev => ({
+            ...prev,
+            subjects: [
+                ...prev.subjects,
+                { name: `NEW SUBJECT ${prev.subjects.length + 1}`, CA1: 0, CA2: 0, Ass: 0, Exam: 0 }
+            ]
+        }));
     };
 
-    const handleSubmit = (e) => {
+    // Simulate POST request
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        onSave(formData);
-        alert(`Report Data Updated! Position: ${formData.classPos}`);
+        setIsPosting(true);
+        setNotification(null);
+
+        const postPayload = JSON.stringify(formData, null, 2);
+
+        try {
+            // Simulate the network delay and response
+            await new Promise(resolve => setTimeout(resolve, 2500));
+            
+            const simulatedResponse = { 
+                status: 201, 
+                message: "Data successfully posted.",
+                payload: postPayload
+            };
+            
+            console.log("Simulated API Response:", simulatedResponse);
+            console.log("Full JSON Payload Sent:", postPayload);
+
+            setNotification({
+                type: 'success', 
+                message: `✅ Data submission successful! Status: ${simulatedResponse.status}. Check console for payload.`
+            });
+
+        } catch (e) {
+            console.error("Error during simulated POST request:", e);
+            setNotification({type: 'error', message: '❌ POST failed. Check console for details.'});
+        } finally {
+            setIsPosting(false);
+            // Auto-hide notification after 7 seconds
+            setTimeout(() => setNotification(null), 7000);
+        }
     };
 
+    // Define the six required fields
+    const studentClassFields = [
+        { label: "Student Name", name: "studentName", type: "text" },
+        { label: "Class", name: "class", type: "text" },
+        { label: "Admission No", name: "admissionNo", type: "text" },
+        { label: "Term", name: "term", type: "text" },
+        { label: "Sex", name: "sex", type: "text" },
+        { label: "Session", name: "session", type: "text" },
+    ];
 
     return (
-        <form onSubmit={handleSubmit} className="report-input-form">
-            <h2>📝 Student Report Data Entry</h2>
-            <hr />
+        <div style={styles.container}>
+            <h1 style={styles.title}>
+                Student Report Card Data Entry
+            </h1>
 
-            {/* --- 1. Student Information --- */}
-            <h3>Student & Class Info</h3>
-            <div className="form-grid student-info-grid">
-                <div><label>School Name:</label><input type="text" name="school" value={formData.school} onChange={handleBasicChange} required /></div>
-                <div><label>Student Name:</label><input type="text" name="studentName" value={formData.studentName} onChange={handleBasicChange} required /></div>
-                <div><label>Admission No:</label><input type="text" name="admissionNo" value={formData.admissionNo} onChange={handleBasicChange} required /></div>
-                <div><label>Class:</label><input type="text" name="class" value={formData.class} onChange={handleBasicChange} /></div>
-                <div><label>Term:</label><input type="text" name="term" value={formData.term} onChange={handleBasicChange} /></div>
-                <div><label>Session:</label><input type="text" name="session" value={formData.session} onChange={handleBasicChange} /></div>
-                <div><label>Age:</label><input type="number" name="age" value={formData.age} onChange={handleBasicChange} /></div>
-                <div><label>Sex:</label><select name="sex" value={formData.sex} onChange={handleBasicChange}>{GENDER_OPTIONS.map(opt => <option key={opt} value={opt}>{opt}</option>)}</select></div>
-            </div>
-            <hr />
+            {/* Notification Box */}
+            {notification && (
+                <div style={{
+                    ...styles.notificationBase, 
+                    ...(notification.type === 'success' ? styles.notificationSuccess : styles.notificationError)
+                }}>
+                    {notification.message}
+                </div>
+            )}
 
-            {/* --- 2. Subject Scores (Inputs drive Total/Grade/Remark) --- */}
-            <h3>Subject Scores and Grades</h3>
-            <table className="subject-score-table">
-                <thead>
-                    <tr>
-                        <th>Subject</th>
-                        <th>CA1 (Max 17)</th>
-                        <th>CA2 (Max 17)</th>
-                        <th>Exam (Max 66)</th>
-                        <th>TOTAL</th>
-                        <th>Position</th>
-                        <th>GRADE</th>
-                        <th>REMARK</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {/* SAFE MAPPING: Use safe navigation for formData.subjects */}
-                    {(formData.subjects || []).map((subject, index) => (
-                        <tr key={subject.name}>
-                            <td>{subject.name}</td>
-                            <td><input type="number" min="0" max="17" value={subject.CA1} onChange={(e) => handleSubjectScoreChange(index, 'CA1', e.target.value)} /></td>
-                            <td><input type="number" min="0" max="17" value={subject.CA2} onChange={(e) => handleSubjectScoreChange(index, 'CA2', e.target.value)} /></td>
-                            <td><input type="number" min="0" max="66" value={subject.Exam} onChange={(e) => handleSubjectScoreChange(index, 'Exam', e.target.value)} /></td>
-                            <td style={{fontWeight: 'bold'}}>{subject.Total}</td>
-                            <td><input type="text" value={subject.Position} readOnly style={{backgroundColor: '#eee'}} /></td>
-                            <td style={{fontWeight: 'bold'}}>{subject.Grade}</td>
-                            <td style={{fontWeight: 'bold'}}>{subject.Remark}</td>
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
-            <hr />
-
-           
-
-            {/* --- 4. Behavior/Conduct & Remarks --- */}
-            <h3>Behavior and Skills Assessment</h3>
-            <div className="form-grid behavior-grid">
-                {/* FIX APPLIED: Use safe fallback for formData.behavior (|| {}) */}
-                {Object.keys(formData.behavior || {}).map(key => (
-                    <div key={key}>
-                        <label>{key.charAt(0).toUpperCase() + key.slice(1).replace(/([A-Z])/g, ' $1')}:</label>
-                        <select name={key} value={formData.behavior[key]} onChange={handleBehaviorChange}>
-                            {BEHAVIOR_OPTIONS.map(opt => <option key={opt} value={opt}>{opt}</option>)}
-                        </select>
+            <form onSubmit={handleSubmit} style={styles.form}>
+                
+                {/* 1. Student & Class Details - Simplified to a single column stack */}
+                <fieldset style={{...styles.fieldset, border: '2px solid #3b82f6'}}> {/* border-blue-500 */}
+                    <legend style={{...styles.legend, color: '#2563eb'}}>Student & Class Details</legend> {/* text-blue-600 */}
+                    
+                    <div style={{ 
+                        display: 'flex', 
+                        flexDirection: 'column', // Force stacking for optimal mobile view
+                        gap: '1rem', 
+                        marginTop: '0.75rem',
+                    }}>
+                        {/* Mapped fields for Section 1 */}
+                        {studentClassFields.map(({ label, name, type }) => (
+                            <div key={name}>
+                                <label style={{ display: 'block', fontSize: '0.875rem', fontWeight: '500', color: '#374151', marginBottom: '0.25rem' }}>{label}</label>
+                                <input
+                                    type={type}
+                                    name={name}
+                                    value={formData[name]}
+                                    onChange={handleChange}
+                                    style={styles.input}
+                                    required
+                                />
+                            </div>
+                        ))}
                     </div>
-                ))}
-            </div>
-            
-            <h3>Official Remarks</h3>
-            <div className="form-grid remarks-grid">
-                <div>
-                    <label>Class Teacher's Remark:</label>
-                    <textarea name="classTeacherRemark" value={formData.classTeacherRemark} onChange={handleBasicChange} rows="2"></textarea>
-                </div>
-                <div>
-                    <label>Head of School's Remark:</label>
-                    <textarea name="headRemark" value={formData.headRemark} onChange={handleBasicChange} rows="2"></textarea>
-                </div>
-            </div>
-            <hr />
+                </fieldset>
 
-            <div style={{ textAlign: 'center', marginTop: '20px' }}>
-                <button type="submit" className="save-btn">💾 Save & Update Report Data</button>
-            </div>
-        </form>
+                {/* 2. Subject Scores */}
+                <fieldset style={{...styles.fieldset, border: '2px solid #10b981'}}> {/* border-green-500 */}
+                    <legend style={{...styles.legend, color: '#059669'}}>Subject Scores</legend> {/* text-green-600 */}
+                    
+                    {/* Desktop Header Row (Hidden on mobile for minimization) */}
+                    <div style={{
+                        display: 'none', 
+                        gap: '0.75rem',
+                        textAlign: 'center',
+                        fontWeight: '700',
+                        fontSize: '0.875rem',
+                        color: '#4b5563',
+                        marginBottom: '0.5rem',
+                        padding: '0 0.75rem',
+                    }}>
+                        <span style={{textAlign: 'left'}}>Subject</span>
+                        <span>CA1 (17%)</span>
+                        <span>CA2 (17%)</span>
+                        <span>ASS</span>
+                        <span>EXAM (66%)</span>
+                    </div>
+
+                    {/* Subject Entries */}
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                        {formData.subjects.map((subject, index) => (
+                            <SubjectEntry 
+                                key={index} 
+                                index={index} 
+                                subject={subject} 
+                                handleSubjectChange={handleSubjectChange} 
+                            />
+                        ))}
+                    </div>
+                    <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+                        <button type="button" onClick={addSubject} style={{
+                            marginTop: '1rem', 
+                            padding: '0.5rem 1rem', 
+                            fontSize: '0.875rem', 
+                            backgroundColor: '#10b981', // bg-green-500
+                            color: '#fff', 
+                            fontWeight: '600', 
+                            borderRadius: '0.5rem', 
+                            transition: 'background-color 0.2s', 
+                            boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)',
+                            border: 'none',
+                            cursor: 'pointer'
+                        }}
+                            onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#059669'} // hover:bg-green-600
+                            onMouseOut={(e) => e.currentTarget.style.backgroundColor = '#10b981'}
+                        >
+                            + Add Subject
+                        </button>
+                    </div>
+                </fieldset>
+
+                {/* 3. Remarks - Simplified to a single column stack */}
+                <fieldset style={{...styles.fieldset, border: '2px solid #f59e0b'}}> {/* border-yellow-500 */}
+                    <legend style={{...styles.legend, color: '#d97706'}}>Teacher/Head Remarks</legend> {/* text-yellow-600 */}
+                    <div style={{ 
+                        display: 'flex', 
+                        flexDirection: 'column', // Force stacking for optimal mobile view
+                        gap: '1rem', 
+                        marginTop: '0.75rem',
+                    }}>
+                        <div>
+                            <label style={{ display: 'block', fontSize: '0.875rem', fontWeight: '500', color: '#374151', marginBottom: '0.25rem' }}>Class Teacher Remark</label>
+                            <textarea
+                                name="classTeacherRemark"
+                                value={formData.classTeacherRemark}
+                                onChange={handleChange}
+                                rows="3"
+                                style={styles.input}
+                            ></textarea>
+                        </div>
+                        <div>
+                            <label style={{ display: 'block', fontSize: '0.875rem', fontWeight: '500', color: '#374151', marginBottom: '0.25rem' }}>Head of School Remark</label>
+                            <textarea
+                                name="headRemark"
+                                value={formData.headRemark}
+                                onChange={handleChange}
+                                rows="3"
+                                style={styles.input}
+                            ></textarea>
+                        </div>
+                    </div>
+                </fieldset>
+
+                {/* Submit Button */}
+                <div style={{ display: 'flex', justifyContent: 'center', paddingTop: '1rem' }}>
+                    <button
+                        type="submit"
+                        disabled={isPosting}
+                        style={{
+                            ...styles.submitButton,
+                            backgroundColor: isPosting ? '#6b7280' : '#2563eb', // bg-gray-500 or bg-blue-600
+                            cursor: isPosting ? 'not-allowed' : 'pointer',
+                        }}
+                        // Simulating hover/active states via JS for a pure inline style experience
+                        onMouseOver={(e) => { if (!isPosting) e.currentTarget.style.backgroundColor = '#1d4ed8'; }} // hover:bg-blue-700
+                        onMouseOut={(e) => { if (!isPosting) e.currentTarget.style.backgroundColor = '#2563eb'; }}
+                    >
+                        {isPosting ? (
+                            <>
+                                <svg className="animate-spin" style={{ marginRight: '0.75rem', height: '1.25rem', width: '1.25rem', color: '#fff' }} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                    <circle style={{ opacity: 0.25 }} cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                                    <path style={{ opacity: 0.75 }} fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                </svg>
+                                Submitting Data...
+                            </>
+                        ) : (
+                            '🚀 POST Report Data to API'
+                        )}
+                    </button>
+                </div>
+            </form>
+        </div>
     );
 };
 
-export default ReportInputForm;
+export default DataEntryForm;
