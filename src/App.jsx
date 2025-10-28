@@ -11,8 +11,9 @@ function App() {
   return (
    
        <Routes>
-           <Route path='/a' element={<ReportPage/>}/>
+           <Route path='/portal' element={<ReportPage/>}/>
            <Route path='/' element={<DataEntryForm/>}/>
+           
        </Routes>
    
   )
