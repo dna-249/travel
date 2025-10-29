@@ -263,7 +263,7 @@ const App = () => {
 
         const postPayload = JSON.stringify(formData, null, 2);
             
-            await axios.post('',postPayload).then(()=>{ setNotification({
+            await axios.post('https://portal-database-seven.vercel.app/student/create',postPayload).then(()=>{ setNotification({
                 type: 'success', 
                 message: `✅ Data submission successful!`
             })}).catch((e)=> {
