@@ -258,23 +258,25 @@ const App = () => {
     // Simulate POST request
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setIsPosting(true);
-        setNotification(null);
+    
+    setIsPosting(true);
+    setNotification(null);
 
         const postPayload = JSON.stringify(formData, null, 2);
             
-            await axios.post('https://portal-database-seven.vercel.app/create',postPayload).then(()=>{ setNotification({
+            await axios.post('',postPayload).then(()=>{ setNotification({
                 type: 'success', 
                 message: `✅ Data submission successful!`
             })}).catch((e)=> {
             console.error("Error during POST request:", e);
             setNotification({type: 'error', message: '❌ POST failed'});
         });
-            setIsPosting(false);
-            // Auto-hide notification after 7 seconds
-            setTimeout(() => setNotification(null), 7000);
-    
-    };
+    });
+
+    setIsPosting(false);
+    setTimeout(() => setNotification(null), 7000);
+}
+
 
     // Define the six required fields
     const studentClassFields = [
