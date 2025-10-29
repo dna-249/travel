@@ -257,45 +257,32 @@ const App = () => {
 
     // Simulate POST request
     const handleSubmit = async (e) => {
-      e.preventDefault();
-
+        e.preventDefault();
+    
     setIsPosting(true);
     setNotification(null);
 
     const apiUrl = 'https://portal-database-seven.vercel.app/student/create';
 
-    // 1. Define the data as an object
-    const studentData = {
-        school: "attasfiyah",
-        age: 25,
-        sex: "male"
-    };
 
-    // 2. Convert the object to URLSearchParams (Form Data format)
-    const params = new URLSearchParams();
-    for (const key in studentData) {
-        params.append(key, studentData[key]);
+   await axios.post(
+    apiUrl,
+    formData
+  )
+.then((response) => { // response object is available here!
+    console.log("Server Response Data:", response.data); 
+
+    // **Look for an error message or a specific success/failure flag here.**
+    if (response.data && response.data.status === 'error') {
+        // Server-side custom error handling
+        throw new Error(response.data.message || 'Server-side creation failed.');
     }
 
-    // 3. Send the URLSearchParams string as the body
-    await axios.post(
-        apiUrl,
-        params.toString(), // <-- Sending the key=value&key2=value2 string
-        {
-            headers: {
-                // <-- Explicitly set Content-Type to match the format
-                'Content-Type': 'application/x-www-form-urlencoded'
-            }
-        }
-    )
-    .then((response) => {
-        console.log("Server Response Data:", response.data); 
-        // ... (rest of your success/error checking logic)
-        setNotification({ type: 'success', message: `✅ Data submission successful!` });
-    })
-    .catch((error) => {
-        // ... (rest of your error handling)
-    });
+    // ... rest of your success logic
+})
+.catch((error) => {
+    // ... your existing catch block will now handle the custom throw
+});
     setIsPosting(false);
     setTimeout(() => setNotification(null), 7000);
 }
