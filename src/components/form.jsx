@@ -278,24 +278,20 @@ const App = () => {
             }
         }
     )
-    .then(() => {
-        setNotification({
-            type: 'success',
-            message: `✅ Data submission successful!`
-        });
-    })
-    .catch((error) => {
-        console.error("Error during POST request:", error);
-        
-        const status = error.response ? error.response.status : 'Network';
-        let message = `❌ POST failed: ${status} Error.`;
-        
-        setNotification({
-            type: 'error',
-            message: message
-        });
-    });
+.then((response) => { // response object is available here!
+    console.log("Server Response Data:", response.data); 
 
+    // **Look for an error message or a specific success/failure flag here.**
+    if (response.data && response.data.status === 'error') {
+        // Server-side custom error handling
+        throw new Error(response.data.message || 'Server-side creation failed.');
+    }
+
+    // ... rest of your success logic
+})
+.catch((error) => {
+    // ... your existing catch block will now handle the custom throw
+});
     setIsPosting(false);
     setTimeout(() => setNotification(null), 7000);
 }
