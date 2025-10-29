@@ -1,3 +1,4 @@
+import axios from 'axios';
 import React, { useState } from 'react';
 
 // Mock API URL for demonstration purposes
@@ -261,33 +262,18 @@ const App = () => {
         setNotification(null);
 
         const postPayload = JSON.stringify(formData, null, 2);
-
-        try {
-            // Simulate the network delay and response
-            await new Promise(resolve => setTimeout(resolve, 2500));
             
-            const simulatedResponse = { 
-                status: 201, 
-                message: "Data successfully posted.",
-                payload: postPayload
-            };
-            
-            console.log("Simulated API Response:", simulatedResponse);
-            console.log("Full JSON Payload Sent:", postPayload);
-
-            setNotification({
+            await axios.post('',postPayload).then(()=>{ setNotification({
                 type: 'success', 
-                message: `✅ Data submission successful! Status: ${simulatedResponse.status}. Check console for payload.`
-            });
-
-        } catch (e) {
-            console.error("Error during simulated POST request:", e);
-            setNotification({type: 'error', message: '❌ POST failed. Check console for details.'});
-        } finally {
+                message: `✅ Data submission successful!`
+            })}).catch((e)=> {
+            console.error("Error during POST request:", e);
+            setNotification({type: 'error', message: '❌ POST failed'});
+        });
             setIsPosting(false);
             // Auto-hide notification after 7 seconds
             setTimeout(() => setNotification(null), 7000);
-        }
+    
     };
 
     // Define the six required fields
