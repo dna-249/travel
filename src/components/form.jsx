@@ -262,14 +262,37 @@ const App = () => {
     setIsPosting(true);
     setNotification(null);
 
-        const postPayload = JSON.stringify(formData, null, 2);
-            
-            await axios.post('',postPayload).then(()=>{ setNotification({
-                type: 'success', 
-                message: `✅ Data submission successful!`
-            })}).catch((e)=> {
-            console.error("Error during POST request:", e);
-            setNotification({type: 'error', message: '❌ POST failed'});
+    const apiUrl = 'https://portal-database-seven.vercel.app/student/create';
+    
+    const params = new URLSearchParams();
+    for (const key in formData) {
+        params.append(key, formData[key]);
+    }
+
+    await axios.post(
+        apiUrl,
+        params.toString(),
+        {
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            }
+        }
+    )
+    .then(() => {
+        setNotification({
+            type: 'success',
+            message: `✅ Data submission successful!`
+        });
+    })
+    .catch((error) => {
+        console.error("Error during POST request:", error);
+        
+        const status = error.response ? error.response.status : 'Network';
+        let message = `❌ POST failed: ${status} Error.`;
+        
+        setNotification({
+            type: 'error',
+            message: message
         });
     });
 
