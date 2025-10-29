@@ -267,7 +267,7 @@ const App = () => {
 
    await axios.post(
     apiUrl,
-    formData, 
+    {school:"attasfiyah",age:25,sex:"male"} 
   )
 .then((response) => { // response object is available here!
     console.log("Server Response Data:", response.data); 
