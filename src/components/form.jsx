@@ -267,7 +267,7 @@ const App = () => {
                 type: 'success', 
                 message: `✅ Data submission successful!`
             })}).catch((e)=> {
-            console.error("Error during POST request:", e);
+            console.log("Error during POST request:", e);
             setNotification({type: 'error', message: '❌ POST failed'});
         });
             setIsPosting(false);
