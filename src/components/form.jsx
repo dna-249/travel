@@ -264,14 +264,9 @@ const App = () => {
 
     const apiUrl = 'https://portal-database-seven.vercel.app/student/create';
     
-    const params = new URLSearchParams();
-    for (const key in formData) {
-        params.append(key, formData[key]);
-    }
-
     await axios.post(
         apiUrl,
-        params.toString(),
+        formData,
         {
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded'
