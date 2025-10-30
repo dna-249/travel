@@ -13,6 +13,7 @@ function App() {
        <Routes>
            <Route path='/portal' element={<ReportPage/>}/>
            <Route path='/' element={<DataEntryForm/>}/>
+           <Route path='/home' element={<Home/>}/>
            
        </Routes>
    
