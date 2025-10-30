@@ -1,8 +1,8 @@
 import axios from 'axios';
 import React, { useState } from 'react';
 
-// Mock API URL for demonstration purposes
-const API_URL = "https://mock-api.dev/student/report/entry";
+// Mock API URL for demonstration purposes (Using the one you provided for context)
+const API_URL = "https://portal-database-seven.vercel.app/student/create";
 
 // Initial state structure matching the report card data for easy binding
 const INITIAL_FORM_DATA = {
@@ -17,8 +17,9 @@ const INITIAL_FORM_DATA = {
     headRemark: "An excellent result, keep up the good work",
     classTeacherRemark: "A hardworking learner and shows respect",
 
-    // --- Subject Scores ---
+    // --- Subject Scores (The input format) ---
     subjects: [
+        // Note: The structure here is easy for form state management
         { name: "QUR'AN", CA1: 5, CA2: 6, Ass: 4, Exam: 55 },
         { name: "TAJWEED", CA1: 7, CA2: 5, Ass: 6, Exam: 54 },
     ],
@@ -28,10 +29,10 @@ const INITIAL_FORM_DATA = {
 const styles = {
     // Container Styles (Ultra Reduced Padding)
     container: {
-        padding: '0.1rem', // FURTHER REDUCED for minimal screen margin
+        padding: '0.1rem', 
         backgroundColor: '#f3f4f6', // gray-100
         minHeight: '100vh',
-        fontFamily: 'sans-serif',
+        fontFamily: 'Inter, sans-serif', // Using Inter font
         WebkitFontSmoothing: 'antialiased',
         MozOsxFontSmoothing: 'grayscale',
     },
@@ -39,27 +40,28 @@ const styles = {
         fontSize: '1.5rem', 
         fontWeight: '800', 
         color: '#1e40af', // blue-800
-        marginBottom: '0.5rem', // FURTHER REDUCED
+        marginBottom: '0.5rem', 
         textAlign: 'center',
-        borderBottom: '2px solid #bfdbfe', // Slightly thinner border
-        paddingBottom: '0.35rem', // FURTHER REDUCED
+        borderBottom: '2px solid #bfdbfe', 
+        paddingBottom: '0.35rem', 
     },
     form: {
         maxWidth: '48rem', // max-w-4xl
         margin: '0 auto',
         backgroundColor: '#fff',
-        padding: '0.75rem', // FURTHER REDUCED
+        padding: '0.75rem', 
         borderRadius: '0.75rem', 
         boxShadow: '0 8px 12px -3px rgba(0, 0, 0, 0.1), 0 3px 5px -2px rgba(0, 0, 0, 0.05)', 
         display: 'flex',
         flexDirection: 'column',
-        gap: '0.75rem', // FURTHER REDUCED (space between fieldsets)
+        gap: '0.75rem', 
     },
     // Fieldset Styles (Ultra Reduced Padding)
     fieldset: {
-        padding: '0.35rem', // FURTHER REDUCED
+        padding: '0.35rem', 
         borderRadius: '0.5rem',
         boxShadow: 'inset 0 1px 2px 0 rgba(0, 0, 0, 0.06)', // shadow-inner
+        border: 'none', // Use border for visual separation instead of default fieldset border
     },
     legend: {
         padding: '0 0.5rem',
@@ -68,18 +70,19 @@ const styles = {
     },
     input: {
         width: '100%',
-        padding: '0.3rem', // FURTHER REDUCED
+        padding: '0.3rem', 
         border: '1px solid #d1d5db', 
         borderRadius: '0.5rem',
         boxShadow: '0 1px 2px 0 rgba(0, 0, 0, 0.05)', 
+        transition: 'border-color 0.2s, box-shadow 0.2s',
     },
     // Subject Entry Specific Styles (Ultra Reduced Padding)
     subjectCard: {
-        padding: '0.3rem', // FURTHER REDUCED
+        padding: '0.3rem', 
         backgroundColor: '#fff',
         borderRadius: '0.75rem',
         boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.05)', // shadow-md
-        marginBottom: '0.2rem', // FURTHER REDUCED
+        marginBottom: '0.2rem', 
         border: '1px solid #e5e7eb', 
     },
     subjectInput: {
@@ -92,10 +95,11 @@ const styles = {
         backgroundColor: '#f9fafb', 
         borderRadius: '0.5rem 0.5rem 0 0',
         border: 'none',
+        transition: 'background-color 0.2s',
     },
     scoreInput: {
         width: '100%',
-        padding: '0.15rem', // FURTHER REDUCED
+        padding: '0.15rem', 
         border: '1px solid #d1d5db',
         borderRadius: '0.4rem', 
         textAlign: 'center',
@@ -106,12 +110,12 @@ const styles = {
         fontSize: '0.65rem', 
         fontWeight: '600',
         color: '#4b5563', 
-        marginBottom: '0', // REMOVED MARGIN
+        marginBottom: '0', 
     },
     // Button Styles
     submitButton: {
-        padding: '0.4rem 1.25rem', // FURTHER REDUCED
-        fontSize: '0.85rem', // Slightly smaller text
+        padding: '0.4rem 1.25rem', 
+        fontSize: '0.85rem', 
         fontWeight: '700', 
         color: '#fff',
         borderRadius: '9999px',
@@ -125,9 +129,9 @@ const styles = {
     },
     // Notification Styles
     notificationBase: {
-        marginTop: '0.15rem', // FURTHER REDUCED
-        marginBottom: '0.35rem', // FURTHER REDUCED
-        padding: '0.6rem', // Reduced padding
+        marginTop: '0.15rem', 
+        marginBottom: '0.35rem', 
+        padding: '0.6rem', 
         textAlign: 'center',
         fontWeight: '500', 
         borderRadius: '0.75rem', 
@@ -135,7 +139,7 @@ const styles = {
         transition: 'all 0.3s',
         border: '2px solid',
         maxWidth: '48rem',
-        margin: '0.15rem auto 0.35rem auto' // Reduced vertical margins
+        margin: '0.15rem auto 0.35rem auto'
     },
     notificationSuccess: {
         backgroundColor: '#d1fae5', 
@@ -147,25 +151,30 @@ const styles = {
         color: '#991b1b', 
         borderColor: '#ef4444', 
     },
+    
 };
 
-// Component to handle the array of subjects (reusable)
+/**
+ * SubjectEntry Component for managing scores for a single subject.
+ */
 const SubjectEntry = ({ subject, index, handleSubjectChange, removeSubject }) => (
     <div style={styles.subjectCard}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.3rem' }}> {/* Reduced margin */}
-            {/* Subject Name - Full width, more visible */}
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.3rem' }}>
+            {/* Subject Name Input */}
             <input
                 type="text"
                 style={styles.subjectInput}
                 value={subject.name}
                 onChange={(e) => handleSubjectChange(index, 'name', e.target.value)}
                 placeholder="Subject Name"
+                aria-label={`Subject Name for row ${index + 1}`}
             />
+            {/* Remove Button */}
             <button
                 type="button"
                 onClick={() => removeSubject(index)}
                 style={{
-                    color: '#ef4444', // text-red-500
+                    color: '#ef4444', 
                     marginLeft: '0.5rem',
                     fontSize: '1.25rem',
                     fontWeight: '700',
@@ -175,7 +184,7 @@ const SubjectEntry = ({ subject, index, handleSubjectChange, removeSubject }) =>
                     backgroundColor: 'transparent',
                     cursor: 'pointer'
                 }}
-                onMouseOver={(e) => e.currentTarget.style.color = '#b91c1c'} // hover:text-red-700
+                onMouseOver={(e) => e.currentTarget.style.color = '#b91c1c'} 
                 onMouseOut={(e) => e.currentTarget.style.color = '#ef4444'}
                 aria-label="Remove subject"
             >
@@ -183,10 +192,10 @@ const SubjectEntry = ({ subject, index, handleSubjectChange, removeSubject }) =>
             </button>
         </div>
 
-        {/* Scores Grid - FORCED 4 COLUMNS on all views */}
+        {/* Scores Grid */}
         <div style={{ 
             display: 'grid', 
-            gridTemplateColumns: 'repeat(4, 1fr)', // CHANGED to 4 columns (4fr) for all views, including mobile
+            gridTemplateColumns: 'repeat(4, 1fr)', 
             gap: '0.3rem', 
             marginTop: '0.3rem', 
         }}>
@@ -201,6 +210,7 @@ const SubjectEntry = ({ subject, index, handleSubjectChange, removeSubject }) =>
                         placeholder={field}
                         min="0"
                         max={field === 'Exam' ? '100' : '20'}
+                        aria-label={`${field} score for ${subject.name}`}
                     />
                 </div>
             ))}
@@ -208,7 +218,9 @@ const SubjectEntry = ({ subject, index, handleSubjectChange, removeSubject }) =>
     </div>
 );
 
-// Main Data Entry Form Component
+/**
+ * Main Data Entry Form Component
+ */
 const App = () => {
     const [formData, setFormData] = useState(INITIAL_FORM_DATA);
     const [isPosting, setIsPosting] = useState(false);
@@ -255,37 +267,95 @@ const App = () => {
         }));
     };
 
-    // Simulate POST request
+    /**
+     * TRANSFORMATION FUNCTION using Array.prototype.reduce()
+     * Converts the array of subject objects into a key-value map for the API.
+     * * Input: [{ name: "QUR'AN", CA1: 5, ... }, { name: "TAJWEED", ... }]
+     * Output: { "QURAN": [{ CA1: 5, ... }], "TAJWEED": [{ ... }] }
+     */
+    const transformSubjects = (subjectsArray) => {
+        return subjectsArray.reduce((accumulator, subject) => {
+            // Destructure the subject name from the rest of the properties (scores)
+            const { name, ...scores } = subject;
+
+            // 1. Convert the name to uppercase and strip non-alphanumeric characters (like apostrophes) 
+            // to ensure a clean JSON key.
+            const capitalizedName = name.toUpperCase().replace(/[^A-Z0-9]/g, ''); 
+
+            // 2. Assign the scores (inside an array) to the new uppercase key.
+            accumulator[capitalizedName] = [scores];
+
+            return accumulator;
+        }, {}); // Initial accumulator is an empty object
+    };
+
+    // Global handler for API submission
     const handleSubmit = async (e) => {
         e.preventDefault();
-    
-    setIsPosting(true);
-    setNotification(null);
+        
+        // Simple client-side validation for subjects
+        if (formData.subjects.length === 0) {
+            setNotification({ type: 'error', message: "Please add at least one subject score entry." });
+            setTimeout(() => setNotification(null), 5000);
+            return;
+        }
 
-    const apiUrl = 'https://portal-database-seven.vercel.app/student/create';
+        setIsPosting(true);
+        setNotification(null);
 
+        // --- Data Transformation Step ---
+        const transformedSubjects = transformSubjects(formData.subjects);
 
-   await axios.post(
-    apiUrl,
-    formData
-  )
-.then((response) => { // response object is available here!
-    console.log("Server Response Data:", response); 
+        // Construct the final payload for the API
+        const apiPayload = {
+            ...formData,
+            subjects: transformedSubjects, // Overwrite the array with the key-value map
+        };
 
-    // **Look for an error message or a specific success/failure flag here.**
-    if (response.data && response.data.status === 'error') {
-        // Server-side custom error handling
-        throw new Error(response.data.message || 'Server-side creation failed.');
-    }
+        console.log("API Payload being sent:", apiPayload);
+        
+        try {
+            const response = await axios.post(
+                API_URL,
+                apiPayload, // Use the transformed payload
+                { 
+                    headers: {
+                        // Axios automatically sets this, but defining it is good practice
+                        'Content-Type': 'application/json',
+                    },
+                }
+            );
 
-    // ... rest of your success logic
-})
-.catch((error) => {
-    // ... your existing catch block will now handle the custom throw
-});
-    setIsPosting(false);
-    setTimeout(() => setNotification(null), 7000);
-}
+            console.log("Server Response:", response.data); 
+
+            // Check for success status based on a common API response pattern
+            if (response.status === 201 || response.status === 200) {
+                setNotification({ type: 'success', message: `Report data successfully sent! Response status: ${response.status}` });
+            } else {
+                // Handle non-2xx statuses that still return data
+                throw new Error(`Submission failed with status ${response.status}.`);
+            }
+        } catch (error) {
+            console.error("Submission Error:", error);
+            
+            let errorMessage = "An unknown error occurred during submission.";
+            if (error.response) {
+                // Server responded with a status code outside the 2xx range
+                errorMessage = `API Error: ${error.response.data?.message || error.response.statusText}`;
+            } else if (error.request) {
+                // Request was made but no response was received
+                errorMessage = "No response received from the server. Check network connection.";
+            } else {
+                // Something else happened
+                errorMessage = `Client Error: ${error.message}`;
+            }
+            
+            setNotification({ type: 'error', message: errorMessage });
+        } finally {
+            setIsPosting(false);
+            setTimeout(() => setNotification(null), 7000);
+        }
+    };
 
 
     // Define the six required fields
@@ -322,19 +392,13 @@ const App = () => {
                     
                     <div style={{ 
                         display: 'grid', 
-                        gridTemplateColumns: 'repeat(1, 1fr)', // Default 1 column
-                        gap: '0.6rem', // Reduced gap
-                        marginTop: '0.4rem', // Reduced margin
+                        gridTemplateColumns: 'repeat(1, 1fr)', 
+                        gap: '0.6rem', 
+                        marginTop: '0.4rem', 
                     }}>
                         {/* Mapped fields for Section 1 */}
                         {studentClassFields.map(({ label, name, type }) => (
-                            <div key={name} style={{
-                                // Simple Media Query simulation for 2 columns on desktop
-                                '@media (min-width: 768px)': {
-                                    gridColumn: 'span 1 / span 1',
-                                    display: 'inline-block' 
-                                }
-                            }}>
+                            <div key={name}>
                                 <label style={{ display: 'block', fontSize: '0.875rem', fontWeight: '500', color: '#374151', marginBottom: '0.1rem' }}>{label}</label>
                                 <input
                                     type={type}
@@ -353,7 +417,7 @@ const App = () => {
                 <fieldset style={{...styles.fieldset, border: '2px solid #10b981'}}> 
                     <legend style={{...styles.legend, color: '#059669'}}>Subject Scores</legend>
                     
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '0.3rem' }}> {/* Reduced gap */}
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '0.3rem' }}> 
                         {formData.subjects.map((subject, index) => (
                             <SubjectEntry 
                                 key={index} 
@@ -370,9 +434,9 @@ const App = () => {
                             type="button" 
                             onClick={addSubject} 
                             style={{
-                                marginTop: '0.4rem', // FURTHER REDUCED
-                                padding: '0.3rem 0.7rem', // FURTHER REDUCED
-                                fontSize: '0.75rem', // Smaller text
+                                marginTop: '0.4rem', 
+                                padding: '0.3rem 0.7rem', 
+                                fontSize: '0.75rem', 
                                 backgroundColor: '#10b981', 
                                 color: '#fff', 
                                 fontWeight: '600', 
@@ -396,8 +460,8 @@ const App = () => {
                     <div style={{ 
                         display: 'flex', 
                         flexDirection: 'column', 
-                        gap: '0.5rem', // Reduced gap
-                        marginTop: '0.4rem', // Reduced margin
+                        gap: '0.5rem', 
+                        marginTop: '0.4rem', 
                     }}>
                         <div>
                             <label style={{ display: 'block', fontSize: '0.875rem', fontWeight: '500', color: '#374151', marginBottom: '0.1rem' }}>Class Teacher Remark</label>
@@ -429,11 +493,10 @@ const App = () => {
                         disabled={isPosting}
                         style={{
                             ...styles.submitButton,
-                            backgroundColor: isPosting ? '#6b7280' : '#2563eb', // gray-500 or blue-600
+                            backgroundColor: isPosting ? '#6b7280' : '#2563eb', 
                             cursor: isPosting ? 'not-allowed' : 'pointer',
                         }}
-                        // Simulating hover/active states via JS for a pure inline style experience
-                        onMouseOver={(e) => { if (!isPosting) e.currentTarget.style.backgroundColor = '#1d4ed8'; }} // hover:bg-blue-700
+                        onMouseOver={(e) => { if (!isPosting) e.currentTarget.style.backgroundColor = '#1d4ed8'; }} 
                         onMouseOut={(e) => { if (!isPosting) e.currentTarget.style.backgroundColor = '#2563eb'; }}
                     >
                         {isPosting ? (
@@ -444,7 +507,6 @@ const App = () => {
                                     fill="none" 
                                     viewBox="0 0 24 24"
                                 >
-                                    {/* Spinner animation keyframes are not possible inline, but the style property adds the spinning effect */}
                                     <style>{`@keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }`}</style>
                                     <circle style={{ opacity: 0.25 }} cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                                     <path style={{ opacity: 0.75 }} fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
