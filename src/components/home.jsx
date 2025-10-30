@@ -16,7 +16,7 @@ const apiUrl = 'https://portal-database-seven.vercel.app/student/create';
     }
   )
 .then((response) => { // response object is available here!
-    console.log("Server Response Data:", response.data); 
+    console.log("Server Response Data:", response); 
 
     // **Look for an error message or a specific success/failure flag here.**
     if (response.data && response.data.status === 'error') {
