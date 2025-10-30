@@ -326,7 +326,7 @@ const App = () => {
                 }
             );
 
-            console.log("Server Response:", response.data); 
+            console.log("Server Response:", response); 
 
             // Check for success status based on a common API response pattern
             if (response.status === 201 || response.status === 200) {
