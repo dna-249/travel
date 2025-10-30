@@ -254,6 +254,7 @@ const App = () => {
             ...prev,
             subjects: [
                 ...prev.subjects,
+                // New subject starts with default name and zero scores
                 { name: `NEW SUBJECT ${prev.subjects.length + 1}`, CA1: 0, CA2: 0, Ass: 0, Exam: 0 }
             ]
         }));
@@ -281,6 +282,9 @@ const App = () => {
             // 1. Convert the name to uppercase and strip non-alphanumeric characters (like apostrophes) 
             // to ensure a clean JSON key.
             const capitalizedName = name.toUpperCase().replace(/[^A-Z0-9]/g, ''); 
+            
+            // Basic check to prevent empty or bad keys
+            if (!capitalizedName) return accumulator;
 
             // 2. Assign the scores (inside an array) to the new uppercase key.
             accumulator[capitalizedName] = [scores];
@@ -331,9 +335,12 @@ const App = () => {
             // Check for success status based on a common API response pattern
             if (response.status === 201 || response.status === 200) {
                 setNotification({ type: 'success', message: `Report data successfully sent! Response status: ${response.status}` });
+                // Optional: setFormData(INITIAL_FORM_DATA) to clear the form
             } else {
                 // Handle non-2xx statuses that still return data
-                throw new Error(`Submission failed with status ${response.status}.`);
+                // Accessing data for more specific error messages
+                const dataMessage = response.data?.message || response.data?.error || response.statusText;
+                throw new Error(`Submission failed with status ${response.status}. Message: ${dataMessage}`);
             }
         } catch (error) {
             console.error("Submission Error:", error);
@@ -341,19 +348,20 @@ const App = () => {
             let errorMessage = "An unknown error occurred during submission.";
             if (error.response) {
                 // Server responded with a status code outside the 2xx range
-                errorMessage = `API Error: ${error.response.data?.message || error.response.statusText}`;
+                errorMessage = `API Error (${error.response.status}): ${error.response.data?.message || error.response.statusText}`;
             } else if (error.request) {
                 // Request was made but no response was received
                 errorMessage = "No response received from the server. Check network connection.";
             } else {
-                // Something else happened
+                // Something else happened (e.g., in the transformation step or the thrown error above)
                 errorMessage = `Client Error: ${error.message}`;
             }
             
             setNotification({ type: 'error', message: errorMessage });
         } finally {
             setIsPosting(false);
-            setTimeout(() => setNotification(null), 7000);
+            // Clear notification after 7 seconds
+            setTimeout(() => setNotification(null), 7000); 
         }
     };
 
@@ -371,7 +379,7 @@ const App = () => {
     return (
         <div style={styles.container}>
             <h1 style={styles.title}>
-                Student Report Card Data Entry
+                Student Report Card Data Entry 📝
             </h1>
 
             {/* Notification Box */}
@@ -380,7 +388,7 @@ const App = () => {
                     ...styles.notificationBase, 
                     ...(notification.type === 'success' ? styles.notificationSuccess : styles.notificationError)
                 }}>
-                    {notification.message}
+                    **{notification.type === 'success' ? 'SUCCESS' : 'ERROR'}**: {notification.message}
                 </div>
             )}
 
@@ -392,7 +400,7 @@ const App = () => {
                     
                     <div style={{ 
                         display: 'grid', 
-                        gridTemplateColumns: 'repeat(1, 1fr)', 
+                        gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', // Responsive grid
                         gap: '0.6rem', 
                         marginTop: '0.4rem', 
                     }}>
@@ -446,8 +454,8 @@ const App = () => {
                                 border: 'none',
                                 cursor: 'pointer'
                             }}
-                            onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#059669'} 
-                            onMouseOut={(e) => e.currentTarget.style.backgroundColor = '#10b981'}
+                            onMouseOver={(e) => {e.currentTarget.style.backgroundColor = '#059669';}} 
+                            onMouseOut={(e) => {e.currentTarget.style.backgroundColor = '#10b981';}}
                         >
                             + Add Subject
                         </button>
