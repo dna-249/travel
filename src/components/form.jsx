@@ -226,6 +226,7 @@ const App = () => {
         const { CA1, CA2, Exam, Ass } = scores;
 
         try {
+            console.log(studentId)
             // This API call is left as is, assuming a working API endpoint exists for PUT.
             const response = await axios.put(
                 // Note: The ID '69035c3974cb429bc5e4d248' is hardcoded here.
@@ -315,7 +316,7 @@ const MOCK_STUDENT_DATA = [
                 type: 'error',
                 message: `Failed to fetch student list. Check the console for details.`
             });
-            setTimeout(() => setNotification(null), 7000);
+            setTimeout(() => setNotification(null), 2000);
         } finally {
             setIsFetchingList(false);
         }
