@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 
 // Mock API URL for demonstration purposes
 // Initial state structure matching the report card data for easy binding
@@ -153,7 +153,16 @@ const getNotificationStyle = (type) => ({
  * SubjectEntry Component for managing scores for a single subject.
  */
 const SubjectEntry = ({ subject, index, handleSubjectChange, removeSubject, handleSingleSubjectSubmission, isPostingRow }) => {
+    useEffect(() => {
+      axios.get("https://portal-database-seven.vercel.app")
+      .then((res)=>{console.log(res)})
+      .catch(()=>{})
+
+    }, [])
     
+
+
+
     return (
         <div style={styles.subjectCard}>
             
@@ -325,7 +334,7 @@ const App = () => {
         
         try {
             const response = await axios.post(
-               `https://portal-database-seven.vercel.app/student/create/${x}`,
+               `https://portal-database-seven.vercel.app/student/push/{id}/${x}`,
                 {CA1:CA1,CA2:CA2, Ass:Ass, Exam:Exam},
                 { headers: { 'Content-Type': 'application/json' } }
             );
