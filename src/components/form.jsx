@@ -154,7 +154,7 @@ const getNotificationStyle = (type) => ({
  */
 const SubjectEntry = ({ subject, index, handleSubjectChange, removeSubject, handleSingleSubjectSubmission, isPostingRow }) => {
     useEffect(() => {
-      axios.get("https://portal-database-seven.vercel.app")
+      axios.get("https://portal-database-seven.vercel.app/student")
       .then((res)=>{console.log(res)})
       .catch(()=>{})
 
