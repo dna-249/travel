@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 // --- STYLES (Combined and integrated for single-file use) ---
 const styles = {
     container: {
-        padding: '1.5rem', 
+        padding: '0.5rem', 
         backgroundColor: '#f7f9fb', 
         minHeight: '100vh',
         fontFamily: 'Inter, sans-serif',
@@ -22,7 +22,7 @@ const styles = {
         maxWidth: '36rem', 
         margin: '1.5rem auto', 
         backgroundColor: '#fff', 
-        padding: '1.5rem',
+        padding: '0.5rem',
         borderRadius: '0.75rem', 
         boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
         display: 'flex', 
