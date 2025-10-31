@@ -143,6 +143,20 @@ const App = () => {
     const [studentList, setStudentList] = useState([]);
     const [isFetchingList, setIsFetchingList] = useState(false);
     const [searchQuery, setSearchQuery] = useState('');
+    const [studentId,setStudentId] =useState("")
+
+
+    useEffect(()=>{
+     axios.get(STUDENT_LIST_URL)
+           .then((response)=> {const apiNames = response.data.map(student => ({
+                name: student.studentName,
+                id: student._id
+            }));
+            const names = [...apiNames.filter(a => !MOCK_STUDENT_DATA.some(m => m.id === a.id))];
+            
+            
+            setStudentList(names);})
+   },[])
 
     // --- Memoized list of currently USED subject names ---
     const usedSubjectNames = useMemo(() => {
@@ -226,7 +240,7 @@ const App = () => {
             // This API call is left as is, assuming a working API endpoint exists for PUT.
             const response = await axios.put(
                 // Note: The ID '69035c3974cb429bc5e4d248' is hardcoded here.
-                `https://portal-database-seven.vercel.app/student/push/69035c3974cb429bc5e4d248/${capitalizedName}`,
+                `https://portal-database-seven.vercel.app/student/push/${studentId}/${capitalizedName}`,
                 { CA1: CA1, CA2: CA2, Ass: Ass, Exam: Exam },
                 { headers: { 'Content-Type': 'application/json' } }
             );
@@ -255,18 +269,6 @@ const App = () => {
     };
 
   
-    
-   useEffect(()=>{
-     axios.get(STUDENT_LIST_URL)
-           .then((response)=> {const apiNames = response.data.map(student => ({
-                name: student.studentName,
-                id: student._id
-            }));
-            const names = [...apiNames.filter(a => !MOCK_STUDENT_DATA.some(m => m.id === a.id))];
-            
-            
-            setStudentList(names);})
-   },[])
 
     // --- MODIFIED: Fetch Student List to include Nura and Maryam ---
     const fetchStudentList = async () => {
@@ -328,7 +330,7 @@ const App = () => {
         setShowStudentList(false);
         setNotification({
             type: 'success',
-            message: `Selected **${student.name}**. Now enter their scores.`
+            message: `Selected ${student.name}. Now enter their scores.`
         });
         setTimeout(() => setNotification(null), 5000);
     };
@@ -526,7 +528,7 @@ const App = () => {
                                 <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
                                     {filteredStudentList.map(student => (
                                         <li
-                                            key={student.id} onClick={() => handleStudentSelect(student)} style={styles.studentListItem}
+                                            key={student.id} onClick={() =>{ handleStudentSelect(student);setStudentId(()=>student._id)}} style={styles.studentListItem}
                                             onMouseOver={(e) => { e.currentTarget.style.backgroundColor = styles.studentListItemHover.backgroundColor; e.currentTarget.style.fontWeight = styles.studentListItemHover.fontWeight; }}
                                             onMouseOut={(e) => { e.currentTarget.style.backgroundColor = styles.studentListItem.backgroundColor; e.currentTarget.style.fontWeight = 'normal'; }}
                                         >
