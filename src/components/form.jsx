@@ -87,7 +87,7 @@ const styles = {
         display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '0 0.25rem',
     },
     listButton: {
-        padding: '0.2rem 0.6rem', fontSize: '0.75rem', fontWeight: '600', backgroundColor: '#f97316',
+        padding: '0.2rem 0.2rem', fontSize: '0.75rem', fontWeight: '600', backgroundColor: '#f97316',
         color: '#fff', borderRadius: '0.5rem', border: 'none', cursor: 'pointer', transition: 'background-color 0.2s',
     },
     listButtonHover: {
@@ -464,7 +464,7 @@ const App = () => {
                 {/* 1. Student & Class Details */}
                 <fieldset style={{ ...styles.fieldset, border: '2px solid #3b82f6', position: 'relative' }}>
                     <div style={styles.studentDetailsHeader}>
-                        <legend style={{ ...styles.legend, color: '#2563eb' }}>Student & Class Details</legend>
+                        <legend style={{ ...styles.legend, color: '#2563eb' }}>Student Name</legend>
                         <button
                             type="button"
                             onClick={fetchStudentList}
@@ -476,7 +476,7 @@ const App = () => {
                             onMouseOver={(e) => { if (!isFetchingList) e.currentTarget.style.backgroundColor = styles.listButtonHover.backgroundColor; }}
                             onMouseOut={(e) => { if (!isFetchingList) e.currentTarget.style.backgroundColor = styles.listButton.backgroundColor; }}
                         >
-                            {isFetchingList ? 'Loading Names...' : 'View Student List 📋'}
+                            {isFetchingList ? 'Loading Names...' : 'Student List 📋'}
                         </button>
                     </div>
 
