@@ -470,7 +470,7 @@ const App = () => {
                             onClick={fetchStudentList}
                             disabled={isFetchingList}
                             style={{
-                                ...styles.listButton,
+                                ...styles.listButton,width:"100px",
                                 backgroundColor: isFetchingList ? '#fb923c' : styles.listButton.backgroundColor
                             }}
                             onMouseOver={(e) => { if (!isFetchingList) e.currentTarget.style.backgroundColor = styles.listButtonHover.backgroundColor; }}
