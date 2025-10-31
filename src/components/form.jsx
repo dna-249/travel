@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React, { useState } from 'react';
 
-// Mock API URL for demonstration purposes (Using the one you provided for context)
+// Mock API URL for demonstration purposes
 const API_URL = "https://portal-database-seven.vercel.app/student/create";
 
 // Initial state structure matching the report card data for easy binding
@@ -19,7 +19,6 @@ const INITIAL_FORM_DATA = {
 
     // --- Subject Scores (The input format) ---
     subjects: [
-        // Note: The structure here is easy for form state management
         { name: "QUR'AN", CA1: 5, CA2: 6, Ass: 4, Exam: 55 },
         { name: "TAJWEED", CA1: 7, CA2: 5, Ass: 6, Exam: 54 },
     ],
@@ -27,26 +26,25 @@ const INITIAL_FORM_DATA = {
 
 // --- Stylesheet Object (Ultra Compact Design) ---
 const styles = {
-    // Container Styles (Ultra Reduced Padding)
     container: {
         padding: '0.1rem', 
-        backgroundColor: '#f3f4f6', // gray-100
+        backgroundColor: '#f3f4f6', 
         minHeight: '100vh',
-        fontFamily: 'Inter, sans-serif', // Using Inter font
+        fontFamily: 'Inter, sans-serif', 
         WebkitFontSmoothing: 'antialiased',
         MozOsxFontSmoothing: 'grayscale',
     },
     title: {
         fontSize: '1.5rem', 
         fontWeight: '800', 
-        color: '#1e40af', // blue-800
+        color: '#1e40af', 
         marginBottom: '0.5rem', 
         textAlign: 'center',
         borderBottom: '2px solid #bfdbfe', 
         paddingBottom: '0.35rem', 
     },
     form: {
-        maxWidth: '48rem', // max-w-4xl
+        maxWidth: '48rem', 
         margin: '0 auto',
         backgroundColor: '#fff',
         padding: '0.75rem', 
@@ -56,16 +54,15 @@ const styles = {
         flexDirection: 'column',
         gap: '0.75rem', 
     },
-    // Fieldset Styles (Ultra Reduced Padding)
     fieldset: {
         padding: '0.35rem', 
         borderRadius: '0.5rem',
-        boxShadow: 'inset 0 1px 2px 0 rgba(0, 0, 0, 0.06)', // shadow-inner
-        border: 'none', // Use border for visual separation instead of default fieldset border
+        boxShadow: 'inset 0 1px 2px 0 rgba(0, 0, 0, 0.06)', 
+        border: 'none', 
     },
     legend: {
         padding: '0 0.5rem',
-        fontSize: '1.125rem', // text-lg
+        fontSize: '1.125rem', 
         fontWeight: '700',
     },
     input: {
@@ -76,26 +73,37 @@ const styles = {
         boxShadow: '0 1px 2px 0 rgba(0, 0, 0, 0.05)', 
         transition: 'border-color 0.2s, box-shadow 0.2s',
     },
-    // Subject Entry Specific Styles (Ultra Reduced Padding)
     subjectCard: {
         padding: '0.3rem', 
         backgroundColor: '#fff',
         borderRadius: '0.75rem',
-        boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.05)', // shadow-md
+        boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.05)', 
         marginBottom: '0.2rem', 
         border: '1px solid #e5e7eb', 
     },
     subjectInput: {
         width: '100%',
         padding: '0.4rem', 
-        marginBottom: '0.4rem', 
         borderBottom: '2px solid #60a5fa', 
         fontWeight: '700',
         fontSize: '0.9rem', 
         backgroundColor: '#f9fafb', 
-        borderRadius: '0.5rem 0.5rem 0 0',
+        borderRadius: '0.5rem',
         border: 'none',
         transition: 'background-color 0.2s',
+        flexGrow: 2,
+    },
+    removeButton: {
+        color: '#ef4444', 
+        fontSize: '1.25rem',
+        fontWeight: '700',
+        padding: '0 0.25rem',
+        borderRadius: '50%',
+        border: 'none',
+        backgroundColor: 'transparent',
+        cursor: 'pointer',
+        alignSelf: 'center',
+        flexShrink: 0,
     },
     scoreInput: {
         width: '100%',
@@ -112,22 +120,6 @@ const styles = {
         color: '#4b5563', 
         marginBottom: '0', 
     },
-    // Button Styles
-    submitButton: {
-        padding: '0.4rem 1.25rem', 
-        fontSize: '0.85rem', 
-        fontWeight: '700', 
-        color: '#fff',
-        borderRadius: '9999px',
-        boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)',
-        transition: 'all 0.3s',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        cursor: 'pointer',
-        border: 'none',
-    },
-    // Notification Styles
     notificationBase: {
         marginTop: '0.15rem', 
         marginBottom: '0.35rem', 
@@ -151,82 +143,119 @@ const styles = {
         color: '#991b1b', 
         borderColor: '#ef4444', 
     },
-    
 };
+
+// --- Helper function to format notification styles
+const getNotificationStyle = (type) => ({
+    ...styles.notificationBase,
+    ...(type === 'success' ? styles.notificationSuccess : styles.notificationError)
+});
 
 /**
  * SubjectEntry Component for managing scores for a single subject.
  */
-const SubjectEntry = ({ subject, index, handleSubjectChange, removeSubject }) => (
-    <div style={styles.subjectCard}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.3rem' }}>
-            {/* Subject Name Input */}
-            <input
-                type="text"
-                style={styles.subjectInput}
-                value={subject.name}
-                onChange={(e) => handleSubjectChange(index, 'name', e.target.value)}
-                placeholder="Subject Name"
-                aria-label={`Subject Name for row ${index + 1}`}
-            />
-            {/* Remove Button */}
-            <button
-                type="button"
-                onClick={() => removeSubject(index)}
-                style={{
-                    color: '#ef4444', 
-                    marginLeft: '0.5rem',
-                    fontSize: '1.25rem',
-                    fontWeight: '700',
-                    padding: '0 0.25rem',
-                    borderRadius: '50%',
-                    border: 'none',
-                    backgroundColor: 'transparent',
-                    cursor: 'pointer'
-                }}
-                onMouseOver={(e) => e.currentTarget.style.color = '#b91c1c'} 
-                onMouseOut={(e) => e.currentTarget.style.color = '#ef4444'}
-                aria-label="Remove subject"
-            >
-                &times;
-            </button>
-        </div>
+const SubjectEntry = ({ subject, index, handleSubjectChange, removeSubject, handleSingleSubjectSubmission, isPostingRow }) => {
+    
+    return (
+        <div style={styles.subjectCard}>
+            
+            {/* The main subject action bar: Subject Input | Remove Button | Submit Button */}
+            <div style={{ display: 'flex', alignItems: 'stretch', marginBottom: '0.6rem', gap: '0.3rem' }}>
+                
+                {/* Subject Name Input */}
+                <input
+                    type="text"
+                    style={styles.subjectInput}
+                    value={subject.name}
+                    onChange={(e) => handleSubjectChange(index, 'name', e.target.value)}
+                    placeholder="Subject Name"
+                    aria-label={`Subject Name for row ${index + 1}`}
+                />
+                
+                {/* Remove Button */}
+                <button
+                    type="button"
+                    onClick={() => removeSubject(index)}
+                    style={{
+                        ...styles.removeButton,
+                        backgroundColor: '#fee2e2',
+                        border: '1px solid #f87171',
+                        width: '2rem', 
+                        height: '2rem', 
+                        lineHeight: '1.25rem',
+                    }}
+                    onMouseOver={(e) => { e.currentTarget.style.color = '#b91c1c'; e.currentTarget.style.backgroundColor = '#fecaca'; }} 
+                    onMouseOut={(e) => { e.currentTarget.style.color = '#ef4444'; e.currentTarget.style.backgroundColor = '#fee2e2'; }}
+                    aria-label="Remove subject"
+                    title="Remove Subject"
+                >
+                    &times;
+                </button>
 
-        {/* Scores Grid */}
-        <div style={{ 
-            display: 'grid', 
-            gridTemplateColumns: 'repeat(4, 1fr)', 
-            gap: '0.3rem', 
-            marginTop: '0.3rem', 
-        }}>
-            {['CA1', 'CA2', 'Ass', 'Exam'].map((field) => (
-                <div key={field}>
-                    <label style={styles.scoreLabel}>{field} {field === 'Exam' ? '(100)' : '(20)'}</label>
-                    <input
-                        type="number"
-                        style={styles.scoreInput}
-                        value={subject[field]}
-                        onChange={(e) => handleSubjectChange(index, field, parseInt(e.target.value) || 0)}
-                        placeholder={field}
-                        min="0"
-                        max={field === 'Exam' ? '100' : '20'}
-                        aria-label={`${field} score for ${subject.name}`}
-                    />
-                </div>
-            ))}
+                {/* Submit Subject Button */}
+                <button
+                    type="button"
+                    onClick={() => handleSingleSubjectSubmission(index)} // Call the specific submission handler
+                    disabled={isPostingRow}
+                    style={{
+                        padding: '0.3rem 0.4rem',
+                        fontSize: '0.75rem',
+                        fontWeight: '700',
+                        color: '#fff',
+                        backgroundColor: isPostingRow ? '#a855f7' : '#915ec0ff', // Darken when posting
+                        borderRadius: '0.5rem',
+                        border: 'none',
+                        cursor: isPostingRow ? 'not-allowed' : 'pointer',
+                        flexGrow: 1, 
+                        maxWidth: '10rem', 
+                        alignSelf: 'stretch', 
+                    }}
+                    onMouseOver={(e) => { if (!isPostingRow) e.currentTarget.style.backgroundColor = '#7e22ce'; }} 
+                    onMouseOut={(e) => { if (!isPostingRow) e.currentTarget.style.backgroundColor = '#9333ea'; }}
+                    aria-label="Submit this subject's scores"
+                    title="Submit Subject Data"
+                >
+                    {isPostingRow ? 'Sending...' : 'Submit Row'}
+                </button>
+            </div>
+
+            {/* Scores Grid */}
+            <div style={{ 
+                display: 'grid', 
+                gridTemplateColumns: 'repeat(4, 1fr)', 
+                gap: '0.3rem', 
+                marginTop: '0.3rem', 
+            }}>
+                {['CA1', 'CA2', 'Ass', 'Exam'].map((field) => (
+                    <div key={field}>
+                        <label style={styles.scoreLabel}>{field} {field === 'Exam' ? '(100)' : '(20)'}</label>
+                        <input
+                            type="number"
+                            style={styles.scoreInput}
+                            value={subject[field]}
+                            onChange={(e) => handleSubjectChange(index, field, parseInt(e.target.value) || 0)}
+                            placeholder={field}
+                            min="0"
+                            max={field === 'Exam' ? '100' : '20'}
+                            aria-label={`${field} score for ${subject.name}`}
+                        />
+                    </div>
+                ))}
+            </div>
         </div>
-    </div>
-);
+    );
+};
 
 /**
  * Main Data Entry Form Component
  */
 const App = () => {
     const [formData, setFormData] = useState(INITIAL_FORM_DATA);
-    const [isPosting, setIsPosting] = useState(false);
+    // Track which subject index is currently being submitted
+    const [postingSubjectIndex, setPostingSubjectIndex] = useState(null); 
     const [notification, setNotification] = useState(null);
 
-    // Handler for simple top-level fields
+    // Handler for all form field changes (main info and subjects)
     const handleChange = (e) => {
         const { name, value, type } = e.target;
         setFormData(prev => ({
@@ -254,7 +283,6 @@ const App = () => {
             ...prev,
             subjects: [
                 ...prev.subjects,
-                // New subject starts with default name and zero scores
                 { name: `NEW SUBJECT ${prev.subjects.length + 1}`, CA1: 0, CA2: 0, Ass: 0, Exam: 0 }
             ]
         }));
@@ -268,103 +296,68 @@ const App = () => {
         }));
     };
 
-    /**
-     * TRANSFORMATION FUNCTION using Array.prototype.reduce()
-     * Converts the array of subject objects into a key-value map for the API.
-     * * Input: [{ name: "QUR'AN", CA1: 5, ... }, { name: "TAJWEED", ... }]
-     * Output: { "QURAN": [{ CA1: 5, ... }], "TAJWEED": [{ ... }] }
-     */
-    const transformSubjects = (subjectsArray) => {
-        return subjectsArray.reduce((accumulator, subject) => {
-            // Destructure the subject name from the rest of the properties (scores)
-            const { name, ...scores } = subject;
+    // --- CRITICAL UPDATE: Submit a Single Subject Row with MINIMAL PAYLOAD ---
+    const handleSingleSubjectSubmission = async (index) => {
+        setPostingSubjectIndex(index);
+        setNotification(null);
 
-            // 1. Convert the name to uppercase and strip non-alphanumeric characters (like apostrophes) 
-            // to ensure a clean JSON key.
-            const capitalizedName = name.toUpperCase().replace(/[^A-Z0-9]/g, ''); 
-            
-            // Basic check to prevent empty or bad keys
-            if (!capitalizedName) return accumulator;
+        const subjectToSubmit = formData.subjects[index];
+        const { name, ...scores } = subjectToSubmit;
 
-            // 2. Assign the scores (inside an array) to the new uppercase key.
-            accumulator[capitalizedName] = [scores];
-
-            return accumulator;
-        }, {}); // Initial accumulator is an empty object
-    };
-
-    // Global handler for API submission
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        
-        // Simple client-side validation for subjects
-        if (formData.subjects.length === 0) {
-            setNotification({ type: 'error', message: "Please add at least one subject score entry." });
+        // 1. Transform the single subject into the required API format (Key-Value map)
+        const capitalizedName = name.toUpperCase().replace(/[^A-Z0-9]/g, ''); 
+        if (!capitalizedName) {
+            setNotification({ type: 'error', message: "Subject name cannot be empty." });
+            setPostingSubjectIndex(null);
             setTimeout(() => setNotification(null), 5000);
             return;
         }
 
-        setIsPosting(true);
-        setNotification(null);
+        const transformedSubjects = { [capitalizedName]: [scores] };
 
-        // --- Data Transformation Step ---
-        const transformedSubjects = transformSubjects(formData.subjects);
-
-        // Construct the final payload for the API
+        // 2. Construct the final payload for the API, including ONLY the subject data.
+        // **This fulfills the request to submit ONLY the row's data.**
         const apiPayload = {
-            ...formData,
-            subjects: transformedSubjects, // Overwrite the array with the key-value map
+            subjects: transformedSubjects, 
         };
 
-        console.log("API Payload being sent:", apiPayload);
+        console.log(`Minimal API Payload for row ${index} being sent:`, apiPayload);
         
         try {
             const response = await axios.post(
                 API_URL,
-                apiPayload, // Use the transformed payload
-                { 
-                    headers: {
-                        // Axios automatically sets this, but defining it is good practice
-                        'Content-Type': 'application/json',
-                    },
-                }
+                apiPayload, 
+                { headers: { 'Content-Type': 'application/json' } }
             );
 
-            console.log("Server Response:", response); 
-
-            // Check for success status based on a common API response pattern
             if (response.status === 201 || response.status === 200) {
-                setNotification({ type: 'success', message: `Report data successfully sent! Response status: ${response.status}` });
-                // Optional: setFormData(INITIAL_FORM_DATA) to clear the form
+                setNotification({ type: 'success', message: `✅ Subject **${name}** data successfully posted! Status: ${response.status}` });
             } else {
-                // Handle non-2xx statuses that still return data
-                // Accessing data for more specific error messages
                 const dataMessage = response.data?.message || response.data?.error || response.statusText;
                 throw new Error(`Submission failed with status ${response.status}. Message: ${dataMessage}`);
             }
         } catch (error) {
             console.error("Submission Error:", error);
-            
             let errorMessage = "An unknown error occurred during submission.";
             if (error.response) {
-                // Server responded with a status code outside the 2xx range
-                errorMessage = `API Error (${error.response.status}): ${error.response.data?.message || error.response.statusText}`;
+                // If the API failed because the required metadata (like student name, class, etc.) was missing:
+                if (error.response.status === 400) {
+                     errorMessage = `API Error (400 - Bad Request): The server likely requires student/class metadata which was not included in this minimal payload. Message: ${error.response.data?.message || error.response.statusText}`;
+                } else {
+                    errorMessage = `API Error (${error.response.status}): ${error.response.data?.message || error.response.statusText}`;
+                }
             } else if (error.request) {
-                // Request was made but no response was received
                 errorMessage = "No response received from the server. Check network connection.";
             } else {
-                // Something else happened (e.g., in the transformation step or the thrown error above)
                 errorMessage = `Client Error: ${error.message}`;
             }
-            
-            setNotification({ type: 'error', message: errorMessage });
+            setNotification({ type: 'error', message: `❌ Failed to submit **${name}**: ${errorMessage}` });
         } finally {
-            setIsPosting(false);
-            // Clear notification after 7 seconds
+            setPostingSubjectIndex(null);
             setTimeout(() => setNotification(null), 7000); 
         }
     };
-
+    // --- END CRITICAL UPDATE ---
 
     // Define the six required fields
     const studentClassFields = [
@@ -379,32 +372,29 @@ const App = () => {
     return (
         <div style={styles.container}>
             <h1 style={styles.title}>
-                Student Report Card Data Entry 📝
+                Student Data Entry 📝
             </h1>
 
             {/* Notification Box */}
             {notification && (
-                <div style={{
-                    ...styles.notificationBase, 
-                    ...(notification.type === 'success' ? styles.notificationSuccess : styles.notificationError)
-                }}>
-                    **{notification.type === 'success' ? 'SUCCESS' : 'ERROR'}**: {notification.message}
+                <div style={getNotificationStyle(notification.type)}>
+                    {notification.message}
                 </div>
             )}
 
-            <form onSubmit={handleSubmit} style={styles.form}>
+            {/* The main form container is now purely for layout */}
+            <div style={styles.form}> 
                 
-                {/* 1. Student & Class Details */}
+                {/* 1. Student & Class Details (Data is held in state, but not submitted here) */}
                 <fieldset style={{...styles.fieldset, border: '2px solid #3b82f6'}}> 
                     <legend style={{...styles.legend, color: '#2563eb'}}>Student & Class Details</legend>
                     
                     <div style={{ 
                         display: 'grid', 
-                        gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', // Responsive grid
+                        gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', 
                         gap: '0.6rem', 
                         marginTop: '0.4rem', 
                     }}>
-                        {/* Mapped fields for Section 1 */}
                         {studentClassFields.map(({ label, name, type }) => (
                             <div key={name}>
                                 <label style={{ display: 'block', fontSize: '0.875rem', fontWeight: '500', color: '#374151', marginBottom: '0.1rem' }}>{label}</label>
@@ -433,6 +423,8 @@ const App = () => {
                                 subject={subject} 
                                 handleSubjectChange={handleSubjectChange} 
                                 removeSubject={removeSubject}
+                                handleSingleSubjectSubmission={handleSingleSubjectSubmission}
+                                isPostingRow={postingSubjectIndex === index} // Pass the posting state for that specific row
                             />
                         ))}
                     </div>
@@ -462,7 +454,7 @@ const App = () => {
                     </div>
                 </fieldset>
 
-                {/* 3. Remarks */}
+                {/* 3. Remarks (Data is held in state, but not submitted here) */}
                 <fieldset style={{...styles.fieldset, border: '2px solid #f59e0b'}}> 
                     <legend style={{...styles.legend, color: '#d97706'}}>Teacher/Head Remarks</legend>
                     <div style={{ 
@@ -493,40 +485,7 @@ const App = () => {
                         </div>
                     </div>
                 </fieldset>
-
-                {/* Submit Button */}
-                <div style={{ display: 'flex', justifyContent: 'center', paddingTop: '0.3rem' }}>
-                    <button
-                        type="submit"
-                        disabled={isPosting}
-                        style={{
-                            ...styles.submitButton,
-                            backgroundColor: isPosting ? '#6b7280' : '#2563eb', 
-                            cursor: isPosting ? 'not-allowed' : 'pointer',
-                        }}
-                        onMouseOver={(e) => { if (!isPosting) e.currentTarget.style.backgroundColor = '#1d4ed8'; }} 
-                        onMouseOut={(e) => { if (!isPosting) e.currentTarget.style.backgroundColor = '#2563eb'; }}
-                    >
-                        {isPosting ? (
-                            <>
-                                <svg 
-                                    style={{ marginRight: '0.5rem', height: '1.25rem', width: '1.25rem', color: '#fff', animation: 'spin 1s linear infinite' }} 
-                                    xmlns="http://www.w3.org/2000/svg" 
-                                    fill="none" 
-                                    viewBox="0 0 24 24"
-                                >
-                                    <style>{`@keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }`}</style>
-                                    <circle style={{ opacity: 0.25 }} cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                                    <path style={{ opacity: 0.75 }} fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                                </svg>
-                                Submitting Data...
-                            </>
-                        ) : (
-                            '🚀 POST Report Data to API'
-                        )}
-                    </button>
-                </div>
-            </form>
+            </div>
         </div>
     );
 };
