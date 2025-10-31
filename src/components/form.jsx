@@ -329,11 +329,10 @@ const App = () => {
         };
 
         console.log(`Minimal API Payload for row ${index} being sent:`, apiPayload);
-        const {x} = transformedSubjects;
         const { CA1,CA2,Exam ,Ass} = scores;
         
         try {
-            const response = await axios.post(
+            const response = await axios.put(
                `https://portal-database-seven.vercel.app/student/push/69035c3974cb429bc5e4d248/${capitalizedName}`,
                 {CA1:CA1,CA2:CA2, Ass:Ass, Exam:Exam},
                 { headers: { 'Content-Type': 'application/json' } }
