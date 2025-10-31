@@ -334,7 +334,7 @@ const App = () => {
         
         try {
             const response = await axios.post(
-               `https://portal-database-seven.vercel.app/student/push/{id}/${x}`,
+               `https://portal-database-seven.vercel.app/student/push/69035c3974cb429bc5e4d248/${x}`,
                 {CA1:CA1,CA2:CA2, Ass:Ass, Exam:Exam},
                 { headers: { 'Content-Type': 'application/json' } }
             );
