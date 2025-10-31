@@ -255,8 +255,9 @@ const App = () => {
     };
 
 
-   useEffect( async()=>{
-    const response = await axios.get(STUDENT_LIST_URL);
+   useEffect(()=>{
+    const response = axios.get(STUDENT_LIST_URL);
+
             const apiNames = response.data.map(student => ({
                 name: student.studentName,
                 id: student._id
