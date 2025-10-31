@@ -256,9 +256,8 @@ const App = () => {
 
 
    useEffect(()=>{
-    const response = axios.get(STUDENT_LIST_URL);
-           
-            console.log(response)
+     axios.get(STUDENT_LIST_URL)
+           .then((response)=> console.log(response))
    },[])
 
     // --- MODIFIED: Fetch Student List to include Nura and Maryam ---
