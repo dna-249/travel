@@ -5,6 +5,7 @@ import Home from './components/home'
 import ReportPage from './components/reportPage'
 import ReportInputForm from './components/form'
 import DataEntryForm from './components/form'
+import StudentSignIn from './components/home'
 function App() {
   
 
@@ -13,7 +14,7 @@ function App() {
        <Routes>
            <Route path='/portal' element={<ReportPage/>}/>
            <Route path='/' element={<DataEntryForm/>}/>
-           <Route path='/home' element={<Home/>}/>
+           <Route path='/home' element={<StudentSignIn/>}/>
            
        </Routes>
    

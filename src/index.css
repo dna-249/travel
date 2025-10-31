@@ -293,3 +293,173 @@ textarea {
 .save-btn:hover {
     background-color: #0056b3;
 }
+
+/* StudentSignIn.css */
+
+/* --- GLOBAL LAYOUT & BACKGROUND --- */
+/* --- GLOBAL LAYOUT & BACKGROUND --- */
+.portal-container {
+    /* Full screen container to center the login box */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* CHANGE: Setting min-height to 100vh ensures it covers the full viewport height */
+    height: 100vh; 
+    
+    /* CHANGE: Setting width to 100% ensures it covers the full viewport width.
+       The content inside (the .sign-in-box with max-width: 380px) will center itself
+       and prevent the container's width from being dictated by the form elements. */
+    width: 100%; 
+    
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+/* --- SIGN-IN BOX STYLING --- */
+.sign-in-box {
+    background: #ffffff;
+    /* Elevated look */
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
+    padding: 40px;
+    width: 100%;
+    max-width: 380px;
+    text-align: center;
+    transition: transform 0.3s ease-in-out;
+}
+
+.sign-in-box:hover {
+    transform: translateY(-5px);
+}
+
+/* --- HEADER STYLING --- */
+.sign-in-box header h3 {
+    color: #1a237e; /* Deep indigo for branding */
+    margin-bottom: 5px;
+    font-weight: 600;
+}
+
+.sign-in-box header .subtitle {
+    color: #6c757d;
+    font-size: 1rem;
+    margin-bottom: 25px;
+}
+
+/* --- FORM & INPUTS --- */
+.sign-in-box form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px; /* Spacing between form elements */
+}
+
+.sign-in-box input[type="text"],
+.sign-in-box input[type="password"] {
+    padding: 12px 15px;
+    border: 1px solid #ced4da;
+    border-radius: 6px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    width: 100%;
+    box-sizing: border-box; /* Include padding/border in element's total width/height */
+}
+
+.sign-in-box input:focus {
+    border-color: #3f51b5; /* Primary blue on focus */
+    box-shadow: 0 0 0 3px rgba(63, 81, 181, 0.25);
+    outline: none;
+}
+
+/* Disabled input style */
+.sign-in-box input:disabled {
+    background-color: #e9ecef;
+    cursor: not-allowed;
+}
+
+/* --- CHECKBOX AND CONTROLS --- */
+.controls-row {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.remember-me {
+    font-size: 0.9rem;
+    color: #495057;
+    cursor: pointer;
+    user-select: none;
+    display: flex;
+    align-items: center;
+}
+
+.remember-me input[type="checkbox"] {
+    /* Style for the actual checkbox */
+    margin-right: 8px;
+    width: 16px;
+    height: 16px;
+    accent-color: #3f51b5; /* Use the brand color for the checkmark */
+}
+
+
+/* --- BUTTON STYLING --- */
+.sign-in-box button[type="submit"] {
+    background-color: #3f51b5; /* Primary action color */
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 6px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    margin-top: 15px;
+    text-align: center;
+    align-self: center;
+}
+
+.sign-in-box button[type="submit"]:hover:not(:disabled) {
+    background-color: #303f9f;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.sign-in-box button[type="submit"]:disabled {
+    background-color: #9fa8da; /* Lighter color when loading/disabled */
+    cursor: not-allowed;
+}
+
+/* --- ERROR MESSAGE --- */
+.error-message {
+    color: #dc3545; /* Standard red for errors */
+    background-color: #f8d7da;
+    border: 1px solid #f5c6cb;
+    padding: 10px;
+    border-radius: 6px;
+    margin-bottom: 10px;
+    font-size: 0.9rem;
+    text-align: left;
+}
+
+/* --- FOOTER/BRANDING --- */
+.sign-in-box footer {
+    margin-top: 25px;
+    padding-top: 15px;
+    border-top: 1px solid #e9ecef;
+}
+
+.sign-in-box footer .footer-note {
+    font-size: 0.8rem;
+    color: #adb5bd;
+}
+
+/* --- MEDIA QUERY for smaller screens (Mobile) --- */
+@media (max-width: 500px) {
+    .sign-in-box {
+        margin: 20px;
+        padding: 25px;
+    }
+
+    .portal-container {
+        /* Remove min-height for mobile to avoid content being cut off on smaller screens */
+        min-height: auto;
+    }
+}
