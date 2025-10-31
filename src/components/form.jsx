@@ -257,11 +257,8 @@ const App = () => {
 
    useEffect(()=>{
     const response = axios.get(STUDENT_LIST_URL);
-            const apiNames = response?.data?.map(student => ({
-                name: student.studentName,
-                id: student._id
-            }));
-            console.log(apiNames)
+           
+            console.log(response)
    },[])
 
     // --- MODIFIED: Fetch Student List to include Nura and Maryam ---
