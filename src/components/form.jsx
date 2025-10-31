@@ -257,13 +257,11 @@ const App = () => {
 
    useEffect(()=>{
     const response = axios.get(STUDENT_LIST_URL);
-
-            const apiNames = response.data.map(student => ({
+            const apiNames = response?.data?.map(student => ({
                 name: student.studentName,
                 id: student._id
             }));
-      const names = [...MOCK_STUDENT_DATA, ...apiNames.filter(a => !MOCK_STUDENT_DATA.some(m => m.id === a.id))];
-      setStudentList(names);     
+            console.log(apiNames)
    },[])
 
     // --- MODIFIED: Fetch Student List to include Nura and Maryam ---
@@ -273,35 +271,35 @@ const App = () => {
         setSearchQuery('');
         
         // --- MOCK API DATA: Include Nura and Maryam as requested ---
-        // const MOCK_STUDENT_DATA = [
-        //     { name: "NURA IBRAHIM", id: "ATBS/N1/2024/001" },
-        //     { name: "MARYAM UMAR", id: "ATBS/N1/2024/002" },
-        //     // Add a few placeholder/original students for a richer list
-        //     { name: "SAMBO MUHAMMAD MALAMIYO", id: "ATBS/N1/2017/005" },
-        //     { name: "AISHA BELLO", id: "ATBS/P1/2020/010" },
-        // ];
+        const MOCK_STUDENT_DATA = [
+            { name: "NURA IBRAHIM", id: "ATBS/N1/2024/001" },
+            { name: "MARYAM UMAR", id: "ATBS/N1/2024/002" },
+            // Add a few placeholder/original students for a richer list
+            { name: "SAMBO MUHAMMAD MALAMIYO", id: "ATBS/N1/2017/005" },
+            { name: "AISHA BELLO", id: "ATBS/P1/2020/010" },
+        ];
         
         try {
-        //     // Simulate network delay
-        //     await new Promise(resolve => setTimeout(resolve, 1000));
+            // Simulate network delay
+            await new Promise(resolve => setTimeout(resolve, 1000));
             
-        //     // Replaced API call with mock data
-        //     const names = MOCK_STUDENT_DATA.map(student => ({
-        //         name: student.name,
-        //         id: student.id 
-        //     }));
+            // Replaced API call with mock data
+            // const names = MOCK_STUDENT_DATA.map(student => ({
+            //     name: student.name,
+            //     id: student.id 
+            // }));
 
-        //     // Optional: If you wanted to fetch real data AND merge the names:
+            // Optional: If you wanted to fetch real data AND merge the names:
             
-        //     const response = await axios.get(STUDENT_LIST_URL);
-        //     const apiNames = response.data.map(student => ({
-        //         name: student.studentName,
-        //         id: student._id
-        //     }));
-        //     const names = [...MOCK_STUDENT_DATA, ...apiNames.filter(a => !MOCK_STUDENT_DATA.some(m => m.id === a.id))];
+            const response = await axios.get(STUDENT_LIST_URL);
+            const apiNames = response.data.map(student => ({
+                name: student.studentName,
+                id: student._id
+            }));
+            const names = [...MOCK_STUDENT_DATA, ...apiNames.filter(a => !MOCK_STUDENT_DATA.some(m => m.id === a.id))];
             
             
-        //     setStudentList(names);
+            setStudentList(names);
             setShowStudentList(true);
         } catch (error) {
             console.error("Error fetching student list (Mocked function error):", error);
