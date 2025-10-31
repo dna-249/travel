@@ -17,8 +17,16 @@ const INITIAL_FORM_DATA = {
 
     // --- Subject Scores (The input format) ---
     subjects: [
-        { name: "QUR'AN", CA1: 5, CA2: 6, Ass: 4, Exam: 55 },
-        { name: "TAJWEED", CA1: 7, CA2: 5, Ass: 6, Exam: 54 },
+        { name: "QUR'AN", CA1: "", CA2: "", Ass: "", Exam: "", },
+        { name: "TAJWEED", CA1: "", CA2: "", Ass: "", Exam: "", },
+        { name:"TAUHEED", CA1:"", CA2:"", Ass:"",  Exam:""},
+        { name: "FIQH",CA1:"",  CA2:"",    Ass:"",Exam:"" },
+        { name: "HADITH",CA1:"", CA2:"", Ass:"",  Exam:"" },
+        { name: "ARABIC",CA1:"", CA2:"", Ass:"",  Exam:"" },
+        { name: "AZKHAR",CA1:"", CA2:"", Ass:"",  Exam:"" },
+        { name: "SIRAH",CA1:"" , CA2:"", Ass:"",  Exam:"" },
+        { name: "HURUF",CA1:"", CA2:"", Ass:"",  Exam:"" },
+
     ],
 };
 
