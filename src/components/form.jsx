@@ -26,7 +26,7 @@ const INITIAL_FORM_DATA = {
 
     // --- Subject Scores (Using the first few subjects as defaults) ---
     subjects: [
-        { name: "QUR'AN", CA1: 0, CA2: 0, Ass: 0, Exam: 0, },
+        { name: "QUR'AN", CA1: '', CA2: '', Ass: '', Exam: '', },
       ],
 };
 
@@ -190,7 +190,7 @@ const App = () => {
             subjects: [
                 ...prev.subjects,
                 // Assign the first available subject name
-                { name: nextSubject, CA1: 0, CA2: 0, Ass: 0, Exam: 0 }
+                { name: nextSubject, CA1: '', CA2: '', Ass: '', Exam: '' }
             ]
         }));
     };
