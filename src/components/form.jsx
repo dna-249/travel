@@ -2,8 +2,6 @@ import axios from 'axios';
 import React, { useState } from 'react';
 
 // Mock API URL for demonstration purposes
-const API_URL = "https://portal-database-seven.vercel.app/student/create";
-
 // Initial state structure matching the report card data for easy binding
 const INITIAL_FORM_DATA = {
     // --- School/Student Info (Simplified) ---
@@ -322,11 +320,13 @@ const App = () => {
         };
 
         console.log(`Minimal API Payload for row ${index} being sent:`, apiPayload);
+        const {x} = transformedSubjects;
+        const { CA1,CA2,Exam ,Ass} = scores;
         
         try {
             const response = await axios.post(
-                API_URL,
-                apiPayload, 
+               `https://portal-database-seven.vercel.app/student/create/${x}`,
+                {CA1:CA1,CA2:CA2, Ass:Ass, Exam:Exam},
                 { headers: { 'Content-Type': 'application/json' } }
             );
 
