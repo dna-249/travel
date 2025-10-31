@@ -146,18 +146,7 @@ const App = () => {
     const [studentId,setStudentId] =useState("")
 
 
-    useEffect(()=>{
-     axios.get(STUDENT_LIST_URL)
-           .then((response)=> {const apiNames = response.data.map(student => ({
-                name: student.studentName,
-                id: student._id
-            }));
-            const names = [...apiNames.filter(a => !MOCK_STUDENT_DATA.some(m => m.id === a.id))];
-            
-            
-            setStudentList(names);})
-   },[])
-
+   
     // --- Memoized list of currently USED subject names ---
     const usedSubjectNames = useMemo(() => {
         // Collect all names currently in use in the form, converting to uppercase for comparison.
@@ -268,7 +257,26 @@ const App = () => {
         }
     };
 
-  
+const MOCK_STUDENT_DATA = [
+            { name: "NURA IBRAHIM", id: "ATBS/N1/2024/001" },
+            { name: "MARYAM UMAR", id: "ATBS/N1/2024/002" },
+            // Add a few placeholder/original students for a richer list
+            { name: "SAMBO MUHAMMAD MALAMIYO", id: "ATBS/N1/2017/005" },
+            { name: "AISHA BELLO", id: "ATBS/P1/2020/010" },
+        ];
+
+   useEffect(()=>{
+     axios.get(STUDENT_LIST_URL)
+           .then((response)=> {const apiNames = response.data.map(student => ({
+                name: student.studentName,
+                id: student._id
+            }));
+            const names = [...apiNames.filter(a => !MOCK_STUDENT_DATA.some(m => m.id === a.id))];
+            
+            
+            setStudentList(names);})
+   },[])
+
 
     // --- MODIFIED: Fetch Student List to include Nura and Maryam ---
     const fetchStudentList = async () => {
@@ -276,14 +284,8 @@ const App = () => {
         setNotification(null);
         setSearchQuery('');
         
-        // --- MOCK API DATA: Include Nura and Maryam as requested ---
-        // const MOCK_STUDENT_DATA = [
-        //     { name: "NURA IBRAHIM", id: "ATBS/N1/2024/001" },
-        //     { name: "MARYAM UMAR", id: "ATBS/N1/2024/002" },
-        //     // Add a few placeholder/original students for a richer list
-        //     { name: "SAMBO MUHAMMAD MALAMIYO", id: "ATBS/N1/2017/005" },
-        //     { name: "AISHA BELLO", id: "ATBS/P1/2020/010" },
-        // ];
+       
+        
         
         try {
             // Simulate network delay
