@@ -14,8 +14,8 @@ function App() {
    
        <Routes>
            <Route path='/portal/?:id' element={<ReportPage/>}/>
-           <Route path='/' element={<DataEntryForm/>}/>
-           <Route path='/home' element={<StudentSignIn/>}/>
+           <Route path='/entry' element={<DataEntryForm/>}/>
+           <Route path='/' element={<StudentSignIn/>}/>
            <Route path='/signup' element={<StudentSignupForm/>}/>
            
        </Routes>
