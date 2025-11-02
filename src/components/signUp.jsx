@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 
 // --- STYLES (Combined and integrated for single-file use) ---
 const styles = {
@@ -275,7 +275,7 @@ const StudentSignupForm = () => {
                     type="submit"
                     disabled={isSubmitting}
                     style={{
-                        ...styles.submitButton,
+                        ...styles.submitButton,alignSelf:"center",
                         backgroundColor: isSubmitting ? '#4ade80' : styles.submitButton.backgroundColor,
                         cursor: isSubmitting ? 'not-allowed' : 'pointer'
                     }}
