@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useState } from "react";
 
+import {useParams,useNavigate } from "react-router-dom"
 // 🚀 Professional Style & Best Practices: Login/Auth Component
 
 /**
@@ -15,64 +16,49 @@ const StudentSignIn = () => {
     // We'll keep them separate as in the original, but with professional naming.
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState(''); // Renamed for accurate semantics
-    const [isLoading, setIsLoading] = useState(false); // New state for professional user feedback
+    const [loading, setLoading] = useState(false); // New state for professional user feedback
     const [error, setError] = useState(null); // New state for structured error display
-
-    const API_URL = 'https://portal-database-seven.vercel.app/student/create';
+   const nav = useNavigate()
+    
 
     /**
      * Handles the sign-in attempt, managing state for loading and errors.
      * @async
      */
     const handleSignIn = async (e) => {
-        e.preventDefault(); // Prevents default form submission if wrapped in a <form>
+        e.preventDefault();
+   setLoading(true)
+   
+    await axios.post(`https://portal-database-seven.vercel.app/student/login`,{
+        user:email.trim().toLowerCase(),
+        password:password.trim().toLowerCase()
+      }).then(res => {setToken(res.data)})
+      .catch(err => {if(!user){setLoading(false)
+      } else {setLoading(false)}})
+      ;
+  }
 
-        if (isLoading) return; // Prevent double submission
-
-        // 2. Input Validation (Basic): Essential for professional code.
-        if (!username || !password) {
-            setError("Please enter both a username and password.");
-            return;
-        }
-
-        setIsLoading(true);
-        setError(null); // Clear previous errors
-
-        try {
-            // 3. API Call: Using descriptive payload variable.
-            /** @type {LoginCredentials} */
-            const payload = {
-                school: username, // Map 'username' state to the API's 'school' field
-                sex: password,   // Map 'password' state to the API's 'sex' field (NOTE: 'sex' is an odd key for a password, but maintained for API compatibility)
-            };
-
-            const response = await axios.post(API_URL, payload);
-
-            console.log("API Response:", response.data);
-
-            // 4. Structured Success/Error Check: Handle application-level errors from the server.
-            if (response.data?.status === 'error') {
-                throw new Error(response.data.message || 'Server-side creation failed.');
-            }
-
-            // SUCCESS LOGIC:
-            // e.g., Redirect user, save token to storage, update global auth state.
-            console.log("Sign-in successful!", response.data);
-
-        } catch (err) {
-            // 5. Robust Error Handling: Differentiate between Axios (network) and custom errors.
-            const errorMessage = err.response?.data?.message
-                || err.message
-                || "An unexpected error occurred during sign-in.";
-
-            setError(errorMessage);
-            console.error("Sign-in/API error:", err);
-
-        } finally {
-            // 6. Cleanup: Always stop loading state, regardless of outcome.
-            setIsLoading(false);
-        }
-    };
+  
+  
+  
+  useEffect(() => {
+    
+    if(token) {handleVerify();}
+  }, [token])
+  
+  
+  const handleVerify = async() => {
+  
+    await axios.post(`https://portal-database-seven.vercel.app/student/verify`,{
+      name:email.trim().toLowerCase(),
+      password:password.trim().toLowerCase(),
+      header:token
+    }).then(res =>{ setUsers(()=>res.data);set(res.data._id);nav(`/portal/${res.data._id}`);setLoading(false);})
+    .catch(err =>console.log(err) )
+    setLoading(false)
+   
+    
+  };
 
     return (
         // 7. HTML Structure: Wrap content in a <form> for better accessibility and event handling
@@ -92,7 +78,7 @@ const StudentSignIn = () => {
                         value={username}
                         onChange={(e) => setUsername(e.target.value)}
                         required // HTML required attribute for basic form validation
-                        disabled={isLoading}
+                        disabled={loading}
                     />
                     <input
                         type="password"
@@ -100,13 +86,13 @@ const StudentSignIn = () => {
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                         required
-                        disabled={isLoading}
+                        disabled={loading}
                     />
 
                     {/* Checkbox and Error Display */}
                     <div className="controls-row">
                         <label className="remember-me">
-                            <input type="checkbox" disabled={isLoading} /> Remember Me
+                            <input type="checkbox" disabled={loading} /> Remember Me
                         </label>
                     </div>
                     
@@ -116,7 +102,7 @@ const StudentSignIn = () => {
 
                     {/* The button is now a submit button and displays loading state */}
                     <button type="submit" disabled={isLoading}>
-                        {isLoading ? 'Signing In...' : 'Sign In'}
+                        {loading ? 'Signing In...' : 'Sign In'}
                     </button>
                 </form>
 

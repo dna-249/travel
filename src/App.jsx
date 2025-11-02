@@ -13,7 +13,7 @@ function App() {
   return (
    
        <Routes>
-           <Route path='/portal' element={<ReportPage/>}/>
+           <Route path='/portal/?:id' element={<ReportPage/>}/>
            <Route path='/' element={<DataEntryForm/>}/>
            <Route path='/home' element={<StudentSignIn/>}/>
            <Route path='/signup' element={<StudentSignupForm/>}/>

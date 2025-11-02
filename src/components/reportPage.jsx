@@ -1,4 +1,7 @@
+import axios from 'axios';
 import React, { useState, useEffect, useMemo } from 'react';
+import {useParams,useNavigate } from "react-router-dom"
+
 // import html2pdf from 'html2pdf.js'; <-- REMOVED: Caused resolution error.
 
 // -------------------------------------------------------------------
@@ -6,7 +9,17 @@ import React, { useState, useEffect, useMemo } from 'react';
 // -------------------------------------------------------------------
 
 // Placeholder for the API URL where the student report data resides
-const API_URL = "https://mock-api.dev/student/report/123";
+
+const ReportPage = () => {
+    const [rawStudentData, setRawStudentData] = useState(null);
+    const [isLoading, setIsLoading] = useState(true);
+    const [error, setError] = useState(null);
+    const [value,setValue] = useState("")
+
+    const {id} = useParams()
+    
+
+     const API_URL = "https://mock-api.dev/student/report/123";
 
 // Grading Scale (out of 100)
 const getGradeAndRemark = (score) => {
@@ -22,6 +35,50 @@ const getGradeAndRemark = (score) => {
         return { Grade: "F", Remark: "FAIL / NEEDS IMPROVEMENT" };
     }
 };
+
+
+
+useEffect(() => {
+        const fetchData = async () => {
+            setIsLoading(true);
+            setError(null);
+
+            try {
+                // Simulate fetching data from the API
+                // In a real app, this would be: const response = await fetch(API_URL);
+                
+                // For demonstration, we use a delay and return the MOCK_DATA
+                await axios.get(`https://portal-database-seven.vercel.app/student/${id}`)
+                .then((res)=>{setValue(res.data)})
+                .catch((error)=>console.log(error.message))
+                
+                // Simulate a successful response
+                const fetchedData = MOCK_DATA; 
+                
+                // In a real app, you would check response.ok and parse JSON:
+                // const fetchedData = await response.json();
+
+                if (!fetchedData || fetchedData.subjects.length === 0) {
+                     throw new Error("No data received or subject list is empty.");
+                }
+
+                setRawStudentData(fetchedData);
+            } catch (err) {
+                console.error("Fetch error:", err);
+                setError("Failed to load report data. Please check the API connection. (Using mock data structure for demo).");
+                // Optional: Fallback to mock data on failure if needed
+                setRawStudentData(MOCK_DATA); 
+            } finally {
+                setIsLoading(false);
+            }
+        };
+
+        fetchData();
+    }, [id]); 
+
+
+
+
 
 // Calculates Total, Grade, and Remark for a single subject
 const calculateSubjectData = (subject) => {
@@ -81,32 +138,32 @@ const calculateOverallData = (subjects) => {
 // -------------------------------------------------------------------
 // This mock data is used as a temporary placeholder while fetching.
 const MOCK_DATA = {
-    school: "ALTASFIYAH TAHFEEZ AND ISLAMIYAH SCHOOL, ABUJA",
-    studentName: "SAMBO MUHAMMAD MALAMIYO",
-    class: "NURSERY CLASS 1",
-    term: "FIRST TERM",
-    session: "ACADEMIC YEAR 2024/2025",
-    admissionNo: "ATBS/N1/2017/005",
-    age: 6,
-    sex: "Male",
-    house: "A",
-    noInClass: 7,
-    classHighest: 580,
-    classLowest: 372,
-    classPos: "1st",
-    headRemark: "An excellent result, keep up the good work",
-    classTeacherRemark: "A hardworking learner and shows respect",
+    school:value?.school ,
+    studentName:value?.studentName ,
+    class:value?.class ,
+    term:value?.term ,
+    session:value?.session ,
+    admissionNo:value?.admissionNo ,
+    age:value?.age,
+    sex:value?.sex,
+    house:value?.house ,
+    noInClass:value?.noInClass ,
+    classHighest:value?.classHighest ,
+    classLowest:value?.classLowest ,
+    classPos:value?.classPos ,
+    headRemark:value?.headRemark ,
+    classTeacherRemark:value?.classTeacherRemark ,
     // NOTE: Grade, Remark, and Total will be calculated from these values
     subjects: [
-        { name: "QUR'AN", CA1: 5, CA2: 6, Ass: 4, Exam: 55, Position: "2nd" },
-        { name: "TAJWEED", CA1: 7, CA2: 5, Ass: 6, Exam: 54, Position: "4th" },
-        { name: "TAUHEED", CA1: 10, CA2: 8, Ass: 5, Exam: 54, Position: "2nd" },
-        { name: "FIQH", CA1: 5, CA2: 8, Ass: 3, Exam: 54, Position: "4th" },
-        { name: "HADITH", CA1: 10, CA2: 6, Ass: 2, Exam: 47, Position: "3rd" },
-        { name: "ARABIC", CA1: 10, CA2: 6, Ass: 5, Exam: 34, Position: "3rd" },
-        { name: "AZKHAR", CA1: 10, CA2: 6, Ass: 1, Exam: 28, Position: "3rd" },
-        { name: "SIRAH", CA1: 10, CA2: 6, Ass: 5, Exam: 55, Position: "3rd" },
-        { name: "HURUF", CA1: 10, CA2: 6, Ass: 4, Exam: 52, Position: "3rd" },
+        { name: "QUR'AN", CA1:value?.subjects?.QURAN.CA1,    CA2: value?.subjects?.QURAN.CA2, Ass: value?.subjects?.QURAN.Ass, Exam: value?.subjects?.QURAN.Exam, Position: "2nd" },
+        { name: "TAJWEED", CA1:value?.subjects?.TAJWEED.CA1,    CA2: value?.subjects?.TAJWEED.CA2, Ass: value?.subjects?.TAJWEED.Ass, Exam: value?.subjects?.TAJWEED.Exam, Position: "4th" },
+        { name: "TAUHEED", CA1:value?.subjects?.TAUHEEDCA1,     CA2: value?.subjects?.TAUHEED.CA2, Ass: value?.subjects?.TAUHEED.Ass, Exam: value?.subjects?.TAUHEED.Exam, Position: "2nd" },
+        { name: "FIQH", CA1:value?.subjects?.FIQH.CA1,    CA2: value?.subjects?.FIQH.CA2, Ass: value?.subjects?.FIQH.Ass, Exam: value?.subjects?.FIQH.Exam, Position: "4th" },
+        { name: "HADITH", CA1:value?.subjects?.HADITH.CA1,     CA2: value?.subjects?.HADITH.CA2, Ass: value?.subjects?.HADITH.Ass, Exam: value?.subjects?.HADITH.Exam, Position: "3rd" },
+        { name: "ARABIC", CA1:value?.subjects?.ARABIC.CA1,     CA2: value?.subjects?.ARABIC.CA2, Ass: value?.subjects?.ARABIC.Ass, Exam: value?.subjects?.ARABIC.Exam, Position: "3rd" },
+        { name: "AZKHAR", CA1:value?.subjects?.AZKHAR.CA1,     CA2: value?.subjects?.AZKHAR.CA2, Ass: value?.subjects?.AZKHAR.Ass, Exam: value?.subjects?.AZKHAR.Exam, Position: "3rd" },
+        { name: "SIRAH", CA1:value?.subjects?.SIRAH.CA1,     CA2: value?.subjects?.SIRAH.CA2, Ass: value?.subjects?.SIRAH.Ass, Exam: value?.subjects?.SIRAH.Exam, Position: "3rd" },
+        { name: "HURUF", CA1:value?.subjects?.HURUF.CA1,     CA2: value?.subjects?.HURUF.CA2, Ass: value?.subjects?.HURUF.Ass, Exam: value?.subjects?.HURUF.Exam, Position: "3rd" },
     ],
     behavior: {
         moralEthics: "EXCELLENT", punctuality: "GOOD", handWriting: "GOOD",
@@ -116,51 +173,6 @@ const MOCK_DATA = {
 };
 
 
-// -------------------------------------------------------------------
-// 3. REACT COMPONENT
-// -------------------------------------------------------------------
-
-const ReportPage = () => {
-    const [rawStudentData, setRawStudentData] = useState(null);
-    const [isLoading, setIsLoading] = useState(true);
-    const [error, setError] = useState(null);
-
-    // --- Data Fetching Effect (Replaces Mock Data) ---
-    useEffect(() => {
-        const fetchData = async () => {
-            setIsLoading(true);
-            setError(null);
-
-            try {
-                // Simulate fetching data from the API
-                // In a real app, this would be: const response = await fetch(API_URL);
-                
-                // For demonstration, we use a delay and return the MOCK_DATA
-                await new Promise(resolve => setTimeout(resolve, 1500));
-                
-                // Simulate a successful response
-                const fetchedData = MOCK_DATA; 
-                
-                // In a real app, you would check response.ok and parse JSON:
-                // const fetchedData = await response.json();
-
-                if (!fetchedData || fetchedData.subjects.length === 0) {
-                     throw new Error("No data received or subject list is empty.");
-                }
-
-                setRawStudentData(fetchedData);
-            } catch (err) {
-                console.error("Fetch error:", err);
-                setError("Failed to load report data. Please check the API connection. (Using mock data structure for demo).");
-                // Optional: Fallback to mock data on failure if needed
-                setRawStudentData(MOCK_DATA); 
-            } finally {
-                setIsLoading(false);
-            }
-        };
-
-        fetchData();
-    }, []); 
 
     // --- Calculated Data (UseMemo for efficiency) ---
     const calculatedData = useMemo(() => {
@@ -298,7 +310,7 @@ const ReportPage = () => {
                     width: 15%;
                     color: #555;
                 }
-                .info-table .value {
+                .info-table .value{
                     font-weight: 400;
                     width: 35%;
                     border-bottom: 1px dashed #ccc;
