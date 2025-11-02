@@ -14,9 +14,10 @@ import {useParams,useNavigate } from "react-router-dom"
 const StudentSignIn = () => {
     // 1. State Management: Use object for related state for cleaner updates, or keep separate for simplicity.
     // We'll keep them separate as in the original, but with professional naming.
+    const [token, setToken] = useState('');
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState(''); // Renamed for accurate semantics
-    const [loading, setLoading] = useState(false); // New state for professional user feedback
+    const [loading, setLoading] = useState(false); // New state for professional studentName feedback
     const [error, setError] = useState(null); // New state for structured error display
    const nav = useNavigate()
     
@@ -30,10 +31,10 @@ const StudentSignIn = () => {
    setLoading(true)
    
     await axios.post(`https://portal-database-seven.vercel.app/student/login`,{
-        user:email.trim().toLowerCase(),
+        studentName:username.trim().toLowerCase(),
         password:password.trim().toLowerCase()
       }).then(res => {setToken(res.data)})
-      .catch(err => {if(!user){setLoading(false)
+      .catch(err => {if(!username){setLoading(false)
       } else {setLoading(false)}})
       ;
   }
@@ -50,10 +51,10 @@ const StudentSignIn = () => {
   const handleVerify = async() => {
   
     await axios.post(`https://portal-database-seven.vercel.app/student/verify`,{
-      name:email.trim().toLowerCase(),
+      studentName:username.trim().toLowerCase(),
       password:password.trim().toLowerCase(),
       header:token
-    }).then(res =>{ setUsers(()=>res.data);set(res.data._id);nav(`/portal/${res.data._id}`);setLoading(false);})
+    }).then(res =>{ nav(`/portal/${res.data._id}`);setLoading(false);})
     .catch(err =>console.log(err) )
     setLoading(false)
    
@@ -101,7 +102,7 @@ const StudentSignIn = () => {
                     )}
 
                     {/* The button is now a submit button and displays loading state */}
-                    <button type="submit" disabled={isLoading}>
+                    <button type="submit" disabled={loading}>
                         {loading ? 'Signing In...' : 'Sign In'}
                     </button>
                 </form>
