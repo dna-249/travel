@@ -31,8 +31,8 @@ const StudentSignIn = () => {
    setLoading(true)
    
     await axios.post(`https://portal-database-seven.vercel.app/student/login`,{
-        studentName:username.trim().toLowerCase(),
-        password:password.trim().toLowerCase()
+        studentName:username.trim(),
+        password:password.trim()
       }).then(res => {setToken(res.data)})
       .catch(err => {if(!username){setLoading(false)
       } else {setLoading(false)}})
@@ -51,8 +51,8 @@ const StudentSignIn = () => {
   const handleVerify = async() => {
   
     await axios.post(`https://portal-database-seven.vercel.app/student/verify`,{
-      studentName:username.trim().toLowerCase(),
-      password:password.trim().toLowerCase(),
+      studentName:username.trim(),
+      password:password.trim(),
       header:token
     }).then(res =>{ nav(`/portal/${res.data._id}`);setLoading(false);})
     .catch(err =>console.log(err) )
