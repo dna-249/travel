@@ -48,7 +48,7 @@ const StudentSignIn = () => {
                 }
             );
             // 2. SUCCESS: Token received
-            setToken(res.token);
+            setToken(res.data.token);
             console.log('Login successful, token:', res.data);
             
             // NOTE: We don't set success here because the verification step follows immediately.
