@@ -248,15 +248,15 @@ const MOCK_DATA = {
     } = calculatedData;
     
 const subject =  [
-        { name: "QUR'AN", CA1:value?.subjects?.QURAN[0].CA1,    CA2: value?.subjects?.QURAN[0].CA2, Ass: value?.subjects?.QURAN[0].Ass, Exam: value?.subjects?.QURAN[0].Exam, Position: "2nd" },
-        { name: "TAJWEED", CA1:value?.subjects?.TAJWEED[0].CA1,    CA2: value?.subjects?.TAJWEED[0].CA2, Ass: value?.subjects?.TAJWEED[0].Ass, Exam: value?.subjects?.TAJWEED[0].Exam, Position: "4th" },
-        { name: "TAUHEED", CA1:value?.subjects?.TAUHEED[0].CA1,     CA2: value?.subjects?.TAUHEED[0].CA2, Ass: value?.subjects?.TAUHEED[0].Ass, Exam: value?.subjects?.TAUHEED[0].Exam, Position: "2nd" },
-        { name: "FIQH", CA1:value?.subjects?.FIQH[0].CA1,    CA2: value?.subjects?.FIQH[0].CA2, Ass: value?.subjects?.FIQH[0].Ass, Exam: value?.subjects?.FIQH[0].Exam, Position: "4th" },
-        { name: "HADITH", CA1:value?.subjects?.HADITH[0].CA1,     CA2: value?.subjects?.HADITH[0].CA2, Ass: value?.subjects?.HADITH[0].Ass, Exam: value?.subjects?.HADITH[0].Exam, Position: "3rd" },
-        { name: "ARABIC", CA1:value?.subjects?.ARABIC[0].CA1,     CA2: value?.subjects?.ARABIC[0].CA2, Ass: value?.subjects?.ARABIC[0].Ass, Exam: value?.subjects?.ARABIC[0].Exam, Position: "3rd" },
-        { name: "AZKHAR", CA1:value?.subjects?.AZKHAR[0].CA1,     CA2: value?.subjects?.AZKHAR[0].CA2, Ass: value?.subjects?.AZKHAR[0].Ass, Exam: value?.subjects?.AZKHAR[0].Exam, Position: "3rd" },
-        { name: "SIRAH", CA1:value?.subjects?.SIRAH[0].CA1,     CA2: value?.subjects?.SIRAH[0].CA2, Ass: value?.subjects?.SIRAH[0].Ass, Exam: value?.subjects?.SIRAH[0].Exam, Position: "3rd" },
-        { name: "HURUF", CA1:value?.subjects?.HURUF[0].CA1,     CA2: value?.subjects?.HURUF[0].CA2, Ass: value?.subjects?.HURUF[0].Ass, Exam: value?.subjects?.HURUF[0].Exam, Position: "3rd" },
+        { name: "QUR'AN", CA1:value?.QURAN[0].CA1,    CA2: value?.QURAN[0].CA2, Ass: value?.QURAN[0].Ass, Exam: value?.QURAN[0].Exam, Position: "2nd" },
+        { name: "TAJWEED", CA1:value?.TAJWEED[0].CA1,    CA2: value?.TAJWEED[0].CA2, Ass: value?.TAJWEED[0].Ass, Exam: value?.TAJWEED[0].Exam, Position: "4th" },
+        { name: "TAUHEED", CA1:value?.TAUHEED[0].CA1,     CA2: value?.TAUHEED[0].CA2, Ass: value?.TAUHEED[0].Ass, Exam: value?.TAUHEED[0].Exam, Position: "2nd" },
+        { name: "FIQH", CA1:value?.FIQH[0].CA1,    CA2: value?.FIQH[0].CA2, Ass: value?.FIQH[0].Ass, Exam: value?.FIQH[0].Exam, Position: "4th" },
+        { name: "HADITH", CA1:value?.HADITH[0].CA1,     CA2: value?.HADITH[0].CA2, Ass: value?.HADITH[0].Ass, Exam: value?.HADITH[0].Exam, Position: "3rd" },
+        { name: "ARABIC", CA1:value?.ARABIC[0].CA1,     CA2: value?.ARABIC[0].CA2, Ass: value?.ARABIC[0].Ass, Exam: value?.ARABIC[0].Exam, Position: "3rd" },
+        { name: "AZKHAR", CA1:value?.AZKHAR[0].CA1,     CA2: value?.AZKHAR[0].CA2, Ass: value?.AZKHAR[0].Ass, Exam: value?.AZKHAR[0].Exam, Position: "3rd" },
+        { name: "SIRAH", CA1:value?.SIRAH[0].CA1,     CA2: value?.SIRAH[0].CA2, Ass: value?.SIRAH[0].Ass, Exam: value?.SIRAH[0].Exam, Position: "3rd" },
+        { name: "HURUF", CA1:value?.HURUF[0].CA1,     CA2: value?.HURUF[0].CA2, Ass: value?.HURUF[0].Ass, Exam: value?.HURUF[0].Exam, Position: "3rd" },
     ]
     return (
         <div className="p-4 sm:p-8 bg-gray-50 min-h-screen font-sans">
