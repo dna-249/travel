@@ -104,11 +104,11 @@ const calculateOverallData = (subjects) => {
     };
 
     const sums = subjects.reduce((acc, subject) => {
-        acc?.CA1_Total += subject.CA1;
-        acc?.CA2_Total += subject.CA2;
-        acc?.Ass_Total += subject.Ass;
-        acc?.Exam_Total += subject.Exam;
-        acc?.Overall_Total += subject.Total; 
+        acc.CA1_Total += subject.CA1;
+        acc.CA2_Total += subject.CA2;
+        acc.Ass_Total += subject.Ass;
+        acc.Exam_Total += subject.Exam;
+        acc.Overall_Total += subject.Total; 
         return acc;
     }, initialTotals);
 
