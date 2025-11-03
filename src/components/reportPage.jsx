@@ -77,7 +77,7 @@ const ReportPage = () => {
     const [value,setValue] = useState(null) 
 
     const {id} = useParams()
-    const navigate = useNavigate(); // Kept for consistency
+    const navigate = useNavigate();
 
 
     useEffect(() => {
@@ -165,7 +165,7 @@ const ReportPage = () => {
         
     }, [value]); 
 
-    // --- Print and Download Handlers (Unchanged) ---
+    // --- Print and Download Handlers ---
     const handleDownloadPdf = () => {
         if (window.html2pdf) {
             const element = document.querySelector('.report-container');
@@ -182,7 +182,7 @@ const ReportPage = () => {
         }
     };
 
-    // --- Loading and Error States (Unchanged) ---
+    // --- Loading and Error States ---
     if (isLoading) {
         return (
             <div style={{display:"flex",justifyItems:"center",alignItems:"center",minHeight:"100vh"}} className="flex items-center justify-center min-h-screen bg-gray-50">
@@ -210,7 +210,7 @@ const ReportPage = () => {
 
     // --- Destructuring Data for JSX ---
     const { 
-        studentName, class: studentClass, admissionNo, age, sex, noInClass, 
+        studentName, class: studentClass, admissionNo, age, sex, 
         totalScore, avgScore, subjects, behavior, 
         headRemark, classTeacherRemark, overallStats 
     } = calculatedData;
@@ -244,12 +244,12 @@ const ReportPage = () => {
                     object-fit: cover;
                     border-radius: 4px;
                     background: #eee;
-                    flex-shrink: 0; /* Important: Prevents shrinking on mobile */
+                    flex-shrink: 0;
                 }
                 .school-info {
                     text-align: center;
                     flex-grow: 1;
-                    padding: 0 10px; /* Add padding for spacing on small screens */
+                    padding: 0 10px;
                 }
                 .school-name-en {
                     font-size: 1.25rem;
@@ -272,14 +272,15 @@ const ReportPage = () => {
                     padding: 5px 10px;
                     border: none;
                 }
+                /* Adjust column widths to accommodate the new 4-column, 2-row layout */
                 .info-table .label {
                     font-weight: 600;
-                    width: 15%;
+                    width: 12.5%; /* 1/8th of the width for 4 label columns */
                     color: #555;
                 }
                 .info-table .value{
                     font-weight: 400;
-                    width: 35%;
+                    width: 27.5%; /* 1/4th of the width plus some space */
                     border-bottom: 1px dashed #ccc;
                 }
                 .grades-table th, .grades-table td {
@@ -349,15 +350,12 @@ const ReportPage = () => {
                 }
                 
                 @media (max-width: 600px) {
-                    /* FIX: Keep elements side-by-side but reduce font size for space */
                     .school-header {
-                        /* Removed flex-direction: column to keep images on the side */
-                        align-items: flex-start; /* Align header items to the top */
+                        align-items: flex-start;
                         padding: 5px;
                     }
                     .logo, .student-photo {
-                        /* Retain fixed size and position */
-                        width: 50px; /* Slight reduction for smaller screens, but fixed */
+                        width: 50px;
                         height: 50px;
                         margin: 0;
                     }
@@ -392,28 +390,24 @@ const ReportPage = () => {
                     <img src="https://placehold.co/70x70/E0F2F1/333333?text=Photo" alt="Student" className="student-photo" />
                 </div>
                 
-                {/* Student Info Table (House, Class Pos, Overall Grade REMOVED) */}
+                {/* Student Info Table - MODIFIED FOR 2 ROWS (8 columns total) */}
                 <table className="info-table">
                     <tbody>
                         <tr>
                             <td className="label">NAME:</td>
                             <td className="value">{studentName}</td>
-                            <td className="label">TERM BEGINS:</td>
-                            <td className="value">04/01/2025</td>
+                            <td className="label">CLASS:</td>
+                            <td className="value">{studentClass}</td>
                             <td className="label">ADMISSION No:</td>
                             <td className="value">{admissionNo}</td>
                             <td className="label">SEX:</td>
                             <td className="value">{sex}</td>
                         </tr>
                         <tr>
-                            <td className="label">CLASS:</td>
-                            <td className="value">{studentClass}</td>
-                            <td className="label">No. in Class:</td>
-                            <td className="value">{noInClass}</td>
-                            <td className="label">Age:</td>
+                            <td className="label">AGE:</td>
                             <td className="value">{age}</td>
-                        </tr>
-                        <tr>
+                            <td className="label">TERM BEGINS:</td>
+                            <td className="value">04/01/2025</td>
                             <td className="label">TOTAL SCORE:</td>
                             <td className="value">
                                 <span style={{fontWeight: 'bold', color: '#004d40'}}>{totalScore}</span>
@@ -427,7 +421,7 @@ const ReportPage = () => {
                 </table>
 
                 
-                {/* Subject Grades Table */}
+                {/* Subject Grades Table (Unchanged from last step) */}
                 <table className="grades-table">
                     <thead>
                         <tr className="main-header-row">
@@ -435,7 +429,6 @@ const ReportPage = () => {
                             <th colSpan="3">C.A. (34% + Ass)</th>
                             <th>EXAM (66%)</th>
                             <th rowSpan="2">TOTAL (100%)</th>
-                            <th rowSpan="2">SUB/OBJ POSITION</th>
                             <th rowSpan="2">GRADE</th>
                             <th rowSpan="2">REMARK</th>
                         </tr>
@@ -455,7 +448,6 @@ const ReportPage = () => {
                                 <td>{subject.Ass}</td>
                                 <td>{subject.Exam}</td>
                                 <td>{subject.Total}</td>
-                                <td>{subject.Position}</td> 
                                 <td>{subject.Grade}</td> 
                                 <td>{subject.Remark}</td>
                             </tr>
@@ -468,14 +460,13 @@ const ReportPage = () => {
                             <td>{overallStats.Ass_Total}</td>
                             <td>{overallStats.Exam_Total}</td>
                             <td>{overallStats.Overall_Total}</td>
-                            <td>-</td>
-                            <td>-</td>
+                            <td>-</td> 
                             <td>{calculatedData.overallRemark}</td>
                         </tr>
                     </tbody>
                 </table>
                 
-                {/* Behavior/Conduct Table (Simplified) */}
+                {/* Behavior/Conduct Table (Unchanged) */}
                 <table className="behavior-table grades-table">
                     <thead>
                         <tr className="main-header-row">
@@ -506,7 +497,7 @@ const ReportPage = () => {
                     </tbody>
                 </table>
 
-                {/* Footer Remarks */}
+                {/* Footer Remarks (Unchanged) */}
                 <div className="remarks-section">
                     <p><strong>Class Teacher's Remark:</strong> {classTeacherRemark}</p>
                     <p><strong>Head of School's Remark:</strong> {headRemark}</p>
@@ -516,7 +507,7 @@ const ReportPage = () => {
                     </div>
                 </div>
                 
-                {/* Action Buttons */}
+                {/* Action Buttons (Unchanged) */}
                 <div style={{display: 'flex', justifyContent: 'center', marginTop: '20px'}} className="print-button-container">
                     <button onClick={handleDownloadPdf} className="print-download-btn">
                         🖨️ Print / Download Report (PDF)
