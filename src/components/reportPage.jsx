@@ -216,7 +216,7 @@ const MOCK_DATA = {
     // --- Loading and Error States ---
     if (isLoading) {
         return (
-            <div className="flex items-center justify-center min-h-screen bg-gray-50">
+            <div style={{display:"flex",justifyItems:"center",alignItems:"center",minHeight:"100vh"}} className="flex items-center justify-center min-h-screen bg-gray-50">
                 <div className="text-xl font-semibold text-gray-700">
                     <svg style={{width:"150px",height:"150px"}} className="animate-spin -ml-1 mr-3 h-5 w-5 text-blue-600 inline" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                         <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
