@@ -187,7 +187,8 @@ const ReportPage = () => {
         return (
             <div style={{display:"flex",justifyItems:"center",alignItems:"center",minHeight:"100vh"}} className="flex items-center justify-center min-h-screen bg-gray-50">
                 <div className="text-xl font-semibold text-gray-700">
-                    <svg style={{width:"150px",height:"150px"}} className="animate-spin -ml-1 mr-3 h-5 w-5 text-blue-600 inline" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    {/* FIXED: Applied specific width/height styles to control SVG size */}
+                    <svg style={{width:"32px", height:"32px"}} className="animate-spin -ml-1 mr-3 text-blue-600 inline" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                         <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                         <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                     </svg>
@@ -247,7 +248,8 @@ const ReportPage = () => {
                     flex-shrink: 0;
                 }
                 .school-info {
-                    text-align: center;
+                    /* FIXED: Ensure text is horizontally centered */
+                    text-align: center; 
                     flex-grow: 1;
                     padding: 0 10px;
                 }
@@ -275,12 +277,12 @@ const ReportPage = () => {
                 /* Adjust column widths to accommodate the new 4-column, 2-row layout */
                 .info-table .label {
                     font-weight: 600;
-                    width: 12.5%; /* 1/8th of the width for 4 label columns */
+                    width: 12.5%; 
                     color: #555;
                 }
                 .info-table .value{
                     font-weight: 400;
-                    width: 27.5%; /* 1/4th of the width plus some space */
+                    width: 27.5%; 
                     border-bottom: 1px dashed #ccc;
                 }
                 .grades-table th, .grades-table td {
@@ -390,7 +392,7 @@ const ReportPage = () => {
                     <img src="https://placehold.co/70x70/E0F2F1/333333?text=Photo" alt="Student" className="student-photo" />
                 </div>
                 
-                {/* Student Info Table - MODIFIED FOR 2 ROWS (8 columns total) */}
+                {/* Student Info Table */}
                 <table className="info-table">
                     <tbody>
                         <tr>
@@ -421,7 +423,7 @@ const ReportPage = () => {
                 </table>
 
                 
-                {/* Subject Grades Table (Unchanged from last step) */}
+                {/* Subject Grades Table */}
                 <table className="grades-table">
                     <thead>
                         <tr className="main-header-row">
@@ -466,7 +468,7 @@ const ReportPage = () => {
                     </tbody>
                 </table>
                 
-                {/* Behavior/Conduct Table (Unchanged) */}
+                {/* Behavior/Conduct Table */}
                 <table className="behavior-table grades-table">
                     <thead>
                         <tr className="main-header-row">
@@ -497,7 +499,7 @@ const ReportPage = () => {
                     </tbody>
                 </table>
 
-                {/* Footer Remarks (Unchanged) */}
+                {/* Footer Remarks */}
                 <div className="remarks-section">
                     <p><strong>Class Teacher's Remark:</strong> {classTeacherRemark}</p>
                     <p><strong>Head of School's Remark:</strong> {headRemark}</p>
@@ -507,7 +509,7 @@ const ReportPage = () => {
                     </div>
                 </div>
                 
-                {/* Action Buttons (Unchanged) */}
+                {/* Action Buttons */}
                 <div style={{display: 'flex', justifyContent: 'center', marginTop: '20px'}} className="print-button-container">
                     <button onClick={handleDownloadPdf} className="print-download-btn">
                         🖨️ Print / Download Report (PDF)
