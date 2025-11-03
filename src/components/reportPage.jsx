@@ -173,11 +173,11 @@ const MOCK_DATA = {
 
 
     // --- Calculated Data (UseMemo for efficiency) ---
-    const calculatedData = useMemo(() => {
+    const calculatedData = () => {
         if (!rawStudentData) return null;
 
         // Step 1: Calculate Subject Totals, Grades, and Remarks
-        const automatedSubjects = rawStudentData.subjects.map(calculateSubjectData);
+        const automatedSubjects = rawStudentData?.subjects?.map(calculateSubjectData);
         
         // Step 2: Calculate Overall Totals and Averages
         const overallStats = calculateOverallData(automatedSubjects);
@@ -192,7 +192,7 @@ const MOCK_DATA = {
             overallRemark: overallStats.overallRemark,
             overallStats: overallStats,
         };
-    }, [rawStudentData]);
+    };
 
     // --- Print and Download Handlers (Updated) ---
     const handleDownloadPdf = () => {
@@ -405,7 +405,7 @@ const MOCK_DATA = {
                     <img src="https://placehold.co/70x70/004D40/FFFFFF?text=Logo" alt="School Logo" className="logo" />
                     <div className="school-info">
                         <p style={{fontSize:"20px"}} className="school-name-ar">مدرسة التصفية للتحفيظ والدراسات الإسلامية، أبوجا</p>
-                        <h2 className="school-name-en"  onClick={()=>console.log(rawStudentData)}>MADRASAT ALTASFIYAH TAHFEEZ AND ISLAMIYAH SCHOOL, ABUJA</h2>
+                        <h2 className="school-name-en"  onClick={()=>{console.log(rawStudentData);console.log(value)}}>MADRASAT ALTASFIYAH TAHFEEZ AND ISLAMIYAH SCHOOL, ABUJA</h2>
                     </div>
                     <img src="https://placehold.co/70x70/E0F2F1/333333?text=Photo" alt="Student" className="student-photo" />
                 </div>
@@ -473,7 +473,7 @@ const MOCK_DATA = {
                         </tr>
                     </thead>
                     <tbody>
-                        {subjects.map((subject, index) => ( 
+                        {subjects?.map((subject, index) => ( 
                             <tr key={index}>
                                 <td>{subject.name}</td>
                                 <td>{subject.CA1}</td>
