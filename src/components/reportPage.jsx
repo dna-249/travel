@@ -60,7 +60,7 @@ useEffect(() => {
                      throw new Error("No data received or subject list is empty.");
                 }
 
-                setRawStudentData(fetchedData);
+                setRawStudentData(MOCK_DATA);
             } catch (err) {
                 console.error("Fetch error:", err);
                 setError("Failed to load report data. Please check the API connection. (Using mock data structure for demo).");
@@ -245,7 +245,7 @@ const MOCK_DATA = {
         studentName, class: studentClass, admissionNo, age, sex, house, noInClass, 
         totalScore, avgScore, overallGrade, overallRemark, subjects, behavior, 
         headRemark, classTeacherRemark, overallStats 
-    } = MOCK_DATA;
+    } = calculatedData;
     
     // --- JSX Render ---
     return (
