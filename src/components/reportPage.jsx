@@ -3,7 +3,7 @@ import React, { useState, useEffect, useMemo } from 'react';
 import {useParams,useNavigate } from "react-router-dom"
 
 // -------------------------------------------------------------------
-// 1. DATA AND CALCULATION UTILITIES
+// 1. DATA AND CALCULATION UTILITIES (Unchanged)
 // -------------------------------------------------------------------
 
 // Grading Scale (out of 100)
@@ -23,42 +23,26 @@ const getGradeAndRemark = (score) => {
 
 // Calculates Total, Grade, and Remark for a single subject
 const calculateSubjectData = (subject) => {
-    // FIX: Use the unary '+' operator or Number() to safely convert input to a number.
-    // Use '|| 0' to default to 0 if the value is undefined, null, or cannot be parsed (e.g., empty string).
     const CA1 = +subject.CA1 || 0;
     const CA2 = +subject.CA2 || 0;
     const Ass = +subject.Ass || 0;
     const Exam = +subject.Exam || 0;
-
-    // Total is calculated from the four core assessment components (now properly added as numbers)
     const Total = CA1 + CA2 + Ass + Exam; 
-
     const { Grade, Remark } = getGradeAndRemark(Total);
 
     return {
         ...subject,
-        CA1, // Return the coerced number values
-        CA2,
-        Ass,
-        Exam,
-        Total, // This is now a number
-        Grade,
-        Remark,
+        CA1, CA2, Ass, Exam, Total, Grade, Remark,
     };
 };
 
 // Calculates overall totals, average, and overall grade/remark
 const calculateOverallData = (subjects) => {
     const initialTotals = {
-        CA1_Total: 0,
-        CA2_Total: 0,
-        Ass_Total: 0,
-        Exam_Total: 0,
-        Overall_Total: 0,
+        CA1_Total: 0, CA2_Total: 0, Ass_Total: 0, Exam_Total: 0, Overall_Total: 0,
     };
 
     const sums = subjects.reduce((acc, subject) => {
-        // Ensure subject.Total is a number before adding, although fixed in calculateSubjectData
         acc.CA1_Total += subject.CA1;
         acc.CA2_Total += subject.CA2;
         acc.Ass_Total += subject.Ass;
@@ -68,14 +52,11 @@ const calculateOverallData = (subjects) => {
     }, initialTotals);
 
     const subjectCount = subjects.length;
-    // Calculate average score as a percentage (max score is 100 per subject)
     const avgScore = subjectCount > 0 
         ? (sums.Overall_Total / subjectCount).toFixed(2)
         : 0;
     
-    // Determine overall grade/remark based on the average score
     const { Grade: overallGrade, Remark: overallRemark } = getGradeAndRemark(parseFloat(avgScore));
-
 
     return {
         ...sums,
@@ -91,14 +72,12 @@ const calculateOverallData = (subjects) => {
 // -------------------------------------------------------------------
 
 const ReportPage = () => {
-    // rawStudentData is no longer needed, use 'value' as the main data store.
-    // const [rawStudentData, setRawStudentData] = useState(null); 
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
-    const [value,setValue] = useState(null) // Initialize as null object for data
+    const [value,setValue] = useState(null) 
 
     const {id} = useParams()
-    const navigate = useNavigate(); // Added unused navigate to clear warning
+    const navigate = useNavigate(); // Kept for consistency
 
 
     useEffect(() => {
@@ -113,13 +92,11 @@ const ReportPage = () => {
                     throw new Error("No data received from API.");
                 }
                 
-                // Store the raw fetched data object
                 setValue(response.data); 
                 
             } catch (err) {
                 console.error("Fetch error:", err);
                 setError("Failed to load report data. Please check the API connection.");
-                // Set value to an empty object or a fallback structure on failure
                 setValue({}); 
             } finally {
                 setIsLoading(false);
@@ -130,49 +107,30 @@ const ReportPage = () => {
     }, [id]); 
 
     // --- Data Source for Calculations ---
-    // This function creates the dynamic subject array based on the fetched 'value'
     const createDataSource = (data) => {
-        // Fallback or empty structure if data is incomplete
         if (!data || Object.keys(data).length === 0) {
             return {
-                subjects: [],
-                behavior: {},
-                studentName: "N/A", // Default necessary fields
-                class: "N/A",
-                // ... other fields set to "N/A"
+                subjects: [], behavior: {}, studentName: "N/A", class: "N/A",
             };
         }
         
-        // Structure the data as expected by the rest of the component
         return {
-            school: data?.school,
-            studentName: data?.studentName,
-            class: data?.class,
-            term: data?.term,
-            session: data?.session,
-            admissionNo: data?.admissionNo,
-            age: data?.age,
-            sex: data?.sex,
-            house: data?.house,
-            noInClass: data?.noInClass,
-            classHighest: data?.classHighest,
-            classLowest: data?.classLowest,
-            classPos: data?.classPos,
-            headRemark: data?.headRemark,
-            classTeacherRemark: data?.classTeacherRemark,
+            school: data?.school, studentName: data?.studentName, class: data?.class,
+            term: data?.term, session: data?.session, admissionNo: data?.admissionNo,
+            age: data?.age, sex: data?.sex, house: data?.house, noInClass: data?.noInClass,
+            classHighest: data?.classHighest, classLowest: data?.classLowest, classPos: data?.classPos,
+            headRemark: data?.headRemark, classTeacherRemark: data?.classTeacherRemark,
             
-            // DYNAMICALLY BUILD THE SUBJECTS ARRAY FROM THE TOP-LEVEL FIELDS
             subjects: [
-                // CA1, CA2, Ass, Exam will be numbers/0 after calculateSubjectData
-                { name: "QUR'AN", CA1: data.QURAN?.[0]?.CA1, CA2: data.QURAN?.[0]?.CA2, Ass: data.QURAN?.[0]?.Ass, Exam: data.QURAN?.[0]?.Exam, Position: "N/A" },
-                { name: "TAJWEED", CA1: data.TAJWEED?.[0]?.CA1, CA2: data.TAJWEED?.[0]?.CA2, Ass: data.TAJWEED?.[0]?.Ass, Exam: data.TAJWEED?.[0]?.Exam, Position: "N/A" },
-                { name: "TAUHEED", CA1: data.TAUHEED?.[0]?.CA1, CA2: data.TAUHEED?.[0]?.CA2, Ass: data.TAUHEED?.[0]?.Ass, Exam: data.TAUHEED?.[0]?.Exam, Position: "N/A" },
-                { name: "FIQH", CA1: data.FIQH?.[0]?.CA1, CA2: data.FIQH?.[0]?.CA2, Ass: data.FIQH?.[0]?.Ass, Exam: data.FIQH?.[0]?.Exam, Position: "N/A" },
-                { name: "HADITH", CA1: data.HADITH?.[0]?.CA1, CA2: data.HADITH?.[0]?.CA2, Ass: data.HADITH?.[0]?.Ass, Exam: data.HADITH?.[0]?.Exam, Position: "N/A" },
-                { name: "ARABIC", CA1: data.ARABIC?.[0]?.CA1, CA2: data.ARABIC?.[0]?.CA2, Ass: data.ARABIC?.[0]?.Ass, Exam: data.ARABIC?.[0]?.Exam, Position: "N/A" },
-                { name: "AZKHAR", CA1: data.AZKHAR?.[0]?.CA1, CA2: data.AZKHAR?.[0]?.CA2, Ass: data.AZKHAR?.[0]?.Ass, Exam: data.AZKHAR?.[0]?.Exam, Position: "N/A" },
-                { name: "SIRAH", CA1: data.SIRAH?.[0]?.CA1, CA2: data.SIRAH?.[0]?.CA2, Ass: data.SIRAH?.[0]?.Ass, Exam: data.SIRAH?.[0]?.Exam, Position: "N/A" },
-                { name: "HURUF", CA1: data.HURUF?.[0]?.CA1, CA2: data.HURUF?.[0]?.CA2, Ass: data.HURUF?.[0]?.Ass, Exam: data.HURUF?.[0]?.Exam, Position: "N/A" },
+                { name: "QUR'AN", CA1: data.QURAN?.[0]?.CA1, CA2: data.QURAN?.[0]?.CA2, Ass: data.QURAN?.[0]?.Ass, Exam: data.QURAN?.[0]?.Exam, Position: data.QURAN?.[0]?.Position || "N/A" },
+                { name: "TAJWEED", CA1: data.TAJWEED?.[0]?.CA1, CA2: data.TAJWEED?.[0]?.CA2, Ass: data.TAJWEED?.[0]?.Ass, Exam: data.TAJWEED?.[0]?.Exam, Position: data.TAJWEED?.[0]?.Position || "N/A" },
+                { name: "TAUHEED", CA1: data.TAUHEED?.[0]?.CA1, CA2: data.TAUHEED?.[0]?.CA2, Ass: data.TAUHEED?.[0]?.Ass, Exam: data.TAUHEED?.[0]?.Exam, Position: data.TAUHEED?.[0]?.Position || "N/A" },
+                { name: "FIQH", CA1: data.FIQH?.[0]?.CA1, CA2: data.FIQH?.[0]?.CA2, Ass: data.FIQH?.[0]?.Ass, Exam: data.FIQH?.[0]?.Exam, Position: data.FIQH?.[0]?.Position || "N/A" },
+                { name: "HADITH", CA1: data.HADITH?.[0]?.CA1, CA2: data.HADITH?.[0]?.CA2, Ass: data.HADITH?.[0]?.Ass, Exam: data.HADITH?.[0]?.Exam, Position: data.HADITH?.[0]?.Position || "N/A" },
+                { name: "ARABIC", CA1: data.ARABIC?.[0]?.CA1, CA2: data.ARABIC?.[0]?.CA2, Ass: data.ARABIC?.[0]?.Ass, Exam: data.ARABIC?.[0]?.Exam, Position: data.ARABIC?.[0]?.Position || "N/A" },
+                { name: "AZKHAR", CA1: data.AZKHAR?.[0]?.CA1, CA2: data.AZKHAR?.[0]?.CA2, Ass: data.AZKHAR?.[0]?.Ass, Exam: data.AZKHAR?.[0]?.Exam, Position: data.AZKHAR?.[0]?.Position || "N/A" },
+                { name: "SIRAH", CA1: data.SIRAH?.[0]?.CA1, CA2: data.SIRAH?.[0]?.CA2, Ass: data.SIRAH?.[0]?.Ass, Exam: data.SIRAH?.[0]?.Exam, Position: data.SIRAH?.[0]?.Position || "N/A" },
+                { name: "HURUF", CA1: data.HURUF?.[0]?.CA1, CA2: data.HURUF?.[0]?.CA2, Ass: data.HURUF?.[0]?.Ass, Exam: data.HURUF?.[0]?.Exam, Position: data.HURUF?.[0]?.Position || "N/A" },
             ],
             behavior: data.behavior || {
                 moralEthics: "N/A", punctuality: "N/A", handWriting: "N/A",
@@ -182,22 +140,19 @@ const ReportPage = () => {
         };
     };
 
-    // --- Calculated Data (UseMemo for efficiency) ---
+    // --- Calculated Data (UseMemo) ---
     const calculatedData = useMemo(() => {
-        // The dependency is now the 'value' state, which changes when data is fetched.
         if (!value) return null; 
 
         const sourceData = createDataSource(value);
+        if (!sourceData.subjects || sourceData.subjects.length === 0) {
+            const emptyStats = calculateOverallData([]);
+            return { ...sourceData, totalScore: 0, avgScore: 0, overallStats: emptyStats };
+        }
 
-        if (sourceData.subjects.length === 0) return sourceData;
-
-        // Step 1: Calculate Subject Totals, Grades, and Remarks
         const automatedSubjects = sourceData.subjects.map(calculateSubjectData);
-        
-        // Step 2: Calculate Overall Totals and Averages
         const overallStats = calculateOverallData(automatedSubjects);
 
-        // Step 3: Combine all data for rendering
         return {
             ...sourceData,
             subjects: automatedSubjects,
@@ -208,11 +163,10 @@ const ReportPage = () => {
             overallStats: overallStats,
         };
         
-    }, [value]); // CRITICAL FIX: Depend on the data state!
+    }, [value]); 
 
-    // --- Print and Download Handlers (Updated) ---
+    // --- Print and Download Handlers (Unchanged) ---
     const handleDownloadPdf = () => {
-        // Use window.html2pdf() which is globally available after the script tag loads
         if (window.html2pdf) {
             const element = document.querySelector('.report-container');
             var opt = {
@@ -224,12 +178,11 @@ const ReportPage = () => {
             };
             window.html2pdf().set(opt).from(element).save();
         } else {
-            // Fallback to browser print if script didn't load (or for quick printing)
             window.print();
         }
     };
 
-    // --- Loading and Error States ---
+    // --- Loading and Error States (Unchanged) ---
     if (isLoading) {
         return (
             <div style={{display:"flex",justifyItems:"center",alignItems:"center",minHeight:"100vh"}} className="flex items-center justify-center min-h-screen bg-gray-50">
@@ -253,20 +206,18 @@ const ReportPage = () => {
         );
     }
     
-    // Fallback if data is null 
     if (!calculatedData) return <div>No report data available.</div>;
 
     // --- Destructuring Data for JSX ---
     const { 
-        studentName, class: studentClass, admissionNo, age, sex, house, noInClass, 
-        totalScore, avgScore, overallGrade, overallRemark, subjects, behavior, 
+        studentName, class: studentClass, admissionNo, age, sex, noInClass, 
+        totalScore, avgScore, subjects, behavior, 
         headRemark, classTeacherRemark, overallStats 
     } = calculatedData;
     
     // --- JSX Render ---
     return (
         <div className="p-4 sm:p-8 bg-gray-50 min-h-screen font-sans">
-            {/* Inject the html2pdf library via CDN to ensure it's available globally */}
             <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
             
             <style jsx global>{`
@@ -293,10 +244,12 @@ const ReportPage = () => {
                     object-fit: cover;
                     border-radius: 4px;
                     background: #eee;
+                    flex-shrink: 0; /* Important: Prevents shrinking on mobile */
                 }
                 .school-info {
                     text-align: center;
                     flex-grow: 1;
+                    padding: 0 10px; /* Add padding for spacing on small screens */
                 }
                 .school-name-en {
                     font-size: 1.25rem;
@@ -396,16 +349,28 @@ const ReportPage = () => {
                 }
                 
                 @media (max-width: 600px) {
+                    /* FIX: Keep elements side-by-side but reduce font size for space */
                     .school-header {
-                        flex-direction: column;
-                        text-align: center;
+                        /* Removed flex-direction: column to keep images on the side */
+                        align-items: flex-start; /* Align header items to the top */
+                        padding: 5px;
                     }
                     .logo, .student-photo {
-                        margin: 5px auto;
+                        /* Retain fixed size and position */
+                        width: 50px; /* Slight reduction for smaller screens, but fixed */
+                        height: 50px;
+                        margin: 0;
                     }
                     .school-info {
-                        order: 3;
+                        padding: 0 5px;
                     }
+                    .school-name-en {
+                        font-size: 1rem;
+                    }
+                    .school-name-ar, .report-title {
+                        font-size: 0.85rem;
+                    }
+                    
                     table {
                         font-size: 0.75rem;
                     }
@@ -427,7 +392,7 @@ const ReportPage = () => {
                     <img src="https://placehold.co/70x70/E0F2F1/333333?text=Photo" alt="Student" className="student-photo" />
                 </div>
                 
-                {/* Student Info Table */}
+                {/* Student Info Table (House, Class Pos, Overall Grade REMOVED) */}
                 <table className="info-table">
                     <tbody>
                         <tr>
@@ -447,12 +412,8 @@ const ReportPage = () => {
                             <td className="value">{noInClass}</td>
                             <td className="label">Age:</td>
                             <td className="value">{age}</td>
-                            <td className="label">House:</td>
-                            <td className="value">{house}</td>
                         </tr>
                         <tr>
-                            <td className="label">Class Pos:</td>
-                            <td className="value">{calculatedData.classPos}</td>
                             <td className="label">TOTAL SCORE:</td>
                             <td className="value">
                                 <span style={{fontWeight: 'bold', color: '#004d40'}}>{totalScore}</span>
@@ -460,10 +421,6 @@ const ReportPage = () => {
                             <td className="label">AVG. SCORE:</td>
                             <td className="value">
                                 <span style={{fontWeight: 'bold', color: '#004d40'}}>{avgScore}</span>
-                            </td>
-                            <td className="label">OVERALL GRADE:</td>
-                            <td className="value">
-                                <span style={{fontWeight: 'bold', color: 'darkred'}}>{overallGrade}</span>
                             </td>
                         </tr>
                     </tbody>
@@ -513,7 +470,7 @@ const ReportPage = () => {
                             <td>{overallStats.Overall_Total}</td>
                             <td>-</td>
                             <td>-</td>
-                            <td>{overallRemark}</td>
+                            <td>{calculatedData.overallRemark}</td>
                         </tr>
                     </tbody>
                 </table>
