@@ -405,7 +405,7 @@ const calculateOverallData = (subjects) => {
                     <img src="https://placehold.co/70x70/004D40/FFFFFF?text=Logo" alt="School Logo" className="logo" />
                     <div className="school-info">
                         <p style={{fontSize:"20px"}} className="school-name-ar">مدرسة التصفية للتحفيظ والدراسات الإسلامية، أبوجا</p>
-                        <h2 className="school-name-en"  onClick={()=>{console.log(rawStudentData); console.log(MOCK_DATA)}}>MADRASAT ALTASFIYAH TAHFEEZ AND ISLAMIYAH SCHOOL, ABUJA</h2>
+                        <h2 className="school-name-en">MADRASAT ALTASFIYAH TAHFEEZ AND ISLAMIYAH SCHOOL, ABUJA</h2>
                         <h3 className="report-title">STATEMENT OF RESULT</h3>
                     </div>
                     <img src="https://placehold.co/70x70/E0F2F1/333333?text=Photo" alt="Student" className="student-photo" />
@@ -439,15 +439,15 @@ const calculateOverallData = (subjects) => {
                             <td className="value">{calculatedData.classPos}</td>
                             <td className="label">TOTAL SCORE:</td>
                             <td className="value">
-                                <span style={{fontWeight: 'bold', color: '#004d40'}}>{totalScore? totalScore : null}</span>
+                                <span style={{fontWeight: 'bold', color: '#004d40'}}>{totalScore}</span>
                             </td>
                             <td className="label">AVG. SCORE:</td>
                             <td className="value">
-                                <span style={{fontWeight: 'bold', color: '#004d40'}}>{avgScore? avgScore : null}</span>
+                                <span style={{fontWeight: 'bold', color: '#004d40'}}>{avgScore}</span>
                             </td>
                             <td className="label">OVERALL GRADE:</td>
                             <td className="value">
-                                <span style={{fontWeight: 'bold', color: 'darkred'}}>{overallGrade? overallGrade : null}</span>
+                                <span style={{fontWeight: 'bold', color: 'darkred'}}>{overallGrade}</span>
                             </td>
                         </tr>
                     </tbody>
