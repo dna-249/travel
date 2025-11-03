@@ -187,7 +187,6 @@ const ReportPage = () => {
         return (
             <div style={{display:"flex",justifyItems:"center",alignItems:"center",minHeight:"100vh"}} className="flex items-center justify-center min-h-screen bg-gray-50">
                 <div className="text-xl font-semibold text-gray-700">
-                    {/* FIXED: Applied specific width/height styles to control SVG size */}
                     <svg style={{width:"32px", height:"32px"}} className="animate-spin -ml-1 mr-3 text-blue-600 inline" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                         <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                         <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
@@ -248,7 +247,6 @@ const ReportPage = () => {
                     flex-shrink: 0;
                 }
                 .school-info {
-                    /* FIXED: Ensure text is horizontally centered */
                     text-align: center; 
                     flex-grow: 1;
                     padding: 0 10px;
@@ -274,7 +272,6 @@ const ReportPage = () => {
                     padding: 5px 10px;
                     border: none;
                 }
-                /* Adjust column widths to accommodate the new 4-column, 2-row layout */
                 .info-table .label {
                     font-weight: 600;
                     width: 12.5%; 
@@ -392,7 +389,7 @@ const ReportPage = () => {
                     <img src="https://placehold.co/70x70/E0F2F1/333333?text=Photo" alt="Student" className="student-photo" />
                 </div>
                 
-                {/* Student Info Table */}
+                {/* Student Info Table - FINAL CORRECTED LAYOUT */}
                 <table className="info-table">
                     <tbody>
                         <tr>
@@ -408,7 +405,7 @@ const ReportPage = () => {
                         <tr>
                             <td className="label">AGE:</td>
                             <td className="value">{age}</td>
-                            <td className="label">TERM:</td>
+                            <td className="label">TERM :</td>
                             <td className="value">04/01/2025</td>
                             <td className="label">TOTAL SCORE:</td>
                             <td className="value">
@@ -423,7 +420,7 @@ const ReportPage = () => {
                 </table>
 
                 
-                {/* Subject Grades Table */}
+                {/* Subject Grades Table (Unchanged) */}
                 <table className="grades-table">
                     <thead>
                         <tr className="main-header-row">
@@ -468,7 +465,7 @@ const ReportPage = () => {
                     </tbody>
                 </table>
                 
-                {/* Behavior/Conduct Table */}
+                {/* Behavior/Conduct Table (Unchanged) */}
                 <table className="behavior-table grades-table">
                     <thead>
                         <tr className="main-header-row">
@@ -499,7 +496,7 @@ const ReportPage = () => {
                     </tbody>
                 </table>
 
-                {/* Footer Remarks */}
+                {/* Footer Remarks (Unchanged) */}
                 <div className="remarks-section">
                     <p><strong>Class Teacher's Remark:</strong> {classTeacherRemark}</p>
                     <p><strong>Head of School's Remark:</strong> {headRemark}</p>
@@ -509,7 +506,7 @@ const ReportPage = () => {
                     </div>
                 </div>
                 
-                {/* Action Buttons */}
+                {/* Action Buttons (Unchanged) */}
                 <div style={{display: 'flex', justifyContent: 'center', marginTop: '20px'}} className="print-button-container">
                     <button onClick={handleDownloadPdf} className="print-download-btn">
                         🖨️ Print / Download Report (PDF)
