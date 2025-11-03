@@ -47,7 +47,7 @@ useEffect(() => {
                 
                 // For demonstration, we use a delay and return the MOCK_DATA
                 await axios.get(`https://portal-database-seven.vercel.app/student/${id}`)
-                .then((res)=>{setValue(res);console.log(res)})
+                .then((res)=>{setValue(res);console.log(res.data)})
                 .then(()=>console.log(value))
                 .catch((error)=>console.log(error.message))
                 
