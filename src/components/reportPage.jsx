@@ -405,7 +405,7 @@ const MOCK_DATA = {
                     <img src="https://placehold.co/70x70/004D40/FFFFFF?text=Logo" alt="School Logo" className="logo" />
                     <div className="school-info">
                         <p style={{fontSize:"20px"}} className="school-name-ar">مدرسة التصفية للتحفيظ والدراسات الإسلامية، أبوجا</p>
-                        <h2 className="school-name-en">MADRASAT ALTASFIYAH TAHFEEZ AND ISLAMIYAH SCHOOL, ABUJA</h2>
+                        <h2 className="school-name-en"  onClick={()=>console.log(rawStudentData)}>MADRASAT ALTASFIYAH TAHFEEZ AND ISLAMIYAH SCHOOL, ABUJA</h2>
                     </div>
                     <img src="https://placehold.co/70x70/E0F2F1/333333?text=Photo" alt="Student" className="student-photo" />
                 </div>
@@ -415,7 +415,7 @@ const MOCK_DATA = {
                     <tbody>
                         <tr>
                             <td className="label">NAME:</td>
-                            <td className="value">{value.studentName}</td>
+                            <td className="value">{studentName}</td>
                             <td className="label">TERM BEGINS:</td>
                             <td className="value">04/01/2025</td>
                             <td className="label">ADMISSION No:</td>
