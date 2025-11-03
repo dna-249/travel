@@ -17,9 +17,7 @@ const ReportPage = () => {
     const [value,setValue] = useState("")
 
     const {id} = useParams()
-    
 
-     const API_URL = "https://mock-api.dev/student/report/123";
 
 // Grading Scale (out of 100)
 const getGradeAndRemark = (score) => {
