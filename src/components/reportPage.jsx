@@ -2,22 +2,9 @@ import axios from 'axios';
 import React, { useState, useEffect, useMemo } from 'react';
 import {useParams,useNavigate } from "react-router-dom"
 
-// import html2pdf from 'html2pdf.js'; <-- REMOVED: Caused resolution error.
-
 // -------------------------------------------------------------------
 // 1. DATA AND CALCULATION UTILITIES
 // -------------------------------------------------------------------
-
-// Placeholder for the API URL where the student report data resides
-
-const ReportPage = () => {
-    const [rawStudentData, setRawStudentData] = useState(null);
-    const [isLoading, setIsLoading] = useState(true);
-    const [error, setError] = useState(null);
-    const [value,setValue] = useState("")
-
-    const {id} = useParams()
-
 
 // Grading Scale (out of 100)
 const getGradeAndRemark = (score) => {
@@ -34,95 +21,27 @@ const getGradeAndRemark = (score) => {
     }
 };
 
-
-
-useEffect(() => {
-        const fetchData = async () => {
-            setIsLoading(true);
-            setError(null);
-
-            try {
-                // Simulate fetching data from the API
-                // In a real app, this would be: const response = await fetch(API_URL);
-                
-                // For demonstration, we use a delay and return the MOCK_DATA
-                await axios.get(`https://portal-database-seven.vercel.app/student/${id}`)
-                .then((res)=>{setValue(()=>res.data);console.log(res)})
-                .catch((error)=>console.log(error.message))
-                
-                // Simulate a successful response
-                const fetchedData = MOCK_DATA; 
-                
-                // In a real app, you would check response.ok and parse JSON:
-                // const fetchedData = await response.json();
-
-                if (!fetchedData || fetchedData.subjects.length === 0) {
-                     throw new Error("No data received or subject list is empty.");
-                }
-
-                setRawStudentData(fetchedData);
-            } catch (err) {
-                console.error("Fetch error:", err);
-                setError("Failed to load report data. Please check the API connection. (Using mock data structure for demo).");
-                // Optional: Fallback to mock data on failure if needed
-                setRawStudentData(MOCK_DATA); 
-            } finally {
-                setIsLoading(false);
-            }
-        };
-
-        fetchData();
-    }, [id]); 
-
-
-const MOCK_DATA = {
-    school:value?.school ,
-    studentName:value?.studentName ,
-    class:value?.class ,
-    term:value?.term ,
-    session:value?.session ,
-    admissionNo:value?.admissionNo ,
-    age:value?.age,
-    sex:value?.sex,
-    house:value?.house ,
-    noInClass:value?.noInClass ,
-    classHighest:value?.classHighest ,
-    classLowest:value?.classLowest ,
-    classPos:value?.classPos ,
-    headRemark:value?.headRemark ,
-    classTeacherRemark:value?.classTeacherRemark ,
-    // NOTE: Grade, Remark, and Total will be calculated from these values
-    subjects: [
-        { name: "QUR'AN", CA1:value?.QURAN?.[0]?.CA1,    CA2: value?.QURAN?.[0]?.CA2, Ass: value?.QURAN?.[0]?.Ass, Exam: value?.QURAN?.[0]?.Exam, Position: "2nd" },
-        { name: "TAJWEED", CA1:value?.TAJWEED?.[0]?.CA1,    CA2: value?.TAJWEED?.[0]?.CA2, Ass: value?.TAJWEED?.[0]?.Ass, Exam: value?.TAJWEED?.[0]?.Exam, Position: "4th" },
-        { name: "TAUHEED", CA1:value?.TAUHEED?.[0]?.CA1,     CA2: value?.TAUHEED?.[0]?.CA2, Ass: value?.TAUHEED?.[0]?.Ass, Exam: value?.TAUHEED?.[0]?.Exam, Position: "2nd" },
-        { name: "FIQH", CA1:value?.FIQH?.[0]?.CA1,    CA2: value?.FIQH?.[0]?.CA2, Ass: value?.FIQH?.[0]?.Ass, Exam: value?.FIQH?.[0]?.Exam, Position: "4th" },
-        { name: "HADITH", CA1:value?.HADITH?.[0]?.CA1,     CA2: value?.HADITH?.[0]?.CA2, Ass: value?.HADITH?.[0]?.Ass, Exam: value?.HADITH?.[0]?.Exam, Position: "3rd" },
-        { name: "ARABIC", CA1:value?.ARABIC?.[0]?.CA1,     CA2: value?.ARABIC?.[0]?.CA2, Ass: value?.ARABIC?.[0]?.Ass, Exam: value?.ARABIC?.[0]?.Exam, Position: "3rd" },
-        { name: "AZKHAR", CA1:value?.AZKHAR?.[0]?.CA1,     CA2: value?.AZKHAR?.[0]?.CA2, Ass: value?.AZKHAR?.[0]?.Ass, Exam: value?.AZKHAR?.[0]?.Exam, Position: "3rd" },
-        { name: "SIRAH", CA1:value?.SIRAH?.[0]?.CA1,     CA2: value?.SIRAH?.[0]?.CA2, Ass: value?.SIRAH?.[0]?.Ass, Exam: value?.SIRAH?.[0]?.Exam, Position: "3rd" },
-        { name: "HURUF", CA1:value?.HURUF?.[0]?.CA1,     CA2: value?.HURUF?.[0]?.CA2, Ass: value?.HURUF?.[0]?.Ass, Exam: value?.HURUF?.[0]?.Exam, Position: "3rd" },
-    ],
-    behavior: {
-        moralEthics: "EXCELLENT", punctuality: "GOOD", handWriting: "GOOD",
-        honesty: "GOOD", fluency: "GOOD", selfControl: "GOOD",
-        responsibility: "GOOD", initiative: "GOOD", politeness: "GOOD"
-    },
-};
-
-
-
-
 // Calculates Total, Grade, and Remark for a single subject
 const calculateSubjectData = (subject) => {
-    // Total is calculated from the four core assessment components
-    const Total = subject.CA1 + subject.CA2 + subject.Ass + subject.Exam;
+    // FIX: Use the unary '+' operator or Number() to safely convert input to a number.
+    // Use '|| 0' to default to 0 if the value is undefined, null, or cannot be parsed (e.g., empty string).
+    const CA1 = +subject.CA1 || 0;
+    const CA2 = +subject.CA2 || 0;
+    const Ass = +subject.Ass || 0;
+    const Exam = +subject.Exam || 0;
+
+    // Total is calculated from the four core assessment components (now properly added as numbers)
+    const Total = CA1 + CA2 + Ass + Exam; 
 
     const { Grade, Remark } = getGradeAndRemark(Total);
 
     return {
         ...subject,
-        Total,
+        CA1, // Return the coerced number values
+        CA2,
+        Ass,
+        Exam,
+        Total, // This is now a number
         Grade,
         Remark,
     };
@@ -139,6 +58,7 @@ const calculateOverallData = (subjects) => {
     };
 
     const sums = subjects.reduce((acc, subject) => {
+        // Ensure subject.Total is a number before adding, although fixed in calculateSubjectData
         acc.CA1_Total += subject.CA1;
         acc.CA2_Total += subject.CA2;
         acc.Ass_Total += subject.Ass;
@@ -148,9 +68,9 @@ const calculateOverallData = (subjects) => {
     }, initialTotals);
 
     const subjectCount = subjects.length;
-    // Calculate average score as a percentage of the total possible score (100 * subject count)
+    // Calculate average score as a percentage (max score is 100 per subject)
     const avgScore = subjectCount > 0 
-        ? ((sums.Overall_Total / subjectCount)).toFixed(2)
+        ? (sums.Overall_Total / subjectCount).toFixed(2)
         : 0;
     
     // Determine overall grade/remark based on the average score
@@ -167,24 +87,119 @@ const calculateOverallData = (subjects) => {
 };
 
 // -------------------------------------------------------------------
-// 2. MOCK DATA (Fallback/Expected API Shape)
+// 2. REACT COMPONENT
 // -------------------------------------------------------------------
-// This mock data is used as a temporary placeholder while fetching.
 
+const ReportPage = () => {
+    // rawStudentData is no longer needed, use 'value' as the main data store.
+    // const [rawStudentData, setRawStudentData] = useState(null); 
+    const [isLoading, setIsLoading] = useState(true);
+    const [error, setError] = useState(null);
+    const [value,setValue] = useState(null) // Initialize as null object for data
+
+    const {id} = useParams()
+    const navigate = useNavigate(); // Added unused navigate to clear warning
+
+
+    useEffect(() => {
+        const fetchData = async () => {
+            setIsLoading(true);
+            setError(null);
+
+            try {
+                const response = await axios.get(`https://portal-database-seven.vercel.app/student/${id}`)
+                
+                if (!response.data) {
+                    throw new Error("No data received from API.");
+                }
+                
+                // Store the raw fetched data object
+                setValue(response.data); 
+                
+            } catch (err) {
+                console.error("Fetch error:", err);
+                setError("Failed to load report data. Please check the API connection.");
+                // Set value to an empty object or a fallback structure on failure
+                setValue({}); 
+            } finally {
+                setIsLoading(false);
+            }
+        };
+
+        fetchData();
+    }, [id]); 
+
+    // --- Data Source for Calculations ---
+    // This function creates the dynamic subject array based on the fetched 'value'
+    const createDataSource = (data) => {
+        // Fallback or empty structure if data is incomplete
+        if (!data || Object.keys(data).length === 0) {
+            return {
+                subjects: [],
+                behavior: {},
+                studentName: "N/A", // Default necessary fields
+                class: "N/A",
+                // ... other fields set to "N/A"
+            };
+        }
+        
+        // Structure the data as expected by the rest of the component
+        return {
+            school: data?.school,
+            studentName: data?.studentName,
+            class: data?.class,
+            term: data?.term,
+            session: data?.session,
+            admissionNo: data?.admissionNo,
+            age: data?.age,
+            sex: data?.sex,
+            house: data?.house,
+            noInClass: data?.noInClass,
+            classHighest: data?.classHighest,
+            classLowest: data?.classLowest,
+            classPos: data?.classPos,
+            headRemark: data?.headRemark,
+            classTeacherRemark: data?.classTeacherRemark,
+            
+            // DYNAMICALLY BUILD THE SUBJECTS ARRAY FROM THE TOP-LEVEL FIELDS
+            subjects: [
+                // CA1, CA2, Ass, Exam will be numbers/0 after calculateSubjectData
+                { name: "QUR'AN", CA1: data.QURAN?.[0]?.CA1, CA2: data.QURAN?.[0]?.CA2, Ass: data.QURAN?.[0]?.Ass, Exam: data.QURAN?.[0]?.Exam, Position: "N/A" },
+                { name: "TAJWEED", CA1: data.TAJWEED?.[0]?.CA1, CA2: data.TAJWEED?.[0]?.CA2, Ass: data.TAJWEED?.[0]?.Ass, Exam: data.TAJWEED?.[0]?.Exam, Position: "N/A" },
+                { name: "TAUHEED", CA1: data.TAUHEED?.[0]?.CA1, CA2: data.TAUHEED?.[0]?.CA2, Ass: data.TAUHEED?.[0]?.Ass, Exam: data.TAUHEED?.[0]?.Exam, Position: "N/A" },
+                { name: "FIQH", CA1: data.FIQH?.[0]?.CA1, CA2: data.FIQH?.[0]?.CA2, Ass: data.FIQH?.[0]?.Ass, Exam: data.FIQH?.[0]?.Exam, Position: "N/A" },
+                { name: "HADITH", CA1: data.HADITH?.[0]?.CA1, CA2: data.HADITH?.[0]?.CA2, Ass: data.HADITH?.[0]?.Ass, Exam: data.HADITH?.[0]?.Exam, Position: "N/A" },
+                { name: "ARABIC", CA1: data.ARABIC?.[0]?.CA1, CA2: data.ARABIC?.[0]?.CA2, Ass: data.ARABIC?.[0]?.Ass, Exam: data.ARABIC?.[0]?.Exam, Position: "N/A" },
+                { name: "AZKHAR", CA1: data.AZKHAR?.[0]?.CA1, CA2: data.AZKHAR?.[0]?.CA2, Ass: data.AZKHAR?.[0]?.Ass, Exam: data.AZKHAR?.[0]?.Exam, Position: "N/A" },
+                { name: "SIRAH", CA1: data.SIRAH?.[0]?.CA1, CA2: data.SIRAH?.[0]?.CA2, Ass: data.SIRAH?.[0]?.Ass, Exam: data.SIRAH?.[0]?.Exam, Position: "N/A" },
+                { name: "HURUF", CA1: data.HURUF?.[0]?.CA1, CA2: data.HURUF?.[0]?.CA2, Ass: data.HURUF?.[0]?.Ass, Exam: data.HURUF?.[0]?.Exam, Position: "N/A" },
+            ],
+            behavior: data.behavior || {
+                moralEthics: "N/A", punctuality: "N/A", handWriting: "N/A",
+                honesty: "N/A", fluency: "N/A", selfControl: "N/A",
+                responsibility: "N/A", initiative: "N/A", politeness: "N/A"
+            },
+        };
+    };
 
     // --- Calculated Data (UseMemo for efficiency) ---
     const calculatedData = useMemo(() => {
-        if (!MOCK_DATA) return null;
+        // The dependency is now the 'value' state, which changes when data is fetched.
+        if (!value) return null; 
+
+        const sourceData = createDataSource(value);
+
+        if (sourceData.subjects.length === 0) return sourceData;
 
         // Step 1: Calculate Subject Totals, Grades, and Remarks
-        const automatedSubjects = MOCK_DATA.subjects.map(calculateSubjectData);
+        const automatedSubjects = sourceData.subjects.map(calculateSubjectData);
         
         // Step 2: Calculate Overall Totals and Averages
         const overallStats = calculateOverallData(automatedSubjects);
 
         // Step 3: Combine all data for rendering
         return {
-            ...MOCK_DATA,
+            ...sourceData,
             subjects: automatedSubjects,
             totalScore: overallStats.Overall_Total,
             avgScore: overallStats.avgScore,
@@ -192,7 +207,8 @@ const calculateOverallData = (subjects) => {
             overallRemark: overallStats.overallRemark,
             overallStats: overallStats,
         };
-    }, [MOCK_DATA]);
+        
+    }, [value]); // CRITICAL FIX: Depend on the data state!
 
     // --- Print and Download Handlers (Updated) ---
     const handleDownloadPdf = () => {
@@ -237,7 +253,7 @@ const calculateOverallData = (subjects) => {
         );
     }
     
-    // Fallback if data is null (shouldn't happen with the current logic, but good practice)
+    // Fallback if data is null 
     if (!calculatedData) return <div>No report data available.</div>;
 
     // --- Destructuring Data for JSX ---
