@@ -33,7 +33,7 @@ const StudentSignIn = () => {
     await axios.post(`https://portal-database-seven.vercel.app/student/login`,{
         studentName:username.trim(),
         password:password.trim()
-      }).then(res => {setToken(res.data)})
+      }).then(res => {setToken(res.data);console.log(res.data)})
       .catch(err => {if(!username){setLoading(false)
       } else {setLoading(false)}})
       ;
