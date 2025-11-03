@@ -174,17 +174,17 @@ const calculateOverallData = (subjects) => {
 
     // --- Calculated Data (UseMemo for efficiency) ---
     const calculatedData = useMemo(() => {
-        if (!rawStudentData) return null;
+        if (!MOCK_DATA) return null;
 
         // Step 1: Calculate Subject Totals, Grades, and Remarks
-        const automatedSubjects = rawStudentData.subjects.map(calculateSubjectData);
+        const automatedSubjects = MOCK_DATA.subjects.map(calculateSubjectData);
         
         // Step 2: Calculate Overall Totals and Averages
         const overallStats = calculateOverallData(automatedSubjects);
 
         // Step 3: Combine all data for rendering
         return {
-            ...rawStudentData,
+            ...MOCK_DATA,
             subjects: automatedSubjects,
             totalScore: overallStats.Overall_Total,
             avgScore: overallStats.avgScore,
@@ -192,7 +192,7 @@ const calculateOverallData = (subjects) => {
             overallRemark: overallStats.overallRemark,
             overallStats: overallStats,
         };
-    }, [rawStudentData]);
+    }, [MOCK_DATA]);
 
     // --- Print and Download Handlers (Updated) ---
     const handleDownloadPdf = () => {
