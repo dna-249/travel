@@ -173,7 +173,7 @@ const MOCK_DATA = {
 
 
     // --- Calculated Data (UseMemo for efficiency) ---
-    const calculatedData = () => {
+    const calculatedData = useMemo(() => {
         if (!rawStudentData) return null;
 
         // Step 1: Calculate Subject Totals, Grades, and Remarks
@@ -192,7 +192,7 @@ const MOCK_DATA = {
             overallRemark: overallStats.overallRemark,
             overallStats: overallStats,
         };
-    };
+    },[rawStudentData]);
 
     // --- Print and Download Handlers (Updated) ---
     const handleDownloadPdf = () => {
@@ -415,23 +415,23 @@ const MOCK_DATA = {
                     <tbody>
                         <tr>
                             <td className="label">NAME:</td>
-                            <td className="value">{studentName}</td>
+                            <td className="value">{value.studentName}</td>
                             <td className="label">TERM BEGINS:</td>
                             <td className="value">04/01/2025</td>
                             <td className="label">ADMISSION No:</td>
-                            <td className="value">{admissionNo}</td>
+                            <td className="value">{value.admissionNo}</td>
                             <td className="label">SEX:</td>
                             <td className="value">{sex}</td>
                         </tr>
                         <tr>
                             <td className="label">CLASS:</td>
-                            <td className="value">{studentClass}</td>
+                            <td className="value">{value.studentClass}</td>
                             <td className="label">No. in Class:</td>
                             <td className="value">{noInClass}</td>
                             <td className="label">Age:</td>
-                            <td className="value">{age}</td>
+                            <td className="value">{value.age}</td>
                             <td className="label">House:</td>
-                            <td className="value">{house}</td>
+                            <td className="value">{value.house}</td>
                         </tr>
                         <tr>
                             <td className="label">Class Pos:</td>
@@ -473,7 +473,7 @@ const MOCK_DATA = {
                         </tr>
                     </thead>
                     <tbody>
-                        {subjects?.map((subject, index) => ( 
+                        {value?.subjects?.map((subject, index) => ( 
                             <tr key={index}>
                                 <td>{subject.name}</td>
                                 <td>{subject.CA1}</td>
@@ -515,27 +515,27 @@ const MOCK_DATA = {
                     </thead>
                     <tbody>
                         <tr>
-                            <td>Moral Ethics</td><td>{behavior?.moralEthics}</td>
-                            <td>Hand Writing</td><td>{behavior?.handWriting}</td>
-                            <td>Punctuality</td><td>{behavior?.punctuality}</td>
+                            <td>Moral Ethics</td><td>{value?.moralEthics}</td>
+                            <td>Hand Writing</td><td>{value?.handWriting}</td>
+                            <td>Punctuality</td><td>{value?.punctuality}</td>
                         </tr>
                         <tr>
-                            <td>Honesty</td><td>{behavior?.honesty}</td>
-                            <td>Fluency</td><td>{behavior?.fluency}</td>
-                            <td>Self Control</td><td>{behavior?.selfControl}</td>
+                            <td>Honesty</td><td>{value?.honesty}</td>
+                            <td>Fluency</td><td>{value?.fluency}</td>
+                            <td>Self Control</td><td>{value?.selfControl}</td>
                         </tr>
                         <tr>
-                            <td>Responsibility</td><td>{behavior?.responsibility}</td>
-                            <td>Initiative</td><td>{behavior?.initiative}</td>
-                            <td>Politeness</td><td>{behavior?.politeness}</td>
+                            <td>Responsibility</td><td>{value?.responsibility}</td>
+                            <td>Initiative</td><td>{value?.initiative}</td>
+                            <td>Politeness</td><td>{value?.politeness}</td>
                         </tr>
                     </tbody>
                 </table>
 
                 {/* Footer Remarks */}
                 <div className="remarks-section">
-                    <p><strong>Class Teacher's Remark:</strong> {classTeacherRemark}</p>
-                    <p><strong>Head of School's Remark:</strong> {headRemark}</p>
+                    <p><strong>Class Teacher's Remark:</strong> {value?.classTeacherRemark}</p>
+                    <p><strong>Head of School's Remark:</strong> {value?.headRemark}</p>
                     <div className="signatures">
                         <span>Signature & Stamp</span>
                         <span>Date</span>
