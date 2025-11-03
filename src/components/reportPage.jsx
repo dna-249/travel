@@ -93,15 +93,15 @@ const MOCK_DATA = {
     classTeacherRemark:value?.classTeacherRemark ,
     // NOTE: Grade, Remark, and Total will be calculated from these values
     subjects: [
-        { name: "QUR'AN", CA1:value?.['QURAN.0.']?.CA1,    CA2: value?.['QURAN.0.']?.CA2, Ass: value?.['QURAN.0.']?.Ass, Exam: value?.['QURAN.0.']?.Exam, Position: "2nd" },
-        { name: "TAJWEED", CA1:value?.['TAJWEED.0.']?.CA1,    CA2: value?.['TAJWEED.0.']?.CA2, Ass: value?.['TAJWEED.0.']?.Ass, Exam: value?.['TAJWEED.0.']?.Exam, Position: "4th" },
-        { name: "TAUHEED", CA1:value?.['TAUHEED.0.']?.CA1,     CA2: value?.['TAUHEED.0.']?.CA2, Ass: value?.['TAUHEED.0.']?.Ass, Exam: value?.['TAUHEED.0.']?.Exam, Position: "2nd" },
-        { name: "FIQH", CA1:value?.['FIQH.0.']?.CA1,    CA2: value?.['FIQH.0.']?.CA2, Ass: value?.['FIQH.0.']?.Ass, Exam: value?.['FIQH.0.']?.Exam, Position: "4th" },
-        { name: "HADITH", CA1:value?.['HADITH.0.']?.CA1,     CA2: value?.['HADITH.0.']?.CA2, Ass: value?.['HADITH.0.']?.Ass, Exam: value?.['HADITH.0.']?.Exam, Position: "3rd" },
-        { name: "ARABIC", CA1:value?.['ARABIC.0.']?.CA1,     CA2: value?.['ARABIC.0.']?.CA2, Ass: value?.['ARABIC.0.']?.Ass, Exam: value?.['ARABIC.0.']?.Exam, Position: "3rd" },
-        { name: "AZKHAR", CA1:value?.['AZKHAR.0.']?.CA1,     CA2: value?.['AZKHAR.0.']?.CA2, Ass: value?.['AZKHAR.0.']?.Ass, Exam: value?.['AZKHAR.0.']?.Exam, Position: "3rd" },
-        { name: "SIRAH", CA1:value?.['SIRAH.0.']?.CA1,     CA2: value?.['SIRAH.0.']?.CA2, Ass: value?.['SIRAH.0.']?.Ass, Exam: value?.['SIRAH.0.']?.Exam, Position: "3rd" },
-        { name: "HURUF", CA1:value?.['HURUF.0.']?.CA1,     CA2: value?.['HURUF.0.']?.CA2, Ass: value?.['HURUF.0.']?.Ass, Exam: value?.['HURUF.0.']?.Exam, Position: "3rd" },
+        { name: "QUR'AN", CA1:value?.QURAN?.[0]?.CA1,    CA2: value?.QURAN?.[0]?.CA2, Ass: value?.QURAN?.[0]?.Ass, Exam: value?.QURAN?.[0]?.Exam, Position: "2nd" },
+        { name: "TAJWEED", CA1:value?.TAJWEED?.[0]?.CA1,    CA2: value?.TAJWEED?.[0]?.CA2, Ass: value?.TAJWEED?.[0]?.Ass, Exam: value?.TAJWEED?.[0]?.Exam, Position: "4th" },
+        { name: "TAUHEED", CA1:value?.TAUHEED?.[0]?.CA1,     CA2: value?.TAUHEED?.[0]?.CA2, Ass: value?.TAUHEED?.[0]?.Ass, Exam: value?.TAUHEED?.[0]?.Exam, Position: "2nd" },
+        { name: "FIQH", CA1:value?.FIQH?.[0]?.CA1,    CA2: value?.FIQH?.[0]?.CA2, Ass: value?.FIQH?.[0]?.Ass, Exam: value?.FIQH?.[0]?.Exam, Position: "4th" },
+        { name: "HADITH", CA1:value?.HADITH?.[0]?.CA1,     CA2: value?.HADITH?.[0]?.CA2, Ass: value?.HADITH?.[0]?.Ass, Exam: value?.HADITH?.[0]?.Exam, Position: "3rd" },
+        { name: "ARABIC", CA1:value?.ARABIC?.[0]?.CA1,     CA2: value?.ARABIC?.[0]?.CA2, Ass: value?.ARABIC?.[0]?.Ass, Exam: value?.ARABIC?.[0]?.Exam, Position: "3rd" },
+        { name: "AZKHAR", CA1:value?.AZKHAR?.[0]?.CA1,     CA2: value?.AZKHAR?.[0]?.CA2, Ass: value?.AZKHAR?.[0]?.Ass, Exam: value?.AZKHAR?.[0]?.Exam, Position: "3rd" },
+        { name: "SIRAH", CA1:value?.SIRAH?.[0]?.CA1,     CA2: value?.SIRAH?.[0]?.CA2, Ass: value?.SIRAH?.[0]?.Ass, Exam: value?.SIRAH?.[0]?.Exam, Position: "3rd" },
+        { name: "HURUF", CA1:value?.HURUF?.[0]?.CA1,     CA2: value?.HURUF?.[0]?.CA2, Ass: value?.HURUF?.[0]?.Ass, Exam: value?.HURUF?.[0]?.Exam, Position: "3rd" },
     ],
     behavior: {
         moralEthics: "EXCELLENT", punctuality: "GOOD", handWriting: "GOOD",
@@ -174,17 +174,17 @@ const calculateOverallData = (subjects) => {
 
     // --- Calculated Data (UseMemo for efficiency) ---
     const calculatedData = useMemo(() => {
-        if (!rawStudentData) return null;
+        if (!MOCK_DATA) return null;
 
         // Step 1: Calculate Subject Totals, Grades, and Remarks
-        const automatedSubjects = rawStudentData.subjects.map(calculateSubjectData);
+        const automatedSubjects = MOCK_DATA.subjects.map(calculateSubjectData);
         
         // Step 2: Calculate Overall Totals and Averages
         const overallStats = calculateOverallData(automatedSubjects);
 
         // Step 3: Combine all data for rendering
         return {
-            ...rawStudentData,
+            ...MOCK_DATA,
             subjects: automatedSubjects,
             totalScore: overallStats.Overall_Total,
             avgScore: overallStats.avgScore,
@@ -192,7 +192,7 @@ const calculateOverallData = (subjects) => {
             overallRemark: overallStats.overallRemark,
             overallStats: overallStats,
         };
-    }, [rawStudentData]);
+    }, [MOCK_DATA]);
 
     // --- Print and Download Handlers (Updated) ---
     const handleDownloadPdf = () => {
@@ -405,7 +405,7 @@ const calculateOverallData = (subjects) => {
                     <img src="https://placehold.co/70x70/004D40/FFFFFF?text=Logo" alt="School Logo" className="logo" />
                     <div className="school-info">
                         <p style={{fontSize:"20px"}} className="school-name-ar">مدرسة التصفية للتحفيظ والدراسات الإسلامية، أبوجا</p>
-                        <h2 className="school-name-en">MADRASAT ALTASFIYAH TAHFEEZ AND ISLAMIYAH SCHOOL, ABUJA</h2>
+                        <h2 className="school-name-en"  onClick={()=>{console.log(rawStudentData); console.log(MOCK_DATA)}}>MADRASAT ALTASFIYAH TAHFEEZ AND ISLAMIYAH SCHOOL, ABUJA</h2>
                         <h3 className="report-title">STATEMENT OF RESULT</h3>
                     </div>
                     <img src="https://placehold.co/70x70/E0F2F1/333333?text=Photo" alt="Student" className="student-photo" />
@@ -439,15 +439,15 @@ const calculateOverallData = (subjects) => {
                             <td className="value">{calculatedData.classPos}</td>
                             <td className="label">TOTAL SCORE:</td>
                             <td className="value">
-                                <span style={{fontWeight: 'bold', color: '#004d40'}}>{totalScore}</span>
+                                <span style={{fontWeight: 'bold', color: '#004d40'}}>{totalScore? totalScore : null}</span>
                             </td>
                             <td className="label">AVG. SCORE:</td>
                             <td className="value">
-                                <span style={{fontWeight: 'bold', color: '#004d40'}}>{avgScore}</span>
+                                <span style={{fontWeight: 'bold', color: '#004d40'}}>{avgScore? avgScore : null}</span>
                             </td>
                             <td className="label">OVERALL GRADE:</td>
                             <td className="value">
-                                <span style={{fontWeight: 'bold', color: 'darkred'}}>{overallGrade}</span>
+                                <span style={{fontWeight: 'bold', color: 'darkred'}}>{overallGrade? overallGrade : null}</span>
                             </td>
                         </tr>
                     </tbody>
