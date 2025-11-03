@@ -67,6 +67,7 @@ useEffect(() => {
                 // Optional: Fallback to mock data on failure if needed
                 setRawStudentData(MOCK_DATA); 
             } finally {
+                console.log(value)
                 setIsLoading(false);
             }
         };
