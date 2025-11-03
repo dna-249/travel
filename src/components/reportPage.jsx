@@ -104,11 +104,11 @@ const calculateOverallData = (subjects) => {
     };
 
     const sums = subjects.reduce((acc, subject) => {
-        acc.CA1_Total += subject.CA1;
-        acc.CA2_Total += subject.CA2;
-        acc.Ass_Total += subject.Ass;
-        acc.Exam_Total += subject.Exam;
-        acc.Overall_Total += subject.Total; 
+        acc?.CA1_Total += subject.CA1;
+        acc?.CA2_Total += subject.CA2;
+        acc?.Ass_Total += subject.Ass;
+        acc?.Exam_Total += subject.Exam;
+        acc?.Overall_Total += subject.Total; 
         return acc;
     }, initialTotals);
 
@@ -489,11 +489,11 @@ const MOCK_DATA = {
                         {/* Total row: Uses dynamically calculated sums */}
                         <tr className="total-row">
                             <td>**TOTAL**</td>
-                            <td>{overallStats.CA1_Total}</td>
-                            <td>{overallStats.CA2_Total}</td>
-                            <td>{overallStats.Ass_Total}</td>
-                            <td>{overallStats.Exam_Total}</td>
-                            <td>{overallStats.Overall_Total}</td>
+                            <td>{overallStats?.CA1_Total}</td>
+                            <td>{overallStats?.CA2_Total}</td>
+                            <td>{overallStats?.Ass_Total}</td>
+                            <td>{overallStats?.Exam_Total}</td>
+                            <td>{overallStats?.Overall_Total}</td>
                             <td>-</td>
                             <td>-</td>
                             <td>{overallRemark}</td>
@@ -515,19 +515,19 @@ const MOCK_DATA = {
                     </thead>
                     <tbody>
                         <tr>
-                            <td>Moral Ethics</td><td>{behavior.moralEthics}</td>
-                            <td>Hand Writing</td><td>{behavior.handWriting}</td>
-                            <td>Punctuality</td><td>{behavior.punctuality}</td>
+                            <td>Moral Ethics</td><td>{behavior?.moralEthics}</td>
+                            <td>Hand Writing</td><td>{behavior?.handWriting}</td>
+                            <td>Punctuality</td><td>{behavior?.punctuality}</td>
                         </tr>
                         <tr>
-                            <td>Honesty</td><td>{behavior.honesty}</td>
-                            <td>Fluency</td><td>{behavior.fluency}</td>
-                            <td>Self Control</td><td>{behavior.selfControl}</td>
+                            <td>Honesty</td><td>{behavior?.honesty}</td>
+                            <td>Fluency</td><td>{behavior?.fluency}</td>
+                            <td>Self Control</td><td>{behavior?.selfControl}</td>
                         </tr>
                         <tr>
-                            <td>Responsibility</td><td>{behavior.responsibility}</td>
-                            <td>Initiative</td><td>{behavior.initiative}</td>
-                            <td>Politeness</td><td>{behavior.politeness}</td>
+                            <td>Responsibility</td><td>{behavior?.responsibility}</td>
+                            <td>Initiative</td><td>{behavior?.initiative}</td>
+                            <td>Politeness</td><td>{behavior?.politeness}</td>
                         </tr>
                     </tbody>
                 </table>
