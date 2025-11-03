@@ -26,8 +26,7 @@ const StudentSignIn = () => {
      * Handles the sign-in attempt, managing state for loading and errors.
      * @async
      */
-    const handleSignIn = async (e) => {
-        e.preventDefault();
+    const handleSignIn = async () => {
    setLoading(true)
    
     await axios.post(`https://portal-database-seven.vercel.app/student/login`,{
@@ -102,7 +101,7 @@ const StudentSignIn = () => {
                     )}
 
                     {/* The button is now a submit button and displays loading state */}
-                    <button type="submit" disabled={loading}>
+                    <button onClick={()=>handleSignIn()} disabled={loading}>
                         {loading ? 'Signing In...' : 'Sign In'}
                     </button>
                 </form>
