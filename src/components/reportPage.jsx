@@ -415,7 +415,7 @@ const MOCK_DATA = {
                     <tbody>
                         <tr>
                             <td className="label">NAME:</td>
-                            <td className="value">{studentName}</td>
+                            <td className="value">{value.studentName}</td>
                             <td className="label">TERM BEGINS:</td>
                             <td className="value">04/01/2025</td>
                             <td className="label">ADMISSION No:</td>
