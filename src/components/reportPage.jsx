@@ -406,7 +406,7 @@ const MOCK_DATA = {
                     <div className="school-info">
                         <p style={{fontSize:"20px"}} className="school-name-ar">مدرسة التصفية للتحفيظ والدراسات الإسلامية، أبوجا</p>
                         <h2 className="school-name-en">MADRASAT ALTASFIYAH TAHFEEZ AND ISLAMIYAH SCHOOL, ABUJA</h2>
-                        <h3 className="report-title"  onClick={()=>setValue((value)=> alert(value))}>STATEMENT OF RESULT</h3>
+                        <h3 className="report-title"  onClick={()=>setValue((value)=> console.log(value))}>STATEMENT OF RESULT</h3>
                     </div>
                     <img src="https://placehold.co/70x70/E0F2F1/333333?text=Photo" alt="Student" className="student-photo" />
                 </div>
