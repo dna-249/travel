@@ -30,7 +30,7 @@ const getGradeAndRemark = (score) => {
     } else if (score >= 50) {
         return { Grade: "D", Remark: "PASS" };
     } else {
-        return { Grade: "F", Remark: "FAIL" };
+        return { Grade: "F", Remark: "FAIL / NEEDS IMPROVEMENT" };
     }
 };
 
@@ -47,7 +47,7 @@ useEffect(() => {
                 
                 // For demonstration, we use a delay and return the MOCK_DATA
                 await axios.get(`https://portal-database-seven.vercel.app/student/${id}`)
-                .then((res)=>{setValue(res.data);console.log(value)})
+                .then((res)=>{setValue(()=>res.data);console.log(res)})
                 .catch((error)=>console.log(error.message))
                 
                 // Simulate a successful response
@@ -60,7 +60,7 @@ useEffect(() => {
                      throw new Error("No data received or subject list is empty.");
                 }
 
-                setRawStudentData(MOCK_DATA);
+                setRawStudentData(fetchedData);
             } catch (err) {
                 console.error("Fetch error:", err);
                 setError("Failed to load report data. Please check the API connection. (Using mock data structure for demo).");
@@ -74,6 +74,41 @@ useEffect(() => {
         fetchData();
     }, [id]); 
 
+
+const MOCK_DATA = {
+    school:value?.school ,
+    studentName:value?.studentName ,
+    class:value?.class ,
+    term:value?.term ,
+    session:value?.session ,
+    admissionNo:value?.admissionNo ,
+    age:value?.age,
+    sex:value?.sex,
+    house:value?.house ,
+    noInClass:value?.noInClass ,
+    classHighest:value?.classHighest ,
+    classLowest:value?.classLowest ,
+    classPos:value?.classPos ,
+    headRemark:value?.headRemark ,
+    classTeacherRemark:value?.classTeacherRemark ,
+    // NOTE: Grade, Remark, and Total will be calculated from these values
+    subjects: [
+        { name: "QUR'AN", CA1:value?.QURAN[0]?.CA1,    CA2: value?.QURAN[0]?.CA2, Ass: value?.QURAN[0]?.Ass, Exam: value?.QURAN[0]?.Exam, Position: "2nd" },
+        { name: "TAJWEED", CA1:value?.TAJWEED[0]?.CA1,    CA2: value?.TAJWEED[0]?.CA2, Ass: value?.TAJWEED[0]?.Ass, Exam: value?.TAJWEED[0]?.Exam, Position: "4th" },
+        { name: "TAUHEED", CA1:value?.TAUHEED[0]?.CA1,     CA2: value?.TAUHEED[0]?.CA2, Ass: value?.TAUHEED[0]?.Ass, Exam: value?.TAUHEED[0]?.Exam, Position: "2nd" },
+        { name: "FIQH", CA1:value?.FIQH[0]?.CA1,    CA2: value?.FIQH[0]?.CA2, Ass: value?.FIQH[0]?.Ass, Exam: value?.FIQH[0]?.Exam, Position: "4th" },
+        { name: "HADITH", CA1:value?.HADITH[0]?.CA1,     CA2: value?.HADITH[0]?.CA2, Ass: value?.HADITH[0]?.Ass, Exam: value?.HADITH[0]?.Exam, Position: "3rd" },
+        { name: "ARABIC", CA1:value?.ARABIC[0]?.CA1,     CA2: value?.ARABIC[0]?.CA2, Ass: value?.ARABIC[0]?.Ass, Exam: value?.ARABIC[0]?.Exam, Position: "3rd" },
+        { name: "AZKHAR", CA1:value?.AZKHAR[0]?.CA1,     CA2: value?.AZKHAR[0]?.CA2, Ass: value?.AZKHAR[0]?.Ass, Exam: value?.AZKHAR[0]?.Exam, Position: "3rd" },
+        { name: "SIRAH", CA1:value?.SIRAH[0]?.CA1,     CA2: value?.SIRAH[0]?.CA2, Ass: value?.SIRAH[0]?.Ass, Exam: value?.SIRAH[0]?.Exam, Position: "3rd" },
+        { name: "HURUF", CA1:value?.HURUF[0]?.CA1,     CA2: value?.HURUF[0]?.CA2, Ass: value?.HURUF[0]?.Ass, Exam: value?.HURUF[0]?.Exam, Position: "3rd" },
+    ],
+    behavior: {
+        moralEthics: "EXCELLENT", punctuality: "GOOD", handWriting: "GOOD",
+        honesty: "GOOD", fluency: "GOOD", selfControl: "GOOD",
+        responsibility: "GOOD", initiative: "GOOD", politeness: "GOOD"
+    },
+};
 
 
 
@@ -135,41 +170,6 @@ const calculateOverallData = (subjects) => {
 // 2. MOCK DATA (Fallback/Expected API Shape)
 // -------------------------------------------------------------------
 // This mock data is used as a temporary placeholder while fetching.
-const MOCK_DATA = {
-    school:value?.school ,
-    studentName:value?.studentName ,
-    class:value?.class ,
-    term:value?.term ,
-    session:value?.session ,
-    admissionNo:value?.admissionNo ,
-    age:value?.age,
-    sex:value?.sex,
-    house:value?.house ,
-    noInClass:value?.noInClass ,
-    classHighest:value?.classHighest ,
-    classLowest:value?.classLowest ,
-    classPos:value?.classPos ,
-    headRemark:value?.headRemark ,
-    classTeacherRemark:value?.classTeacherRemark ,
-    // NOTE: Grade, Remark, and Total will be calculated from these values
-    subjects: [
-        { name: "QUR'AN", CA1:value?.subjects?.QURAN.CA1,    CA2: value?.subjects?.QURAN.CA2, Ass: value?.subjects?.QURAN.Ass, Exam: value?.subjects?.QURAN.Exam, Position: "2nd" },
-        { name: "TAJWEED", CA1:value?.subjects?.TAJWEED.CA1,    CA2: value?.subjects?.TAJWEED.CA2, Ass: value?.subjects?.TAJWEED.Ass, Exam: value?.subjects?.TAJWEED.Exam, Position: "4th" },
-        { name: "TAUHEED", CA1:value?.subjects?.TAUHEEDCA1,     CA2: value?.subjects?.TAUHEED.CA2, Ass: value?.subjects?.TAUHEED.Ass, Exam: value?.subjects?.TAUHEED.Exam, Position: "2nd" },
-        { name: "FIQH", CA1:value?.subjects?.FIQH.CA1,    CA2: value?.subjects?.FIQH.CA2, Ass: value?.subjects?.FIQH.Ass, Exam: value?.subjects?.FIQH.Exam, Position: "4th" },
-        { name: "HADITH", CA1:value?.subjects?.HADITH.CA1,     CA2: value?.subjects?.HADITH.CA2, Ass: value?.subjects?.HADITH.Ass, Exam: value?.subjects?.HADITH.Exam, Position: "3rd" },
-        { name: "ARABIC", CA1:value?.subjects?.ARABIC.CA1,     CA2: value?.subjects?.ARABIC.CA2, Ass: value?.subjects?.ARABIC.Ass, Exam: value?.subjects?.ARABIC.Exam, Position: "3rd" },
-        { name: "AZKHAR", CA1:value?.subjects?.AZKHAR.CA1,     CA2: value?.subjects?.AZKHAR.CA2, Ass: value?.subjects?.AZKHAR.Ass, Exam: value?.subjects?.AZKHAR.Exam, Position: "3rd" },
-        { name: "SIRAH", CA1:value?.subjects?.SIRAH.CA1,     CA2: value?.subjects?.SIRAH.CA2, Ass: value?.subjects?.SIRAH.Ass, Exam: value?.subjects?.SIRAH.Exam, Position: "3rd" },
-        { name: "HURUF", CA1:value?.subjects?.HURUF.CA1,     CA2: value?.subjects?.HURUF.CA2, Ass: value?.subjects?.HURUF.Ass, Exam: value?.subjects?.HURUF.Exam, Position: "3rd" },
-    ],
-    behavior: {
-        moralEthics: "EXCELLENT", punctuality: "GOOD", handWriting: "GOOD",
-        honesty: "GOOD", fluency: "GOOD", selfControl: "GOOD",
-        responsibility: "GOOD", initiative: "GOOD", politeness: "GOOD"
-    },
-};
-
 
 
     // --- Calculated Data (UseMemo for efficiency) ---
@@ -177,7 +177,7 @@ const MOCK_DATA = {
         if (!rawStudentData) return null;
 
         // Step 1: Calculate Subject Totals, Grades, and Remarks
-        const automatedSubjects = rawStudentData?.subjects?.map(calculateSubjectData);
+        const automatedSubjects = rawStudentData.subjects.map(calculateSubjectData);
         
         // Step 2: Calculate Overall Totals and Averages
         const overallStats = calculateOverallData(automatedSubjects);
@@ -192,7 +192,7 @@ const MOCK_DATA = {
             overallRemark: overallStats.overallRemark,
             overallStats: overallStats,
         };
-    },[rawStudentData]);
+    }, [rawStudentData]);
 
     // --- Print and Download Handlers (Updated) ---
     const handleDownloadPdf = () => {
@@ -247,17 +247,7 @@ const MOCK_DATA = {
         headRemark, classTeacherRemark, overallStats 
     } = calculatedData;
     
-const subject =  [
-        { name: "QUR'AN", CA1:value?.QURAN[0]?.CA1,    CA2: value?.QURAN[0]?.CA2, Ass: value?.QURAN[0]?.Ass, Exam: value?.QURAN[0]?.Exam, Position: "2nd" },
-        { name: "TAJWEED", CA1:value?.TAJWEED[0]?.CA1,    CA2: value?.TAJWEED[0]?.CA2, Ass: value?.TAJWEED[0]?.Ass, Exam: value?.TAJWEED[0]?.Exam, Position: "4th" },
-        { name: "TAUHEED", CA1:value?.TAUHEED[0]?.CA1,     CA2: value?.TAUHEED[0]?.CA2, Ass: value?.TAUHEED[0]?.Ass, Exam: value?.TAUHEED[0]?.Exam, Position: "2nd" },
-        { name: "FIQH", CA1:value?.FIQH[0]?.CA1,    CA2: value?.FIQH[0]?.CA2, Ass: value?.FIQH[0]?.Ass, Exam: value?.FIQH[0]?.Exam, Position: "4th" },
-        { name: "HADITH", CA1:value?.HADITH[0]?.CA1,     CA2: value?.HADITH[0]?.CA2, Ass: value?.HADITH[0]?.Ass, Exam: value?.HADITH[0]?.Exam, Position: "3rd" },
-        { name: "ARABIC", CA1:value?.ARABIC[0]?.CA1,     CA2: value?.ARABIC[0]?.CA2, Ass: value?.ARABIC[0]?.Ass, Exam: value?.ARABIC[0]?.Exam, Position: "3rd" },
-        { name: "AZKHAR", CA1:value?.AZKHAR[0]?.CA1,     CA2: value?.AZKHAR[0]?.CA2, Ass: value?.AZKHAR[0]?.Ass, Exam: value?.AZKHAR[0]?.Exam, Position: "3rd" },
-        { name: "SIRAH", CA1:value?.SIRAH[0]?.CA1,     CA2: value?.SIRAH[0]?.CA2, Ass: value?.SIRAH[0]?.Ass, Exam: value?.SIRAH[0]?.Exam, Position: "3rd" },
-        { name: "HURUF", CA1:value?.HURUF[0]?.CA1,     CA2: value?.HURUF[0]?.CA2, Ass: value?.HURUF[0]?.Ass, Exam: value?.HURUF[0]?.Exam, Position: "3rd" },
-    ]
+    // --- JSX Render ---
     return (
         <div className="p-4 sm:p-8 bg-gray-50 min-h-screen font-sans">
             {/* Inject the html2pdf library via CDN to ensure it's available globally */}
@@ -415,33 +405,34 @@ const subject =  [
                     <img src="https://placehold.co/70x70/004D40/FFFFFF?text=Logo" alt="School Logo" className="logo" />
                     <div className="school-info">
                         <p style={{fontSize:"20px"}} className="school-name-ar">مدرسة التصفية للتحفيظ والدراسات الإسلامية، أبوجا</p>
-                        <h2 className="school-name-en"  onClick={()=>{console.log(rawStudentData);console.log(value)}}>MADRASAT ALTASFIYAH TAHFEEZ AND ISLAMIYAH SCHOOL, ABUJA</h2>
+                        <h2 className="school-name-en">MADRASAT ALTASFIYAH TAHFEEZ AND ISLAMIYAH SCHOOL, ABUJA</h2>
+                        <h3 className="report-title">STATEMENT OF RESULT</h3>
                     </div>
                     <img src="https://placehold.co/70x70/E0F2F1/333333?text=Photo" alt="Student" className="student-photo" />
                 </div>
-            
+                
                 {/* Student Info Table */}
                 <table className="info-table">
                     <tbody>
                         <tr>
                             <td className="label">NAME:</td>
-                            <td className="value">{value.studentName}</td>
+                            <td className="value">{studentName}</td>
                             <td className="label">TERM BEGINS:</td>
                             <td className="value">04/01/2025</td>
                             <td className="label">ADMISSION No:</td>
-                            <td className="value">{value.admissionNo}</td>
+                            <td className="value">{admissionNo}</td>
                             <td className="label">SEX:</td>
                             <td className="value">{sex}</td>
                         </tr>
                         <tr>
                             <td className="label">CLASS:</td>
-                            <td className="value">{value.studentClass}</td>
+                            <td className="value">{studentClass}</td>
                             <td className="label">No. in Class:</td>
                             <td className="value">{noInClass}</td>
                             <td className="label">Age:</td>
-                            <td className="value">{value.age}</td>
+                            <td className="value">{age}</td>
                             <td className="label">House:</td>
-                            <td className="value">{value.house}</td>
+                            <td className="value">{house}</td>
                         </tr>
                         <tr>
                             <td className="label">Class Pos:</td>
@@ -483,7 +474,7 @@ const subject =  [
                         </tr>
                     </thead>
                     <tbody>
-                        {subject?.map((subject, index) => ( 
+                        {subjects.map((subject, index) => ( 
                             <tr key={index}>
                                 <td>{subject.name}</td>
                                 <td>{subject.CA1}</td>
@@ -499,11 +490,11 @@ const subject =  [
                         {/* Total row: Uses dynamically calculated sums */}
                         <tr className="total-row">
                             <td>**TOTAL**</td>
-                            <td>{overallStats?.CA1_Total}</td>
-                            <td>{overallStats?.CA2_Total}</td>
-                            <td>{overallStats?.Ass_Total}</td>
-                            <td>{overallStats?.Exam_Total}</td>
-                            <td>{overallStats?.Overall_Total}</td>
+                            <td>{overallStats.CA1_Total}</td>
+                            <td>{overallStats.CA2_Total}</td>
+                            <td>{overallStats.Ass_Total}</td>
+                            <td>{overallStats.Exam_Total}</td>
+                            <td>{overallStats.Overall_Total}</td>
                             <td>-</td>
                             <td>-</td>
                             <td>{overallRemark}</td>
@@ -525,27 +516,27 @@ const subject =  [
                     </thead>
                     <tbody>
                         <tr>
-                            <td>Moral Ethics</td><td>{value?.moralEthics}</td>
-                            <td>Hand Writing</td><td>{value?.handWriting}</td>
-                            <td>Punctuality</td><td>{value?.punctuality}</td>
+                            <td>Moral Ethics</td><td>{behavior.moralEthics}</td>
+                            <td>Hand Writing</td><td>{behavior.handWriting}</td>
+                            <td>Punctuality</td><td>{behavior.punctuality}</td>
                         </tr>
                         <tr>
-                            <td>Honesty</td><td>{value?.honesty}</td>
-                            <td>Fluency</td><td>{value?.fluency}</td>
-                            <td>Self Control</td><td>{value?.selfControl}</td>
+                            <td>Honesty</td><td>{behavior.honesty}</td>
+                            <td>Fluency</td><td>{behavior.fluency}</td>
+                            <td>Self Control</td><td>{behavior.selfControl}</td>
                         </tr>
                         <tr>
-                            <td>Responsibility</td><td>{value?.responsibility}</td>
-                            <td>Initiative</td><td>{value?.initiative}</td>
-                            <td>Politeness</td><td>{value?.politeness}</td>
+                            <td>Responsibility</td><td>{behavior.responsibility}</td>
+                            <td>Initiative</td><td>{behavior.initiative}</td>
+                            <td>Politeness</td><td>{behavior.politeness}</td>
                         </tr>
                     </tbody>
                 </table>
 
                 {/* Footer Remarks */}
                 <div className="remarks-section">
-                    <p><strong>Class Teacher's Remark:</strong> {value?.classTeacherRemark}</p>
-                    <p><strong>Head of School's Remark:</strong> {value?.headRemark}</p>
+                    <p><strong>Class Teacher's Remark:</strong> {classTeacherRemark}</p>
+                    <p><strong>Head of School's Remark:</strong> {headRemark}</p>
                     <div className="signatures">
                         <span>Signature & Stamp</span>
                         <span>Date</span>
