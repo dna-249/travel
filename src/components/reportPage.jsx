@@ -173,7 +173,7 @@ const MOCK_DATA = {
 
 
     // --- Calculated Data (UseMemo for efficiency) ---
-    const calculatedData = useMemo(() => {
+    const calculatedData = () => {
         if (!rawStudentData) return null;
 
         // Step 1: Calculate Subject Totals, Grades, and Remarks
@@ -192,7 +192,7 @@ const MOCK_DATA = {
             overallRemark: overallStats.overallRemark,
             overallStats: overallStats,
         };
-    }, [rawStudentData]);
+    };
 
     // --- Print and Download Handlers (Updated) ---
     const handleDownloadPdf = () => {
