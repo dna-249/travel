@@ -400,7 +400,7 @@ const ReportPage = () => {
                             <td className="value">{studentName}</td>
                             <td className="label">CLASS:</td>
                             <td className="value">{studentClass}</td>
-                            <td className="label">ADMISSION No:</td>
+                            <td className="label">ADMISSION:</td>
                             <td className="value">{admissionNo}</td>
                             <td className="label">SEX:</td>
                             <td className="value">{sex}</td>
@@ -408,7 +408,7 @@ const ReportPage = () => {
                         <tr>
                             <td className="label">AGE:</td>
                             <td className="value">{age}</td>
-                            <td className="label">TERM BEGINS:</td>
+                            <td className="label">TERM:</td>
                             <td className="value">04/01/2025</td>
                             <td className="label">TOTAL SCORE:</td>
                             <td className="value">
