@@ -170,7 +170,7 @@ const StudentSignIn = () => {
                 </form>
 
                 <footer>
-                    <p className="footer-note">Powered by **dnaTech@2025**</p>
+                    <p onClick={()=>nav("/pin")} className="footer-note">Powered by **dnaTech@2025**</p>
                 </footer>
             </div>
         </div>
