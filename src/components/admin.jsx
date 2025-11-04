@@ -183,7 +183,7 @@ const AdminDashboard = () => {
                 </p>
 
                 {/* Option 1: Route to /entry */}
-                <div style={{marginBottom: '20px'}}>
+                <div>
                     <button style={{textAlign:"center",padding:"15px"}}
                         className="option-button"
                         onClick={() => navigate('/entry')}
@@ -196,7 +196,7 @@ const AdminDashboard = () => {
 
                 {/* Option 2: View Student Report via Dropdown Menu */}
                 <div className="lookup-form">
-                    <h3 style={{fontSize: '1.25rem', fontWeight: '600', marginBottom: '15px', color: '#4b5563'}}>
+                    <h3 style={{fontSize: '1.25rem', fontWeight: '600',color: '#4b5563'}}>
                         View Student Report
                     </h3>
                     <form onSubmit={handleViewReport} style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
