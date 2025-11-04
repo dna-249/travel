@@ -26,7 +26,7 @@ const AdminDashboard = () => {
                 
                 // Set the default selected ID if the list is not empty
                 if (response.data.length > 0) {
-                    setSelectedStudentId(response.data[0].id);
+                    setSelectedStudentId(response.data[0]._id);
                 }
             } catch (err) {
                 console.error("Failed to fetch student list:", err);
@@ -174,6 +174,7 @@ const AdminDashboard = () => {
 
             <div className="dashboard-card">
                 <h1 className="dashboard-header">
+                     <img src="/aiiflogo.png" width={100} height={100 }/>
                     Welcome, Administrator 👋
                 </h1>
                 
@@ -183,7 +184,7 @@ const AdminDashboard = () => {
 
                 {/* Option 1: Route to /entry */}
                 <div style={{marginBottom: '20px'}}>
-                    <button 
+                    <button style={{textAlign:"center",padding:"15px"}}
                         className="option-button"
                         onClick={() => navigate('/entry')}
                     >
@@ -207,9 +208,9 @@ const AdminDashboard = () => {
                         >
                             <option value="" disabled>--- Select a Student ---</option>
                             {students.map(student => (
-                                <option key={student.id} value={student.id}>
+                                <option key={student._id} value={student._id}>
                                     {/* Display Student Name and ID/Class for easy lookup */}
-                                    {`${student.studentName} (ID: ${student.id})`}
+                                    {`${student.studentName} (ID: ${student._id})`}
                                 </option>
                             ))}
                         </select>
