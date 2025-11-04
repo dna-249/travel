@@ -8,7 +8,8 @@ const STUDENT_LIST_URL = `${BASE_API_URL}`;
 const STUDENT_INFO_URL = (id) => `${BASE_API_URL}/${id}`;
 const REMARKS_URL = (id) => `${BASE_API_URL}/${id}`;
 // MOCK URL for Photo Upload (REPLACE WITH YOUR ACTUAL ENDPOINT)
-const PHOTO_UPLOAD_URL = (id) => `/api/upload-photo/${id}`; // Example mock endpoint
+// IMPORTANT: This should be your dedicated photo upload endpoint.
+const PHOTO_UPLOAD_URL = (id) => `/api/upload-photo/${id}`; 
 
 // --- MASTER LIST OF ALL AVAILABLE SUBJECTS (Unchanged) ---
 const ALL_SUBJECTS = [
@@ -28,6 +29,7 @@ const INITIAL_FORM_DATA = {
     sex: "Female",
     headRemark: "An excellent result, keep up the good work",
     classTeacherRemark: "A hardworking learner and shows respect",
+    existingPhotoUrl: null, // New field to hold existing photo URL
     
     // --- Subject Scores (Using the first few subjects as defaults) ---
     subjects: [
@@ -35,7 +37,7 @@ const INITIAL_FORM_DATA = {
     ],
 };
 
-// --- Stylesheet Object (Modified to include photo styles) ---
+// --- Stylesheet Object (MODIFIED FOR MINIMALIST DESIGN) ---
 const styles = {
     container: {
         padding: '0.1rem', backgroundColor: '#f3f4f6', minHeight: '100vh',
@@ -60,6 +62,82 @@ const styles = {
         width: '100%', padding: '0.3rem', border: '1px solid #d1d5db', borderRadius: '0.5rem',
         boxShadow: '0 1px 2px 0 rgba(0, 0, 0, 0.05)', transition: 'border-color 0.2s, box-shadow 0.2s',
     },
+    submitButton: {
+        padding: '0.5rem 1rem', fontSize: '0.875rem', fontWeight: '600',
+        borderRadius: '0.5rem', border: 'none', cursor: 'pointer', transition: 'background-color 0.2s',
+        boxShadow: '0 1px 2px 0 rgba(0, 0, 0, 0.05)',
+    },
+    studentDetailsHeader: {
+        display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '0 0.25rem',
+    },
+    listButton: {
+        padding: '0.2rem 0.2rem', fontSize: '0.75rem', fontWeight: '600', backgroundColor: '#f97316',
+        color: '#fff', borderRadius: '0.5rem', border: 'none', cursor: 'pointer', transition: 'background-color 0.2s',
+    },
+    listButtonHover: {
+        backgroundColor: '#ea580c',
+    },
+    notificationBase: {
+        marginTop: '0.15rem', marginBottom: '0.35rem', padding: '0.6rem', textAlign: 'center',
+        fontWeight: '500', borderRadius: '0.75rem', boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)',
+        transition: 'all 0.3s', border: '2px solid', maxWidth: '48rem', margin: '0.15rem auto 0.35rem auto'
+    },
+    notificationSuccess: {
+        backgroundColor: '#d1fae5', color: '#065f46', borderColor: '#10b981',
+    },
+    notificationError: {
+        backgroundColor: '#fee2e2', color: '#991b1b', borderColor: '#ef4444',
+    },
+    notificationInfo: {
+        backgroundColor: '#bfdbfe', color: '#1d4ed8', borderColor: '#3b82f6',
+    },
+    // MODIFIED STYLES FOR MINIMALIST PHOTO SECTION
+    photoContainer: {
+        display: 'flex', 
+        flexDirection: 'column', 
+        alignItems: 'center', 
+        padding: '0.2rem', // Reduced padding
+        border: '1px dashed #9ca3af', // Subtle dashed border
+        borderRadius: '0.5rem', 
+        backgroundColor: '#f9fafb', // Light background
+        width: '100%',
+        minHeight: '180px', // Ensures consistent vertical space
+        justifyContent: 'space-around',
+    },
+    photoPreview: {
+        width: '85px', // Reduced size
+        height: '85px', // Reduced size
+        borderRadius: '50%', 
+        overflow: 'hidden',
+        border: '3px solid #60a5fa', // Cleaner blue border
+        marginBottom: '0.4rem', 
+        objectFit: 'cover',
+        display: 'flex', 
+        justifyContent: 'center', 
+        alignItems: 'center',
+        backgroundColor: '#e5e7eb', // Placeholder background
+    },
+    photoInput: {
+        fontSize: '0.75rem', // Reduced font size
+        padding: '0.3rem',
+        border: '1px solid #d1d5db',
+        borderRadius: '4px',
+        width: '100%',
+        boxSizing: 'border-box'
+    },
+    uploadButton: {
+        marginTop: '0.5rem',
+        backgroundColor: '#3b82f6', // Primary blue color
+        color: 'white',
+        padding: '0.4rem', // Reduced vertical padding
+        fontSize: '0.75rem', // Reduced font size
+        fontWeight: '600',
+        borderRadius: '0.4rem',
+        cursor: 'pointer',
+        border: 'none',
+        transition: 'background-color 0.2s',
+        width: '100%',
+    },
     subjectCard: {
         padding: '0.3rem', backgroundColor: '#fff', borderRadius: '0.75rem',
         boxShadow: '0 2px 4px 0 rgba(0, 0, 0, 0.05)', marginBottom: '0.2rem', border: '1px solid #e5e7eb',
@@ -77,35 +155,6 @@ const styles = {
     scoreLabel: {
         display: 'block', fontSize: '0.65rem', fontWeight: '600', color: '#4b5563', marginBottom: '0',
     },
-    notificationBase: {
-        marginTop: '0.15rem', marginBottom: '0.35rem', padding: '0.6rem', textAlign: 'center',
-        fontWeight: '500', borderRadius: '0.75rem', boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)',
-        transition: 'all 0.3s', border: '2px solid', maxWidth: '48rem', margin: '0.15rem auto 0.35rem auto'
-    },
-    notificationSuccess: {
-        backgroundColor: '#d1fae5', color: '#065f46', borderColor: '#10b981',
-    },
-    notificationError: {
-        backgroundColor: '#fee2e2', color: '#991b1b', borderColor: '#ef4444',
-    },
-    notificationInfo: {
-        backgroundColor: '#bfdbfe', color: '#1d4ed8', borderColor: '#3b82f6',
-    },
-    submitButton: {
-        padding: '0.5rem 1rem', fontSize: '0.875rem', fontWeight: '600',
-        borderRadius: '0.5rem', border: 'none', cursor: 'pointer', transition: 'background-color 0.2s',
-        boxShadow: '0 1px 2px 0 rgba(0, 0, 0, 0.05)',
-    },
-    studentDetailsHeader: {
-        display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '0 0.25rem',
-    },
-    listButton: {
-        padding: '0.2rem 0.2rem', fontSize: '0.75rem', fontWeight: '600', backgroundColor: '#f97316',
-        color: '#fff', borderRadius: '0.5rem', border: 'none', cursor: 'pointer', transition: 'background-color 0.2s',
-    },
-    listButtonHover: {
-        backgroundColor: '#ea580c',
-    },
     listModalOverlay: {
         position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'rgba(0, 0, 0, 0.5)',
         display: 'flex', justifyContent: 'center', alignItems: 'center', zIndex: 1000,
@@ -120,9 +169,6 @@ const styles = {
         transition: 'background-color 0.15s', display: 'flex', justifyContent: 'space-between',
         alignItems: 'center',
     },
-    studentListItemHover: {
-        backgroundColor: '#f3f4f6', fontWeight: '600',
-    },
     closeButton: {
         background: 'none', border: 'none', fontSize: '1.5rem', fontWeight: '700',
         cursor: 'pointer', color: '#4b5563', position: 'absolute', top: '10px', right: '10px',
@@ -134,42 +180,9 @@ const styles = {
         width: '100%', padding: '0.5rem 1rem', borderRadius: '0.5rem',
         border: '1px solid #ccc', boxSizing: 'border-box',
     },
-    // Styles for Photo Upload
-    photoContainer: {
-        display: 'flex', flexDirection: 'column', alignItems: 'center', 
-        padding: '0.5rem', border: '1px solid #e5e7eb', borderRadius: '0.5rem', 
-        backgroundColor: '#f9fafb', width: '100%'
-    },
-    photoPreview: {
-        width: '100px', height: '100px', borderRadius: '50%', overflow: 'hidden',
-        border: '3px solid #10b981', marginBottom: '0.5rem', objectFit: 'cover',
-        display: 'flex', justifyContent: 'center', alignItems: 'center',
-    },
-    photoInput: {
-        fontSize: '0.8rem',
-        padding: '0.3rem',
-        border: '1px solid #d1d5db',
-        borderRadius: '4px',
-        width: '100%',
-        boxSizing: 'border-box'
-    },
-    uploadButton: {
-        marginTop: '0.5rem',
-        backgroundColor: '#10b981',
-        color: 'white',
-        padding: '0.4rem 0.8rem',
-        fontSize: '0.8rem',
-        fontWeight: '600',
-        borderRadius: '0.4rem',
-        cursor: 'pointer',
-        border: 'none',
-        transition: 'background-color 0.2s',
-        minWidth: '100px',
-        width: '100%',
-    },
 };
 
-// --- Helper function to format notification styles
+// Helper function to format notification styles
 const getNotificationStyle = (type) => ({
     ...styles.notificationBase,
     ...(type === 'success' ? styles.notificationSuccess : type === 'error' ? styles.notificationError : styles.notificationInfo)
@@ -227,7 +240,7 @@ const App = () => {
         }
     };
 
-    // Submit Student Photo (uses FormData)
+    // --- REALISTIC AXIOS FILE UPLOAD LOGIC ---
     const handleSubmitStudentPhoto = async () => {
         if (!formData.admissionNo) {
             setNotification({ type: 'error', message: "Please select a student first (Admission No is missing)." });
@@ -243,30 +256,65 @@ const App = () => {
         setIsPostingPhoto(true);
         setNotification(null);
 
+        // 1. Create a FormData object
         const dataToSend = new FormData();
-        dataToSend.append('studentPhoto', photoFile); 
-        dataToSend.append('studentId', formData.admissionNo); 
+        // The key 'studentPhoto' must match the expected field name on your server
+        dataToSend.append('studentPhoto', photoFile, photoFile.name); 
+        // You might also send the student ID along with the file
+        
 
         try {
-            // --- MOCK API Call for Photo Upload START ---
-            await new Promise(resolve => setTimeout(resolve, 1500)); // Simulate network delay
-            console.log('Mock Photo Submission successful for ID:', formData.admissionNo, 'File:', photoFile.name);
-            const mockResponse = { status: 200 };
-            // --- MOCK API Call END ---
+            // 2. Make the Axios PUT/POST request
+            // Note: File uploads commonly use POST, but we use PUT as per the request 
+            // and the API endpoint structure which might be for "updating" the photo.
+            const response = await axios.put(
+                PHOTO_UPLOAD_URL(formData.admissionNo), // Your API endpoint
+                dataToSend, // The FormData payload
+                { 
+                    headers: { 
+                        // IMPORTANT: Axios and the browser will automatically set 
+                        // 'Content-Type': 'multipart/form-data' for FormData
+                        // You should generally NOT set this header manually when using FormData
+                        // However, some backends might require custom headers (e.g., authorization)
+                    } 
+                }
+            );
 
-            if (mockResponse.status === 200 || mockResponse.status === 201) {
-                setNotification({ type: 'success', message: `📷 Photo for **${formData.studentName}** successfully uploaded! (Status: 200)` });
+            // 3. Handle response
+            if (response.status === 200 || response.status === 201) {
+                
+                // IMPORTANT: The server should return the permanent URL of the uploaded image
+                const newPhotoUrl = response.data.photoUrl || imagePreview; 
+
+                setFormData(prev => ({
+                    ...prev,
+                    // Set the permanent URL returned by the API
+                    existingPhotoUrl: newPhotoUrl, 
+                }));
+                // Clear file input/preview states
+                setPhotoFile(null);
+                setImagePreview(null); 
+
+                setNotification({ type: 'success', message: `📷 Photo for **${formData.studentName}** successfully uploaded! (Status: ${response.status})` });
             } else {
-                throw new Error(`Submission failed with status ${mockResponse.status}.`);
+                // Handle non-200 responses
+                const errorMsg = response.data?.message || response.statusText;
+                throw new Error(errorMsg);
             }
         } catch (error) {
-            console.error("Photo Submission Error (Mocked):", error);
-            setNotification({ type: 'error', message: `❌ Failed to submit Photo: ${error.message || 'Network/Mocking Error'}` });
+            // Handle network errors or exceptions thrown above
+            console.error("Photo Submission Error:", error.response || error);
+            const errorMessage = error.response 
+                ? `API Error (${error.response.status}): ${error.response.data?.message || error.response.statusText}`
+                : `Network Error: ${error.message}`;
+                
+            setNotification({ type: 'error', message: `❌ Failed to submit Photo: ${errorMessage}` });
         } finally {
             setIsPostingPhoto(false);
             setTimeout(() => setNotification(null), 7000);
         }
     };
+    // --- END REALISTIC AXIOS FILE UPLOAD LOGIC ---
     
     // Handler for Subject array changes
     const handleSubjectChange = (index, field, value) => {
@@ -340,8 +388,8 @@ const App = () => {
                 throw new Error(`Submission failed with status ${response.status}.`);
             }
         } catch (error) {
-            console.error("Student Info Submission Error (Mocked):", error);
-            setNotification({ type: 'error', message: `❌ Failed to submit Student Info: ${error.message || 'Network/Mocking Error'}` });
+            console.error("Student Info Submission Error:", error);
+            setNotification({ type: 'error', message: `❌ Failed to submit Student Info: ${error.message || 'Network Error'}` });
         } finally {
             setIsPostingInfo(false);
             setTimeout(() => setNotification(null), 7000);
@@ -377,8 +425,8 @@ const App = () => {
                 throw new Error(`Submission failed with status ${response.status}.`);
             }
         } catch (error) {
-            console.error("Remarks Submission Error (Mocked):", error);
-            setNotification({ type: 'error', message: `❌ Failed to submit Remarks: ${error.message || 'Network/Mocking Error'}` });
+            console.error("Remarks Submission Error:", error);
+            setNotification({ type: 'error', message: `❌ Failed to submit Remarks: ${error.message || 'Network Error'}` });
         } finally {
             setIsPostingRemarks(false);
             setTimeout(() => setNotification(null), 7000);
@@ -471,6 +519,7 @@ const App = () => {
         setSearchQuery('');
         
         try {
+            // Re-use the useEffect logic to fetch list
             await new Promise(resolve => setTimeout(resolve, 1000));
             setShowStudentList(true);
             setNotification(null);
@@ -488,11 +537,23 @@ const App = () => {
 
     // Select a Student from the List
     const handleStudentSelect = (student) => {
+        let mockPhoto = null;
+        if (student.id === "ATBS/N1/2024/001") {
+            // Mocking an existing photo for the first student
+            mockPhoto = "/aiiflogo.jpg"; 
+        } else {
+            mockPhoto = null;
+        }
+
         setFormData(prev => ({
             ...prev,
             studentName: student.name,
-            admissionNo: student.id, 
+            admissionNo: student.id,
+            existingPhotoUrl: mockPhoto, // Set the mock existing URL
         }));
+
+        setImagePreview(null);
+        setPhotoFile(null);
         setShowStudentList(false);
         setNotification({
             type: 'success',
@@ -622,7 +683,7 @@ const App = () => {
 
     return (
         <div style={styles.container}>
-            <h1 style={{textAlign: 'center', margin: '1rem 0'}}><img src="/aiiflogo.jpg" alt="School Logo" width={100} height={100 }/></h1> 
+            <h1 style={{textAlign: 'center', margin: '1rem 0'}}><img src={"aiiflogo.jpg"} alt="School Logo" width={100} height={100 }/></h1> 
             <h1 style={styles.title}>
                 Student Data Entry 📝
             </h1>
@@ -655,65 +716,70 @@ const App = () => {
                         </button>
                     </div>
                     
-                    {/* MODIFIED: Student Info Content Container (1fr stacking on small screens) */}
+                    {/* Student Info Content Container (Flexible/Stacking Layout) */}
                     <div style={{
                         display: 'flex', 
-                        flexDirection: 'column', // Stacks column-wise on small screens
+                        flexDirection: window.innerWidth < 768 ? 'column' : 'row', // Responsive Column/Row
                         gap: '1rem', 
                         marginBottom: '0.8rem', 
                         paddingTop: '0.3rem',
-                        // Note: For actual row layout on large screens with inline styles, 
-                        // you'd need a CSS library or the use of `window.innerWidth`. 
-                        // For demonstration, we keep it column-stacked primarily.
-                        // For a quick fix simulating large screen:
-                        '@media (min-width: 768px)': { 
-                            flexDirection: 'row', 
-                        }
                     }}>
-                        {/* Photo Upload Section */}
-                        <div style={{flexShrink: 0, width: '120px', margin: '0 auto'}}>
+                        {/* Photo Upload Section (Minimised/Professional) */}
+                        <div style={{ flexShrink: 0, width: '120px', margin: '0 auto' }}>
                             <div style={styles.photoContainer}>
                                 <div style={styles.photoPreview}>
+                                    {/* Display NEW preview OR EXISTING photo OR Placeholder */}
                                     {imagePreview ? (
-                                        <img src={imagePreview} alt="Student Preview" style={{objectFit: 'cover', width: '100%', height: '100%'}} />
+                                        <img src={imagePreview} alt="Student Preview" style={{ objectFit: 'cover', width: '100%', height: '100%' }} />
+                                    ) : formData.existingPhotoUrl ? (
+                                        <img src={formData.existingPhotoUrl} alt="Existing Student Photo" style={{ objectFit: 'cover', width: '100%', height: '100%' }} />
                                     ) : (
-                                        <span style={{color: '#9ca3af', fontSize: '0.7rem', textAlign: 'center'}}>No Photo</span>
+                                        <span style={{ color: '#6b7280', fontSize: '0.65rem', textAlign: 'center' }}>No Photo</span>
                                     )}
                                 </div>
-                                <input
-                                    type="file"
-                                    accept="image/*"
-                                    onChange={handlePhotoFileChange}
-                                    style={styles.photoInput}
-                                    aria-label="Student Photo Upload"
-                                />
-                                <button
-                                    type="button"
-                                    onClick={handleSubmitStudentPhoto}
-                                    disabled={isPostingPhoto || !formData.admissionNo || !photoFile}
-                                    style={{
-                                        ...styles.uploadButton,
-                                        backgroundColor: isPostingPhoto ? '#047857' : styles.uploadButton.backgroundColor,
-                                        cursor: (isPostingPhoto || !formData.admissionNo || !photoFile) ? 'not-allowed' : 'pointer',
-                                        opacity: (!formData.admissionNo || !photoFile) ? 0.6 : 1,
-                                    }}
-                                >
-                                    {isPostingPhoto ? 'Uploading...' : 'Upload Photo'}
-                                </button>
+
+                                {/* Conditional Controls */}
+                                {(!formData.existingPhotoUrl || imagePreview) ? (
+                                    <>
+                                        <input
+                                            type="file"
+                                            accept="image/*"
+                                            onChange={handlePhotoFileChange}
+                                            style={styles.photoInput}
+                                            aria-label="Student Photo Upload"
+                                            disabled={!formData.admissionNo}
+                                        />
+                                        <button
+                                            type="button"
+                                            onClick={handleSubmitStudentPhoto}
+                                            disabled={isPostingPhoto || !formData.admissionNo || !photoFile}
+                                            style={{
+                                                ...styles.uploadButton,
+                                                backgroundColor: isPostingPhoto ? '#1e40af' : styles.uploadButton.backgroundColor,
+                                                cursor: (isPostingPhoto || !formData.admissionNo || !photoFile) ? 'not-allowed' : 'pointer',
+                                                opacity: (!formData.admissionNo || !photoFile) ? 0.6 : 1,
+                                            }}
+                                        >
+                                            {isPostingPhoto ? 'Uploading...' : 'Upload/Replace'}
+                                        </button>
+                                    </>
+                                ) : (
+                                    /* Confirmation Message (If photo exists AND no new file selected) */
+                                    <p style={{marginTop: '5px', fontSize: '0.7rem', color: '#1d4ed8', fontWeight: '600', textAlign: 'center', lineHeight: '1.2'}}>
+                                        Photo Uploaded.
+                                        <br/>
+                                        <span style={{fontSize: '0.65rem', color: '#9ca3af'}}>(Select file to replace)</span>
+                                    </p>
+                                )}
                             </div>
                         </div>
 
                         {/* Student Details Grid (Fields) */}
                         <div style={{
                             display: 'grid', 
-                            // MODIFIED: Single 1fr column for maximum stacking (as requested)
-                            gridTemplateColumns: '1fr', 
+                            gridTemplateColumns: window.innerWidth < 400 ? '1fr' : 'repeat(auto-fit, minmax(200px, 1fr))', 
                             gap: '0.6rem', 
                             flexGrow: 1,
-                            // Fallback for wider screens:
-                            '@media (min-width: 400px)': { 
-                                 gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', 
-                            }
                         }}>
                             {studentClassFields.map(({ label, name, type, disabled }) => (
                                 <div key={name}>
@@ -738,18 +804,15 @@ const App = () => {
                                 ...styles.submitButton,
                                 backgroundColor: isPostingInfo ? '#4f46e5' : '#6366f1',
                                 color: '#fff',
-                                cursor: (isPostingInfo || !formData.admissionNo) ? 'not-allowed' : 'pointer',
                                 opacity: (!formData.admissionNo) ? 0.6 : 1,
                             }}
-                            onMouseOver={(e) => { if (!isPostingInfo && formData.admissionNo) e.currentTarget.style.backgroundColor = '#4338ca'; }}
-                            onMouseOut={(e) => { if (!isPostingInfo && formData.admissionNo) e.currentTarget.style.backgroundColor = '#6366f1'; }}
                         >
                             {isPostingInfo ? 'Saving Info...' : 'Submit Student Info 💾'}
                         </button>
                     </div>
                 </fieldset>
 
-                {/* --- Student List Modal (Unchanged) --- */}
+                {/* --- Student List Modal (For Selection) --- */}
                 {showStudentList && (
                     <div style={styles.listModalOverlay} onClick={() => setShowStudentList(false)}>
                         <div style={styles.listModalContent} onClick={(e) => e.stopPropagation()}>
@@ -761,49 +824,41 @@ const App = () => {
                                     value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)}
                                 />
                             </div>
-                            {filteredStudentList.length > 0 ? (
-                                <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
-                                    {filteredStudentList.map(student => (
-                                        <li
-                                            key={student.id} onClick={() => handleStudentSelect(student)} style={styles.studentListItem}
-                                            onMouseOver={(e) => { e.currentTarget.style.backgroundColor = styles.studentListItemHover.backgroundColor; e.currentTarget.style.fontWeight = styles.studentListItemHover.fontWeight; }}
-                                            onMouseOut={(e) => { e.currentTarget.style.backgroundColor = styles.studentListItem.backgroundColor; e.currentTarget.style.fontWeight = 'normal'; }}
-                                        >
-                                            {student.name}
-                                            <span style={{ fontSize: '0.75rem', color: '#9ca3af' }}>ID: {student.id}</span>
-                                        </li>
-                                    ))}
-                                </ul>
-                            ) : (
-                                <p style={{ textAlign: 'center', color: '#6b7280' }}>No students found matching your search.</p>
-                            )}
+                            <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
+                                {filteredStudentList.map(student => (
+                                    <li
+                                        key={student.id} onClick={() => handleStudentSelect(student)} style={styles.studentListItem}
+                                        onMouseOver={(e) => { e.currentTarget.style.backgroundColor = '#f3f4f6'; e.currentTarget.style.fontWeight = '600'; }}
+                                        onMouseOut={(e) => { e.currentTarget.style.backgroundColor = 'transparent'; e.currentTarget.style.fontWeight = 'normal'; }}
+                                    >
+                                        {student.name}
+                                        <span style={{ fontSize: '0.75rem', color: '#9ca3af' }}>ID: {student.id}</span>
+                                    </li>
+                                ))}
+                            </ul>
                         </div>
                     </div>
                 )}
                 
-                {/* 2. Subject Scores Fieldset (Unchanged) */}
+                {/* 2. Subject Scores Fieldset */}
                 <fieldset style={{ ...styles.fieldset, border: '2px solid #10b981' }}>
                     <legend style={{ ...styles.legend, color: '#059669' }}>Subject Scores</legend>
                     
-                    {formData.subjects.map(renderSubjectEntry)}
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                        {formData.subjects.map((subject, index) => renderSubjectEntry(subject, index))}
+                    </div>
 
+                    {/* Add Subject Button */}
                     <button
                         type="button"
                         onClick={addSubject}
-                        disabled={formData.subjects.length >= ALL_SUBJECTS.length}
-                        style={{
-                            ...styles.submitButton,
-                            width: '100%', backgroundColor: '#fcd34d', color: '#92400e',
-                            marginTop: '0.75rem', opacity: formData.subjects.length >= ALL_SUBJECTS.length ? 0.6 : 1,
-                        }}
-                        onMouseOver={(e) => { if (formData.subjects.length < ALL_SUBJECTS.length) e.currentTarget.style.backgroundColor = '#fbbf24'; }}
-                        onMouseOut={(e) => { if (formData.subjects.length < ALL_SUBJECTS.length) e.currentTarget.style.backgroundColor = '#fcd34d'; }}
+                        style={{...styles.submitButton, width: '100%', backgroundColor: '#fcd34d', color: '#92400e', marginTop: '0.75rem'}}
                     >
                         + Add Subject Row
                     </button>
                 </fieldset>
                 
-                {/* 3. Remarks Fieldset (Unchanged) */}
+                {/* 3. Remarks Fieldset */}
                 <fieldset style={{ ...styles.fieldset, border: '2px solid #f97316' }}>
                     <legend style={{ ...styles.legend, color: '#ea580c' }}>Remarks</legend>
                     
@@ -839,11 +894,8 @@ const App = () => {
                                 ...styles.submitButton,
                                 backgroundColor: isPostingRemarks ? '#b45309' : '#f97316',
                                 color: '#fff',
-                                cursor: (isPostingRemarks || !formData.admissionNo) ? 'not-allowed' : 'pointer',
                                 opacity: (!formData.admissionNo) ? 0.6 : 1,
                             }}
-                            onMouseOver={(e) => { if (!isPostingRemarks && formData.admissionNo) e.currentTarget.style.backgroundColor = '#ea580c'; }}
-                            onMouseOut={(e) => { if (!isPostingRemarks && formData.admissionNo) e.currentTarget.style.backgroundColor = '#f97316'; }}
                         >
                             {isPostingRemarks ? 'Saving Remarks...' : 'Submit Remarks ✨'}
                         </button>
