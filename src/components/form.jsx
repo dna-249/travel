@@ -683,7 +683,8 @@ const App = () => {
 
     return (
         <div style={styles.container}>
-            <h1 style={{textAlign: 'center', margin: '1rem 0'}}><img src={"aiiflogo.jpg"} alt="School Logo" width={100} height={100 }/></h1> 
+            <h1 style={{textAlign: 'center', margin: '1rem 0'}}>
+                <img src="/aiiflogo.png" alt="School Logo" width={100} height={100 }/></h1> 
             <h1 style={styles.title}>
                 Student Data Entry 📝
             </h1>
