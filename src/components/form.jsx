@@ -576,7 +576,7 @@ const MOCK_STUDENT_DATA = [
 
     return (
         <div style={styles.container}>
-           <h1><img src="/aiiflogo.png" width={100} height={100 }/></h1>  
+           <h1 ><img src="/aiiflogo.png" style={{alignSelf:"center"}} width={100} height={100 }/></h1>  
             <h1 style={styles.title}>
                 Student Data Entry 📝
             </h1>
