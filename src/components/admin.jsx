@@ -108,7 +108,7 @@ const AdminDashboard = () => {
                 }
                 .option-button {
                     padding: 10px;
-                    font-size: 1.1rem;
+                    font-size: 15px;
                     font-weight: 600;
                     border: none;
                     border-radius: 8px;
