@@ -18,7 +18,7 @@ const AdminDashboard = () => {
             setError(null);
             try {
                 // Request to get the list of all students (or names/IDs)
-                const response = await axios.get('https://portal-database.vercel.app/student');
+                const response = await axios.get('https://portal-database-seven.vercel.app/student');
                 
                 // Assuming the API returns an array of student objects:
                 // [{ id: '123', studentName: 'Alice', ... }, { id: '456', studentName: 'Bob', ... }]
