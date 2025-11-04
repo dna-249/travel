@@ -28,7 +28,6 @@ const INITIAL_FORM_DATA = {
     sex: "Female",
     headRemark: "An excellent result, keep up the good work",
     classTeacherRemark: "A hardworking learner and shows respect",
-    // Note: photoFile is handled in separate state, not formData
     
     // --- Subject Scores (Using the first few subjects as defaults) ---
     subjects: [
@@ -36,9 +35,8 @@ const INITIAL_FORM_DATA = {
     ],
 };
 
-// --- Stylesheet Object (Adjusted/Added styles for photo upload) ---
+// --- Stylesheet Object (Modified to include photo styles) ---
 const styles = {
-    // ... (All existing styles remain the same) ...
     container: {
         padding: '0.1rem', backgroundColor: '#f3f4f6', minHeight: '100vh',
         fontFamily: 'Inter, sans-serif', WebkitFontSmoothing: 'antialiased', MozOsxFontSmoothing: 'grayscale',
@@ -136,14 +134,16 @@ const styles = {
         width: '100%', padding: '0.5rem 1rem', borderRadius: '0.5rem',
         border: '1px solid #ccc', boxSizing: 'border-box',
     },
-    // NEW Styles for Photo Upload
+    // Styles for Photo Upload
     photoContainer: {
-        display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom: '1rem',
-        padding: '0.5rem', border: '1px solid #e5e7eb', borderRadius: '0.5rem', backgroundColor: '#f9fafb'
+        display: 'flex', flexDirection: 'column', alignItems: 'center', 
+        padding: '0.5rem', border: '1px solid #e5e7eb', borderRadius: '0.5rem', 
+        backgroundColor: '#f9fafb', width: '100%'
     },
     photoPreview: {
         width: '100px', height: '100px', borderRadius: '50%', overflow: 'hidden',
-        border: '3px solid #10b981', marginBottom: '0.5rem', objectFit: 'cover'
+        border: '3px solid #10b981', marginBottom: '0.5rem', objectFit: 'cover',
+        display: 'flex', justifyContent: 'center', alignItems: 'center',
     },
     photoInput: {
         fontSize: '0.8rem',
@@ -165,6 +165,7 @@ const styles = {
         border: 'none',
         transition: 'background-color 0.2s',
         minWidth: '100px',
+        width: '100%',
     },
 };
 
@@ -214,7 +215,7 @@ const App = () => {
         }));
     };
 
-    // --- NEW: Handle Photo File Selection and Preview ---
+    // Handle Photo File Selection and Preview
     const handlePhotoFileChange = (e) => {
         const file = e.target.files[0];
         if (file) {
@@ -225,8 +226,49 @@ const App = () => {
             setImagePreview(null);
         }
     };
-    // ----------------------------------------------------
 
+    // Submit Student Photo (uses FormData)
+    const handleSubmitStudentPhoto = async () => {
+        if (!formData.admissionNo) {
+            setNotification({ type: 'error', message: "Please select a student first (Admission No is missing)." });
+            setTimeout(() => setNotification(null), 5000);
+            return;
+        }
+        if (!photoFile) {
+            setNotification({ type: 'error', message: "Please select a photo file to upload." });
+            setTimeout(() => setNotification(null), 5000);
+            return;
+        }
+
+        setIsPostingPhoto(true);
+        setNotification(null);
+
+        const dataToSend = new FormData();
+        dataToSend.append('studentPhoto', photoFile); 
+        dataToSend.append('studentId', formData.admissionNo); 
+
+        try {
+            // --- MOCK API Call for Photo Upload START ---
+            await new Promise(resolve => setTimeout(resolve, 1500)); // Simulate network delay
+            console.log('Mock Photo Submission successful for ID:', formData.admissionNo, 'File:', photoFile.name);
+            const mockResponse = { status: 200 };
+            // --- MOCK API Call END ---
+
+            if (mockResponse.status === 200 || mockResponse.status === 201) {
+                setNotification({ type: 'success', message: `📷 Photo for **${formData.studentName}** successfully uploaded! (Status: 200)` });
+            } else {
+                throw new Error(`Submission failed with status ${mockResponse.status}.`);
+            }
+        } catch (error) {
+            console.error("Photo Submission Error (Mocked):", error);
+            setNotification({ type: 'error', message: `❌ Failed to submit Photo: ${error.message || 'Network/Mocking Error'}` });
+        } finally {
+            setIsPostingPhoto(false);
+            setTimeout(() => setNotification(null), 7000);
+        }
+    };
+    
+    // Handler for Subject array changes
     const handleSubjectChange = (index, field, value) => {
         const newSubjects = [...formData.subjects];
         newSubjects[index] = {
@@ -239,6 +281,7 @@ const App = () => {
         }));
     };
 
+    // Add new subject row
     const addSubject = () => {
         const nextSubject = ALL_SUBJECTS.find(name => !usedSubjectNames.includes(name)) || `NEW SUBJECT ${formData.subjects.length + 1}`;
         if (nextSubject.startsWith("NEW SUBJECT")) {
@@ -256,69 +299,15 @@ const App = () => {
         }));
     };
 
+    // Remove subject row
     const removeSubject = (indexToRemove) => {
         setFormData(prev => ({
             ...prev,
             subjects: prev.subjects.filter((_, index) => index !== indexToRemove)
         }));
     };
-    
-    // --- NEW: Submit Student Photo ---
-    const handleSubmitStudentPhoto = async () => {
-        if (!formData.admissionNo) {
-            setNotification({ type: 'error', message: "Please select a student first (Admission No is missing)." });
-            setTimeout(() => setNotification(null), 5000);
-            return;
-        }
-        if (!photoFile) {
-            setNotification({ type: 'error', message: "Please select a photo file to upload." });
-            setTimeout(() => setNotification(null), 5000);
-            return;
-        }
 
-        setIsPostingPhoto(true);
-        setNotification(null);
-
-        const dataToSend = new FormData();
-        // The key 'studentPhoto' must match what your backend expects for the file field
-        dataToSend.append('studentPhoto', photoFile); 
-        // You might need to send the student ID as well, depending on your API
-        dataToSend.append('studentId', formData.admissionNo); 
-
-        try {
-            // MOCK API Call for Photo Upload
-            // NOTE: Replace the URL with your actual file upload endpoint
-            // In a real app, this would be a POST request containing the file
-            // const response = await axios.post(
-            //     PHOTO_UPLOAD_URL(formData.admissionNo), 
-            //     dataToSend, 
-            //     { headers: { 'Content-Type': 'multipart/form-data' } }
-            // );
-
-            // --- MOCK API Call START ---
-            await new Promise(resolve => setTimeout(resolve, 1500)); // Simulate network delay
-            console.log('Mock Photo Submission successful for ID:', formData.admissionNo, 'File:', photoFile.name);
-            const mockResponse = { status: 200 };
-            // --- MOCK API Call END ---
-
-            if (mockResponse.status === 200 || mockResponse.status === 201) {
-                setNotification({ type: 'success', message: `📷 Photo for **${formData.studentName}** successfully uploaded! (Status: 200)` });
-                // Optional: Clear the file input after successful upload
-                // setPhotoFile(null); 
-                // setImagePreview(null);
-            } else {
-                throw new Error(`Submission failed with status ${mockResponse.status}.`);
-            }
-        } catch (error) {
-            console.error("Photo Submission Error (Mocked):", error);
-            setNotification({ type: 'error', message: `❌ Failed to submit Photo: ${error.message || 'Network/Mocking Error'}` });
-        } finally {
-            setIsPostingPhoto(false);
-            setTimeout(() => setNotification(null), 7000);
-        }
-    };
-    // ------------------------------------
-    
+    // Submit Student Info Fields
     const handleSubmitStudentInfo = async () => {
         if (!formData.admissionNo) {
             setNotification({ type: 'error', message: "Please select a student first (Admission No is missing)." });
@@ -339,7 +328,6 @@ const App = () => {
         };
 
         try {
-            // MOCK API Call for Student Info Update (using admissionNo as the ID)
             const response = await axios.put(
                 STUDENT_INFO_URL(formData.admissionNo),
                 payload,
@@ -360,14 +348,14 @@ const App = () => {
         }
     };
 
+    // Submit Remarks Fields
     const handleSubmitRemarks = async () => {
-        // ... (Existing handleSubmitRemarks logic remains the same)
         if (!formData.admissionNo) {
             setNotification({ type: 'error', message: "Please select a student first (Admission No is missing)." });
             setTimeout(() => setNotification(null), 5000);
             return;
         }
-
+        
         setIsPostingRemarks(true);
         setNotification(null);
 
@@ -397,9 +385,8 @@ const App = () => {
         }
     };
 
-
+    // Submit a Single Subject Row
     const handleSingleSubjectSubmission = async (index) => {
-        // ... (Existing handleSingleSubjectSubmission logic remains the same)
         if (!formData.admissionNo) {
             setNotification({ type: 'error', message: "Please select a student first (Admission No is missing)." });
             setTimeout(() => setNotification(null), 5000);
@@ -451,15 +438,15 @@ const App = () => {
             setTimeout(() => setNotification(null), 7000);
         }
     };
-    
-    // ... (Existing useEffect for fetching student list remains the same)
+
+    // Fetch student list on component mount
     useEffect(()=>{
         setIsFetchingList(true);
         axios.get(STUDENT_LIST_URL)
             .then((response)=> {
                 const apiNames = response.data.map(student => ({
                     name: student.studentName,
-                    id: student._id // Use the database _id
+                    id: student._id 
                 }));
                 const names = [...MOCK_STUDENT_DATA, ...apiNames.filter(a => !MOCK_STUDENT_DATA.some(m => m.id === a.id))];
                 setStudentList(names);
@@ -499,11 +486,12 @@ const App = () => {
         }
     };
 
+    // Select a Student from the List
     const handleStudentSelect = (student) => {
         setFormData(prev => ({
             ...prev,
             studentName: student.name,
-            admissionNo: student.id, // Set admissionNo from the selected student's ID (used as the API ID)
+            admissionNo: student.id, 
         }));
         setShowStudentList(false);
         setNotification({
@@ -511,11 +499,9 @@ const App = () => {
             message: `Selected **${student.name}** (ID: ${student.id}). You can now enter scores and remarks.`
         });
         setTimeout(() => setNotification(null), 5000);
-        
-        // Optional: If the student record contains a photo URL, you would fetch it here
-        // and set the imagePreview state to that URL.
     };
 
+    // Filtered List Logic
     const filteredStudentList = useMemo(() => {
         if (!searchQuery) {
             return studentList;
@@ -526,11 +512,11 @@ const App = () => {
         );
     }, [studentList, searchQuery]);
 
-    // Define the six required fields (Unchanged)
+    // Define the six required fields
     const studentClassFields = [
         { label: "Student Name", name: "studentName", type: "text" },
         { label: "Class", name: "class", type: "text" },
-        { label: "Admission No", name: "admissionNo", type: "text", disabled: true }, // Disable ID editing after selection
+        { label: "Admission No", name: "admissionNo", type: "text", disabled: true }, 
         { label: "Term", name: "term", type: "text" },
         { label: "Sex", name: "sex", type: "text" },
         { label: "Session", name: "session", type: "text" },
@@ -538,7 +524,6 @@ const App = () => {
 
 
     const renderSubjectEntry = (subject, index) => {
-        // ... (Existing renderSubjectEntry logic remains the same)
         const namesUsedByOthers = usedSubjectNames.filter((_, i) => i !== index);
 
         const availableSubjectsForDropdown = ALL_SUBJECTS.filter(
@@ -637,7 +622,6 @@ const App = () => {
 
     return (
         <div style={styles.container}>
-            {/* The image tag was incorrect, fixing it to render the image properly. */}
             <h1 style={{textAlign: 'center', margin: '1rem 0'}}><img src="/aiiflogo.jpg" alt="School Logo" width={100} height={100 }/></h1> 
             <h1 style={styles.title}>
                 Student Data Entry 📝
@@ -671,9 +655,23 @@ const App = () => {
                         </button>
                     </div>
                     
-                    {/* NEW: PHOTO UPLOAD SECTION */}
-                    <div style={{display: 'flex', gap: '1rem', marginBottom: '0.8rem', paddingTop: '0.3rem'}}>
-                        <div style={{flexShrink: 0, width: '120px'}}>
+                    {/* MODIFIED: Student Info Content Container (1fr stacking on small screens) */}
+                    <div style={{
+                        display: 'flex', 
+                        flexDirection: 'column', // Stacks column-wise on small screens
+                        gap: '1rem', 
+                        marginBottom: '0.8rem', 
+                        paddingTop: '0.3rem',
+                        // Note: For actual row layout on large screens with inline styles, 
+                        // you'd need a CSS library or the use of `window.innerWidth`. 
+                        // For demonstration, we keep it column-stacked primarily.
+                        // For a quick fix simulating large screen:
+                        '@media (min-width: 768px)': { 
+                            flexDirection: 'row', 
+                        }
+                    }}>
+                        {/* Photo Upload Section */}
+                        <div style={{flexShrink: 0, width: '120px', margin: '0 auto'}}>
                             <div style={styles.photoContainer}>
                                 <div style={styles.photoPreview}>
                                     {imagePreview ? (
@@ -705,10 +703,17 @@ const App = () => {
                             </div>
                         </div>
 
-                        {/* Student Details Grid */}
+                        {/* Student Details Grid (Fields) */}
                         <div style={{
-                            display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
-                            gap: '0.6rem', flexGrow: 1,
+                            display: 'grid', 
+                            // MODIFIED: Single 1fr column for maximum stacking (as requested)
+                            gridTemplateColumns: '1fr', 
+                            gap: '0.6rem', 
+                            flexGrow: 1,
+                            // Fallback for wider screens:
+                            '@media (min-width: 400px)': { 
+                                 gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', 
+                            }
                         }}>
                             {studentClassFields.map(({ label, name, type, disabled }) => (
                                 <div key={name}>
