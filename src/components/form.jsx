@@ -4,6 +4,9 @@ import React, { useState, useEffect, useMemo } from 'react';
 // API endpoints (Kept for reference, but API call is mocked/replaced)
 const BASE_API_URL = "https://portal-database-seven.vercel.app/student";
 const STUDENT_LIST_URL = `${BASE_API_URL}`;
+// API endpoints for PUT/PATCH (MOCKING THESE ENDPOINTS)
+const STUDENT_INFO_URL = (id) => `${BASE_API_URL}/${id}`;
+const REMARKS_URL = (id) => `${BASE_API_URL}/${id}`;
 
 // --- MASTER LIST OF ALL AVAILABLE SUBJECTS (Unchanged) ---
 const ALL_SUBJECTS = [
@@ -19,7 +22,7 @@ const INITIAL_FORM_DATA = {
     class: "NURSERY CLASS 1",
     term: "FIRST TERM",
     session: "ACADEMIC YEAR 2024/2025",
-    admissionNo: "ATBS/N1/2024/001", // Updated admissionNo
+    admissionNo: "ATBS/N1/2024/001", // Updated admissionNo (used as ID for the API)
     sex: "Female",
     headRemark: "An excellent result, keep up the good work",
     classTeacherRemark: "A hardworking learner and shows respect",
@@ -83,6 +86,14 @@ const styles = {
     notificationError: {
         backgroundColor: '#fee2e2', color: '#991b1b', borderColor: '#ef4444',
     },
+    notificationInfo: { // Added for general use
+        backgroundColor: '#bfdbfe', color: '#1d4ed8', borderColor: '#3b82f6',
+    },
+    submitButton: { // Style for the new submit buttons
+        padding: '0.5rem 1rem', fontSize: '0.875rem', fontWeight: '600',
+        borderRadius: '0.5rem', border: 'none', cursor: 'pointer', transition: 'background-color 0.2s',
+        boxShadow: '0 1px 2px 0 rgba(0, 0, 0, 0.05)',
+    },
     studentDetailsHeader: {
         display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '0 0.25rem',
     },
@@ -126,7 +137,7 @@ const styles = {
 // --- Helper function to format notification styles
 const getNotificationStyle = (type) => ({
     ...styles.notificationBase,
-    ...(type === 'success' ? styles.notificationSuccess : styles.notificationError)
+    ...(type === 'success' ? styles.notificationSuccess : type === 'error' ? styles.notificationError : styles.notificationInfo)
 });
 
 
@@ -138,15 +149,20 @@ const App = () => {
     const [postingSubjectIndex, setPostingSubjectIndex] = useState(null);
     const [notification, setNotification] = useState(null);
 
+    // New states for separate submissions
+    const [isPostingInfo, setIsPostingInfo] = useState(false);
+    const [isPostingRemarks, setIsPostingRemarks] = useState(false);
+
     // States for Student List Feature
     const [showStudentList, setShowStudentList] = useState(false);
     const [studentList, setStudentList] = useState([]);
     const [isFetchingList, setIsFetchingList] = useState(false);
     const [searchQuery, setSearchQuery] = useState('');
-    const [studentId,setStudentId] =useState("")
+    // NOTE: admissionNo in formData is used as the 'id' for API calls, so no separate studentId state is strictly needed.
+    // However, the original code had this, so I will comment out the redundant original state:
+    // const [studentId,setStudentId] =useState("") 
 
-
-   
+    
     // --- Memoized list of currently USED subject names ---
     const usedSubjectNames = useMemo(() => {
         // Collect all names currently in use in the form, converting to uppercase for comparison.
@@ -207,8 +223,100 @@ const App = () => {
         }));
     };
 
+    // --- NEW: Submit Student Info Fields ---
+    const handleSubmitStudentInfo = async () => {
+        if (!formData.admissionNo) {
+            setNotification({ type: 'error', message: "Please select a student first (Admission No is missing)." });
+            setTimeout(() => setNotification(null), 5000);
+            return;
+        }
+
+        setIsPostingInfo(true);
+        setNotification(null);
+
+        const payload = {
+            studentName: formData.studentName,
+            class: formData.class,
+            term: formData.term,
+            session: formData.session,
+            sex: formData.sex,
+            // Optionally include school if it's meant to be updated
+            school: formData.school, 
+        };
+
+        try {
+            // MOCK API Call for Student Info Update (using admissionNo as the ID)
+            // In a real app, this would likely be a PATCH or PUT to update the student's main record
+            const response = await axios.put(
+                STUDENT_INFO_URL(formData.admissionNo), // Using admissionNo as a placeholder for the student's ID
+                payload,
+                { headers: { 'Content-Type': 'application/json' } }
+            );
+
+            // Mock success response
+            if (response.status === 200 || response.status === 201) {
+                setNotification({ type: 'success', message: `✅ Student Info for **${formData.studentName}** successfully updated! (Status: 200)` });
+            } else {
+                 throw new Error(`Submission failed with status ${response.status}.`);
+            }
+        } catch (error) {
+            console.error("Student Info Submission Error (Mocked):", error);
+            setNotification({ type: 'error', message: `❌ Failed to submit Student Info: ${error.message || 'Network/Mocking Error'}` });
+        } finally {
+            setIsPostingInfo(false);
+            setTimeout(() => setNotification(null), 7000);
+        }
+    };
+
+    // --- NEW: Submit Remarks Fields ---
+    const handleSubmitRemarks = async () => {
+        if (!formData.admissionNo) {
+            setNotification({ type: 'error', message: "Please select a student first (Admission No is missing)." });
+            setTimeout(() => setNotification(null), 5000);
+            return;
+        }
+        
+        setIsPostingRemarks(true);
+        setNotification(null);
+
+        const payload = {
+            headRemark: formData.headRemark,
+            classTeacherRemark: formData.classTeacherRemark,
+        };
+
+        try {
+            // MOCK API Call for Remarks Update
+            // In a real app, this would likely be a PATCH or PUT to update the student's main record
+            const response = await axios.put(
+                REMARKS_URL(formData.admissionNo), // Using admissionNo as a placeholder for the student's ID
+                payload,
+                { headers: { 'Content-Type': 'application/json' } }
+            );
+
+            // Mock success response
+            if (response.status === 200 || response.status === 201) {
+                setNotification({ type: 'success', message: `✅ Remarks for **${formData.studentName}** successfully updated! (Status: 200)` });
+            } else {
+                throw new Error(`Submission failed with status ${response.status}.`);
+            }
+        } catch (error) {
+            console.error("Remarks Submission Error (Mocked):", error);
+            setNotification({ type: 'error', message: `❌ Failed to submit Remarks: ${error.message || 'Network/Mocking Error'}` });
+        } finally {
+            setIsPostingRemarks(false);
+            setTimeout(() => setNotification(null), 7000);
+        }
+    };
+
+
     // Submit a Single Subject Row (Kept logic for completeness)
     const handleSingleSubjectSubmission = async (index) => {
+        if (!formData.admissionNo) {
+            setNotification({ type: 'error', message: "Please select a student first (Admission No is missing)." });
+            setTimeout(() => setNotification(null), 5000);
+            return;
+        }
+
         setPostingSubjectIndex(index);
         setNotification(null);
 
@@ -226,11 +334,11 @@ const App = () => {
         const { CA1, CA2, Exam, Ass } = scores;
 
         try {
-           
+            
             // This API call is left as is, assuming a working API endpoint exists for PUT.
             const response = await axios.put(
-                // Note: The ID '69035c3974cb429bc5e4d248' is hardcoded here.
-                `https://portal-database-seven.vercel.app/student/push/${studentId}/${capitalizedName}`,
+                // Note: The original hardcoded ID is replaced with formData.admissionNo (acting as the ID)
+                `https://portal-database-seven.vercel.app/student/push/${formData.admissionNo}/${capitalizedName}`,
                 { CA1: CA1, CA2: CA2, Ass: Ass, Exam: Exam },
                 { headers: { 'Content-Type': 'application/json' } }
             );
@@ -242,7 +350,7 @@ const App = () => {
                 throw new Error(`Submission failed with status ${response.status}. Message: ${dataMessage}`);
             }
         } catch (error) {
-            console.error("Submission Error:", error);
+            console.error("Subject Submission Error:", error);
             let errorMessage = "An unknown error occurred during submission.";
             if (error.response) {
                 errorMessage = `API Error (${error.response.status}): ${error.response.data?.message || error.response.statusText}`;
@@ -266,57 +374,55 @@ const MOCK_STUDENT_DATA = [
             { name: "AISHA BELLO", id: "ATBS/P1/2020/010" },
         ];
 
-   useEffect(()=>{
-     axios.get(STUDENT_LIST_URL)
-           .then((response)=> {const apiNames = response.data.map(student => ({
-                name: student.studentName,
-                id: student._id
-            }));
-            const names = [...apiNames.filter(a => !MOCK_STUDENT_DATA.some(m => m.id === a.id))];
-            
-            
-            setStudentList(names);})
-   },[])
+    useEffect(()=>{
+       // NOTE: The original useEffect was a bit complex due to merging mock/real data.
+       // I'm keeping a simplified version to fetch from the real endpoint on mount, if available.
+        setIsFetchingList(true);
+        axios.get(STUDENT_LIST_URL)
+            .then((response)=> {
+                const apiNames = response.data.map(student => ({
+                    name: student.studentName,
+                    id: student._id // Use the database _id
+                }));
+                // Merge real and mock data, prioritizing real data
+                const names = [...MOCK_STUDENT_DATA, ...apiNames.filter(a => !MOCK_STUDENT_DATA.some(m => m.id === a.id))];
+                setStudentList(names);
+            })
+            .catch(error => {
+                console.warn("Could not fetch real student list, using mock data.", error);
+                setStudentList(MOCK_STUDENT_DATA);
+            })
+            .finally(() => {
+                setIsFetchingList(false);
+            });
+    },[])
 
 
     // --- MODIFIED: Fetch Student List to include Nura and Maryam ---
     const fetchStudentList = async () => {
+        // Since we fetch on mount, just show the list
+        if (studentList.length > 0) {
+            setShowStudentList(true);
+            return;
+        }
+
         setIsFetchingList(true);
-        setNotification(null);
+        setNotification({ type: 'info', message: "Fetching student list..." });
         setSearchQuery('');
         
-       
-        
-        
         try {
-            // Simulate network delay
+            // Wait for useEffect to finish or explicitly fetch again if the list is empty
             await new Promise(resolve => setTimeout(resolve, 1000));
-            
-            // Replaced API call with mock data
-            // const names = MOCK_STUDENT_DATA.map(student => ({
-            //     name: student.name,
-            //     id: student.id 
-            // }));
-
-            // Optional: If you wanted to fetch real data AND merge the names:
-            
-            // const response = await axios.get(STUDENT_LIST_URL);
-            // const apiNames = response.data.map(student => ({
-            //     name: student.studentName,
-            //     id: student._id
-            // }));
-            // const names = [...MOCK_STUDENT_DATA, ...apiNames.filter(a => !MOCK_STUDENT_DATA.some(m => m.id === a.id))];
-            
-            
-            // setStudentList(names);
             setShowStudentList(true);
+            setNotification(null);
         } catch (error) {
-            console.error("Error fetching student list (Mocked function error):", error);
+            // Catch error from potential re-fetch logic if implemented here
+            console.error("Error fetching student list:", error);
             setNotification({
                 type: 'error',
                 message: `Failed to fetch student list. Check the console for details.`
             });
-            setTimeout(() => setNotification(null), 2000);
+            setTimeout(() => setNotification(null), 5000);
         } finally {
             setIsFetchingList(false);
         }
@@ -327,13 +433,12 @@ const MOCK_STUDENT_DATA = [
         setFormData(prev => ({
             ...prev,
             studentName: student.name,
-            admissionNo: student.id, // Set admissionNo from the selected student's ID
-            // Optionally, you might want to fetch the rest of their data here
+            admissionNo: student.id, // Set admissionNo from the selected student's ID (used as the API ID)
         }));
         setShowStudentList(false);
         setNotification({
             type: 'success',
-            message: `Selected ${student.name}. Now enter their scores.`
+            message: `Selected **${student.name}** (ID: ${student.id}). You can now enter scores and remarks.`
         });
         setTimeout(() => setNotification(null), 5000);
     };
@@ -421,15 +526,18 @@ const MOCK_STUDENT_DATA = [
                     <button
                         type="button"
                         onClick={() => handleSingleSubjectSubmission(index)}
-                        disabled={isPostingRow}
+                        disabled={isPostingRow || !formData.admissionNo}
                         style={{
                             padding: '0.3rem 0.4rem', fontSize: '0.75rem', fontWeight: '700',
-                            color: '#fff', backgroundColor: isPostingRow ? '#a855f7' : '#915ec0ff',
-                            borderRadius: '0.5rem', border: 'none', cursor: isPostingRow ? 'not-allowed' : 'pointer',
+                            color: '#fff', 
+                            backgroundColor: isPostingRow ? '#a855f7' : '#915ec0ff',
+                            borderRadius: '0.5rem', border: 'none', 
+                            cursor: (isPostingRow || !formData.admissionNo) ? 'not-allowed' : 'pointer',
                             flexGrow: 1, maxWidth: '10rem', alignSelf: 'stretch',
+                            opacity: (!formData.admissionNo) ? 0.6 : 1,
                         }}
-                        onMouseOver={(e) => { if (!isPostingRow) e.currentTarget.style.backgroundColor = '#7e22ce'; }}
-                        onMouseOut={(e) => { if (!isPostingRow) e.currentTarget.style.backgroundColor = '#9333ea'; }}
+                        onMouseOver={(e) => { if (!isPostingRow && formData.admissionNo) e.currentTarget.style.backgroundColor = '#7e22ce'; }}
+                        onMouseOut={(e) => { if (!isPostingRow && formData.admissionNo) e.currentTarget.style.backgroundColor = '#9333ea'; }}
                         aria-label="Submit this subject's scores"
                         title="Submit Subject Data"
                     >
@@ -453,6 +561,7 @@ const MOCK_STUDENT_DATA = [
                                 min="0"
                                 max={field === 'Exam' ? '100' : '20'}
                                 aria-label={`${field} score for ${subject.name}`}
+                                disabled={!formData.admissionNo}
                             />
                         </div>
                     ))}
@@ -483,7 +592,7 @@ const MOCK_STUDENT_DATA = [
                 {/* 1. Student & Class Details */}
                 <fieldset style={{ ...styles.fieldset, border: '2px solid #3b82f6', position: 'relative' }}>
                     <div style={styles.studentDetailsHeader}>
-                        <legend style={{ ...styles.legend, color: '#2563eb' }}>Student Name</legend>
+                        <legend style={{ ...styles.legend, color: '#2563eb' }}>Student Info</legend>
                         <button
                             type="button"
                             onClick={fetchStudentList}
@@ -513,6 +622,26 @@ const MOCK_STUDENT_DATA = [
                             </div>
                         ))}
                     </div>
+                    
+                    {/* NEW: Student Info Submission Button */}
+                    <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '0.75rem' }}>
+                        <button
+                            type="button"
+                            onClick={handleSubmitStudentInfo}
+                            disabled={isPostingInfo || !formData.admissionNo}
+                            style={{
+                                ...styles.submitButton,
+                                backgroundColor: isPostingInfo ? '#4f46e5' : '#6366f1',
+                                color: '#fff',
+                                cursor: (isPostingInfo || !formData.admissionNo) ? 'not-allowed' : 'pointer',
+                                opacity: (!formData.admissionNo) ? 0.6 : 1,
+                            }}
+                            onMouseOver={(e) => { if (!isPostingInfo && formData.admissionNo) e.currentTarget.style.backgroundColor = '#4338ca'; }}
+                            onMouseOut={(e) => { if (!isPostingInfo && formData.admissionNo) e.currentTarget.style.backgroundColor = '#6366f1'; }}
+                        >
+                            {isPostingInfo ? 'Saving Info...' : 'Submit Student Info 💾'}
+                        </button>
+                    </div>
                 </fieldset>
 
                 {/* --- Student List Modal (Unchanged in structure) --- */}
@@ -531,13 +660,13 @@ const MOCK_STUDENT_DATA = [
                                 <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
                                     {filteredStudentList.map(student => (
                                         <li
-                                            key={student.id} onClick={() =>{ handleStudentSelect(student);setStudentId(()=>student.id)}} style={styles.studentListItem}
+                                            key={student.id} onClick={() => handleStudentSelect(student)} style={styles.studentListItem}
                                             onMouseOver={(e) => { e.currentTarget.style.backgroundColor = styles.studentListItemHover.backgroundColor; e.currentTarget.style.fontWeight = styles.studentListItemHover.fontWeight; }}
                                             onMouseOut={(e) => { e.currentTarget.style.backgroundColor = styles.studentListItem.backgroundColor; e.currentTarget.style.fontWeight = 'normal'; }}
                                         >
-                                            {/* You will now see Nura and Maryam in this list */}
+                                            {/* ID is a mock for _id in this context */}
                                             {student.name}
-                                            <span style={{ fontSize: '0.75rem', color: '#9ca3af' }}>ID: {student.id.substring(0, 8)}...</span>
+                                            <span style={{ fontSize: '0.75rem', color: '#9ca3af' }}>ID: {student.id}</span> 
                                         </li>
                                     ))}
                                 </ul>
@@ -554,7 +683,11 @@ const MOCK_STUDENT_DATA = [
 
                 {/* 2. Subject Scores */}
                 <fieldset style={{ ...styles.fieldset, border: '2px solid #10b981' }}>
-                    <legend style={{ ...styles.legend, color: '#059669'}}>Subject Scores</legend>
+                    <legend style={{ ...styles.legend, color: '#059669'}}>Subject Score</legend>
+
+                    <p style={{ margin: '0.5rem 0', fontSize: '0.75rem', color: '#4b5563' }}>
+                        *Select a student first before entering scores. Each subject row has its own submit button.
+                    </p>
 
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '0.3rem' }}>
                         {/* RENDER THE SUBJECT ROWS */}
@@ -579,7 +712,7 @@ const MOCK_STUDENT_DATA = [
                     </div>
                 </fieldset>
 
-                {/* 3. Remarks (Unchanged) */}
+                {/* 3. Remarks */}
                 <fieldset style={{ ...styles.fieldset, border: '2px solid #f59e0b' }}>
                     <legend style={{ ...styles.legend, color: '#d97706'}}>Teacher/Head Remarks</legend>
                     <div style={{
@@ -590,6 +723,7 @@ const MOCK_STUDENT_DATA = [
                             <textarea
                                 name="classTeacherRemark" value={formData.classTeacherRemark} onChange={handleChange}
                                 rows="3" style={styles.input}
+                                disabled={!formData.admissionNo}
                             ></textarea>
                         </div>
                         <div>
@@ -597,8 +731,29 @@ const MOCK_STUDENT_DATA = [
                             <textarea
                                 name="headRemark" value={formData.headRemark} onChange={handleChange}
                                 rows="3" style={styles.input}
+                                disabled={!formData.admissionNo}
                             ></textarea>
                         </div>
+                    </div>
+
+                    {/* NEW: Remarks Submission Button */}
+                    <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '0.75rem' }}>
+                        <button
+                            type="button"
+                            onClick={handleSubmitRemarks}
+                            disabled={isPostingRemarks || !formData.admissionNo}
+                            style={{
+                                ...styles.submitButton,
+                                backgroundColor: isPostingRemarks ? '#d97706' : '#f59e0b',
+                                color: '#fff',
+                                cursor: (isPostingRemarks || !formData.admissionNo) ? 'not-allowed' : 'pointer',
+                                opacity: (!formData.admissionNo) ? 0.6 : 1,
+                            }}
+                            onMouseOver={(e) => { if (!isPostingRemarks && formData.admissionNo) e.currentTarget.style.backgroundColor = '#b45309'; }}
+                            onMouseOut={(e) => { if (!isPostingRemarks && formData.admissionNo) e.currentTarget.style.backgroundColor = '#f59e0b'; }}
+                        >
+                            {isPostingRemarks ? 'Saving Remarks...' : 'Submit Remarks ✍️'}
+                        </button>
                     </div>
                 </fieldset>
             </div>
