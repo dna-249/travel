@@ -116,6 +116,7 @@ const StudentSignIn = () => {
         <div className="portal-container">
             <div className="sign-in-box">
                 <header>
+                 <img src="/aiiflogo.png" width={100} height={100 }/>
                     <h3>Welcome to Attasfiyah Portal</h3>
                     <p className="subtitle">Sign in to Continue</p>
                 </header>
