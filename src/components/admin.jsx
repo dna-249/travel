@@ -232,7 +232,7 @@ const AdminDashboard = () => {
                 {/* Logout Button */}
                 <button 
                     style={{marginTop: '30px', padding: '10px 20px', background: '#e0e7ff', color: primaryColor, border: '1px solid #c7d2fe', borderRadius: '4px', cursor: 'pointer'}}
-                    onClick={() => navigate('/admin')}
+                    onClick={() => navigate('/')}
                 >
                     🔒 Logout
                 </button>
