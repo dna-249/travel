@@ -9,7 +9,7 @@ const STUDENT_INFO_URL = (id) => `${BASE_API_URL}/${id}`;
 const REMARKS_URL = (id) => `${BASE_API_URL}/${id}`;
 // MOCK URL for Photo Upload (REPLACE WITH YOUR ACTUAL ENDPOINT)
 // IMPORTANT: This should be your dedicated photo upload endpoint.
-const PHOTO_UPLOAD_URL = (id) => `/api/upload-photo/${id}`; 
+const PHOTO_UPLOAD_URL = (id) => `https://portal-database-seven.vercel.app/student/${id}`; 
 
 // --- MASTER LIST OF ALL AVAILABLE SUBJECTS (Unchanged) ---
 const ALL_SUBJECTS = [
