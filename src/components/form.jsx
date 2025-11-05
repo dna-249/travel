@@ -242,7 +242,7 @@ const App = () => {
 
     // --- REALISTIC AXIOS FILE UPLOAD LOGIC ---
     const handleSubmitStudentPhoto = async () => {
-        if (!formData.admissionNo) {
+        if (!formData.id) {
             setNotification({ type: 'error', message: "Please select a student first (Admission No is missing)." });
             setTimeout(() => setNotification(null), 5000);
             return;
@@ -276,7 +276,7 @@ const App = () => {
             // Note: File uploads commonly use POST, but we use PUT as per the request 
             // and the API endpoint structure which might be for "updating" the photo.
             const response = await axios.put(
-                PHOTO_UPLOAD_URL(formData.admissionNo), // Your API endpoint
+                PHOTO_UPLOAD_URL(formData.id), // Your API endpoint
                 {studentPhoto:url.secure_url}, // The FormData payload
                 { 
                     headers: { 
@@ -365,7 +365,7 @@ const App = () => {
 
     // Submit Student Info Fields
     const handleSubmitStudentInfo = async () => {
-        if (!formData.admissionNo) {
+        if (!formData.id) {
             setNotification({ type: 'error', message: "Please select a student first (Admission No is missing)." });
             setTimeout(() => setNotification(null), 5000);
             return;
@@ -385,7 +385,7 @@ const App = () => {
 
         try {
             const response = await axios.put(
-                STUDENT_INFO_URL(formData.admissionNo),
+                STUDENT_INFO_URL(formData.id),
                 payload,
                 { headers: { 'Content-Type': 'application/json' } }
             );
@@ -406,7 +406,7 @@ const App = () => {
 
     // Submit Remarks Fields
     const handleSubmitRemarks = async () => {
-        if (!formData.admissionNo) {
+        if (!formData.id) {
             setNotification({ type: 'error', message: "Please select a student first (Admission No is missing)." });
             setTimeout(() => setNotification(null), 5000);
             return;
@@ -422,7 +422,7 @@ const App = () => {
 
         try {
             const response = await axios.put(
-                REMARKS_URL(formData.admissionNo),
+                REMARKS_URL(formData.id),
                 payload,
                 { headers: { 'Content-Type': 'application/json' } }
             );
@@ -443,7 +443,7 @@ const App = () => {
 
     // Submit a Single Subject Row
     const handleSingleSubjectSubmission = async (index) => {
-        if (!formData.admissionNo) {
+        if (!formData.id) {
             setNotification({ type: 'error', message: "Please select a student first (Admission No is missing)." });
             setTimeout(() => setNotification(null), 5000);
             return;
@@ -467,7 +467,7 @@ const App = () => {
 
         try {
             const response = await axios.put(
-                `https://portal-database-seven.vercel.app/student/push/${formData.admissionNo}/${capitalizedName}`,
+                `https://portal-database-seven.vercel.app/student/push/${formData.id}/${capitalizedName}`,
                 { CA1: CA1, CA2: CA2, Ass: Ass, Exam: Exam },
                 { headers: { 'Content-Type': 'application/json' } }
             );
@@ -556,7 +556,7 @@ const App = () => {
         setFormData(prev => ({
             ...prev,
             studentName: student.name,
-            admissionNo: student.id,
+            id: student.id,
             existingPhotoUrl: mockPhoto, // Set the mock existing URL
         }));
 
@@ -641,18 +641,18 @@ const App = () => {
                     <button
                         type="button"
                         onClick={() => handleSingleSubjectSubmission(index)}
-                        disabled={isPostingRow || !formData.admissionNo}
+                        disabled={isPostingRow || !formData.id}
                         style={{
                             padding: '0.3rem 0.4rem', fontSize: '0.75rem', fontWeight: '700',
                             color: '#fff',
                             backgroundColor: isPostingRow ? '#a855f7' : '#915ec0ff',
                             borderRadius: '0.5rem', border: 'none',
-                            cursor: (isPostingRow || !formData.admissionNo) ? 'not-allowed' : 'pointer',
+                            cursor: (isPostingRow || !formData.id) ? 'not-allowed' : 'pointer',
                             flexGrow: 1, maxWidth: '10rem', alignSelf: 'stretch',
-                            opacity: (!formData.admissionNo) ? 0.6 : 1,
+                            opacity: (!formData.id) ? 0.6 : 1,
                         }}
-                        onMouseOver={(e) => { if (!isPostingRow && formData.admissionNo) e.currentTarget.style.backgroundColor = '#7e22ce'; }}
-                        onMouseOut={(e) => { if (!isPostingRow && formData.admissionNo) e.currentTarget.style.backgroundColor = '#9333ea'; }}
+                        onMouseOver={(e) => { if (!isPostingRow && formData.id) e.currentTarget.style.backgroundColor = '#7e22ce'; }}
+                        onMouseOut={(e) => { if (!isPostingRow && formData.id) e.currentTarget.style.backgroundColor = '#9333ea'; }}
                         aria-label="Submit this subject's scores"
                         title="Submit Subject Data"
                     >
@@ -676,7 +676,7 @@ const App = () => {
                                 min="0"
                                 max={field === 'Exam' ? '100' : '20'}
                                 aria-label={`${field} score for ${subject.name}`}
-                                disabled={!formData.admissionNo}
+                                disabled={!formData.id}
                             />
                         </div>
                     ))}
@@ -756,17 +756,17 @@ const App = () => {
                                             onChange={handlePhotoFileChange}
                                             style={styles.photoInput}
                                             aria-label="Student Photo Upload"
-                                            disabled={!formData.admissionNo}
+                                            disabled={!formData.id}
                                         />
                                         <button
                                             type="button"
                                             onClick={handleSubmitStudentPhoto}
-                                            disabled={isPostingPhoto || !formData.admissionNo || !photoFile}
+                                            disabled={isPostingPhoto || !formData.id || !photoFile}
                                             style={{
                                                 ...styles.uploadButton,
                                                 backgroundColor: isPostingPhoto ? '#1e40af' : styles.uploadButton.backgroundColor,
-                                                cursor: (isPostingPhoto || !formData.admissionNo || !photoFile) ? 'not-allowed' : 'pointer',
-                                                opacity: (!formData.admissionNo || !photoFile) ? 0.6 : 1,
+                                                cursor: (isPostingPhoto || !formData.id || !photoFile) ? 'not-allowed' : 'pointer',
+                                                opacity: (!formData.id || !photoFile) ? 0.6 : 1,
                                             }}
                                         >
                                             {isPostingPhoto ? 'Uploading...' : 'Upload/Replace'}
@@ -794,7 +794,7 @@ const App = () => {
                                 <div key={name}>
                                     <label style={{ display: 'block', fontSize: '0.875rem', fontWeight: '500', color: '#374151', marginBottom: '0.1rem' }}>{label}</label>
                                     <input
-                                        type={type} name={name} value={name === 'admissionNo'? formData.admissionNo :formData[name]} onChange={handleChange}
+                                        type={type} name={name} value={formData[name]} onChange={handleChange}
                                         style={styles.input} required
                                         disabled={disabled}
                                     />
@@ -808,12 +808,12 @@ const App = () => {
                         <button
                             type="button"
                             onClick={handleSubmitStudentInfo}
-                            disabled={isPostingInfo || !formData.admissionNo}
+                            disabled={isPostingInfo || !formData.id}
                             style={{
                                 ...styles.submitButton,
                                 backgroundColor: isPostingInfo ? '#4f46e5' : '#6366f1',
                                 color: '#fff',
-                                opacity: (!formData.admissionNo) ? 0.6 : 1,
+                                opacity: (!formData.id) ? 0.6 : 1,
                             }}
                         >
                             {isPostingInfo ? 'Saving Info...' : 'Submit Student Info 💾'}
@@ -879,7 +879,7 @@ const App = () => {
                                 value={formData.headRemark}
                                 onChange={handleChange}
                                 style={{ ...styles.input, minHeight: '4rem' }}
-                                disabled={!formData.admissionNo}
+                                disabled={!formData.id}
                             />
                         </div>
                         <div>
@@ -889,7 +889,7 @@ const App = () => {
                                 value={formData.classTeacherRemark}
                                 onChange={handleChange}
                                 style={{ ...styles.input, minHeight: '4rem' }}
-                                disabled={!formData.admissionNo}
+                                disabled={!formData.id}
                             />
                         </div>
                     </div>
@@ -898,12 +898,12 @@ const App = () => {
                         <button
                             type="button"
                             onClick={handleSubmitRemarks}
-                            disabled={isPostingRemarks || !formData.admissionNo}
+                            disabled={isPostingRemarks || !formData.id}
                             style={{
                                 ...styles.submitButton,
                                 backgroundColor: isPostingRemarks ? '#b45309' : '#f97316',
                                 color: '#fff',
-                                opacity: (!formData.admissionNo) ? 0.6 : 1,
+                                opacity: (!formData.id) ? 0.6 : 1,
                             }}
                         >
                             {isPostingRemarks ? 'Saving Remarks...' : 'Submit Remarks ✨'}
