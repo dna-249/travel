@@ -392,7 +392,7 @@ const ReportPage = () => {
                             <img src='/aiifheader.png' height={150} width={700} />    
                           <h3 className="report-title">STATEMENT OF RESULT</h3>
                     </div>
-                    <img src={studentPhoto} alt="Student" width={150}height={150} style={{ border:"1px solid #ddd"}} />
+                    <img src={studentPhoto} alt="Student" width={150}height={120} style={{ border:"1px solid #ddd"}} />
                 </div>
                 
                 {/* Student Info Table - AGE column removed and TERM value field width increased */}
