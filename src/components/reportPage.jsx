@@ -392,7 +392,7 @@ const ReportPage = () => {
                             <img src='/aiifheader.png' height={150} width={700} />    
                           <h3 className="report-title">STATEMENT OF RESULT</h3>
                     </div>
-                    <img src={studentPhoto} alt="Student" className="student-photo" />
+                    <img src={studentPhoto} alt="Student" width={100} height={100} />
                 </div>
                 
                 {/* Student Info Table - AGE column removed and TERM value field width increased */}
@@ -404,7 +404,7 @@ const ReportPage = () => {
                             <td className="label">CLASS:</td>
                             <td className="value">{studentClass}</td>
                             <td className="label">TERM :</td>
-                            <td style={{width:"150px"}} className="value">{term}</td>
+                            <td style={{width:"150px",backgroundColor:"green"}} className="value">{term}</td>
                         {/* AGE column removed */}
                         </tr>
                         <tr>
