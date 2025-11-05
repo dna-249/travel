@@ -212,7 +212,7 @@ const ReportPage = () => {
     const { 
         studentName, class: studentClass, admissionNo, sex, // 'age' removed here
         totalScore, avgScore, subjects, behavior, term,
-        headRemark, classTeacherRemark, overallStats,studentPhoto 
+        headRemark, classTeacherRemark, overallStats,studentPhoto ,age
     } = calculatedData;
     
     // --- JSX Render ---
