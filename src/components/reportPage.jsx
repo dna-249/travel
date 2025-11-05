@@ -238,8 +238,8 @@ const ReportPage = () => {
                     padding-bottom: 10px;
                 }
                 .logo, .student-photo {
-                    width: 70px;
-                    height: 70px;
+                    width: 150px;
+                    height: 150px;
                     border: 1px solid #ddd;
                     object-fit: cover;
                     border-radius: 4px;
@@ -283,6 +283,11 @@ const ReportPage = () => {
                 .info-table .value{
                     font-weight: 400;
                     width: 33.33%; 
+                    border-bottom: 1px dashed #ccc;
+                }
+                .info-table .value2{
+                 font-weight: 400;
+                    width: 40%; 
                     border-bottom: 1px dashed #ccc;
                 }
                 .grades-table th, .grades-table td {
@@ -392,7 +397,7 @@ const ReportPage = () => {
                             <img src='/aiifheader.png' height={150} width={700} />    
                           <h3 className="report-title">STATEMENT OF RESULT</h3>
                     </div>
-                    <img src={studentPhoto} alt="Student"  width={150} height={150} className="student-photo" />
+                    <img src={studentPhoto} alt="Student"  className="student-photo" />
                 </div>
                 
                 {/* Student Info Table - AGE column removed and TERM value field width increased */}
@@ -404,7 +409,7 @@ const ReportPage = () => {
                             <td className="label">CLASS:</td>
                             <td className="value">{studentClass}</td>
                             <td className="label">TERM :</td>
-                            <td className="value">{term}</td>
+                            <td className="value2">{term}</td>
                         {/* AGE column removed */}
                         </tr>
                         <tr>
