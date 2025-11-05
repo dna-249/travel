@@ -794,7 +794,7 @@ const App = () => {
                                 <div key={name}>
                                     <label style={{ display: 'block', fontSize: '0.875rem', fontWeight: '500', color: '#374151', marginBottom: '0.1rem' }}>{label}</label>
                                     <input
-                                        type={type} name={name} value={formData[name]} onChange={handleChange}
+                                        type={type} name={name} value={name === 'admissionNo'? formData.admissionNo :formData[name]} onChange={handleChange}
                                         style={styles.input} required
                                         disabled={disabled}
                                     />
