@@ -404,7 +404,7 @@ const ReportPage = () => {
                             <td className="label">CLASS:</td>
                             <td className="value">{studentClass}</td>
                             <td className="label">TERM :</td>
-                            <td style={{width:"150px",backgroundColor:"green"}} className="value">{term}</td>
+                            <td style={{width:"150px",backgroundColor:"green",zIndex:10}} className="value">{term}</td>
                         {/* AGE column removed */}
                         </tr>
                         <tr>
