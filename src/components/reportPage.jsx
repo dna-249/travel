@@ -403,9 +403,7 @@ const ReportPage = () => {
                             <td className="label">TERM :</td>
                             <td className="value">{term}</td>
                           
-                            <td className="label">AGE:</td>
-                            <td className="value">{age}</td>
-                          
+                              
                         </tr>
                         <tr>
                             <td className="label">ADMISSION:</td>
