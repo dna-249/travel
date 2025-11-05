@@ -256,20 +256,28 @@ const App = () => {
         setIsPostingPhoto(true);
         setNotification(null);
 
-        // 1. Create a FormData object
-        const dataToSend = new FormData();
-        // The key 'studentPhoto' must match the expected field name on your server
-        dataToSend.append('studentPhoto', photoFile, photoFile.name); 
-        // You might also send the student ID along with the file
-        
-
+   
+  
         try {
+
+            const form = new FormData()
+            form.append("file",photoFile)
+            form.append("upload_preset","user_images")
+            form.append("cloud_name","dukgqyyek")
+
+        const res = await fetch(`https://api.cloudinary.com/v1_1/dukgqyyek/image/upload`,{
+            method:"POST",
+            body:form})
+
+            const url = await res.json()
+            console.log(url.secure_url)
+        
             // 2. Make the Axios PUT/POST request
             // Note: File uploads commonly use POST, but we use PUT as per the request 
             // and the API endpoint structure which might be for "updating" the photo.
             const response = await axios.put(
                 PHOTO_UPLOAD_URL(formData.admissionNo), // Your API endpoint
-                dataToSend, // The FormData payload
+                {studentPhoto:url.secure_url}, // The FormData payload
                 { 
                     headers: { 
                         // IMPORTANT: Axios and the browser will automatically set 
@@ -284,7 +292,7 @@ const App = () => {
             if (response.status === 200 || response.status === 201) {
                 
                 // IMPORTANT: The server should return the permanent URL of the uploaded image
-                const newPhotoUrl = response.data.photoUrl || imagePreview; 
+                const newPhotoUrl = url.secure_url || imagePreview; 
 
                 setFormData(prev => ({
                     ...prev,
