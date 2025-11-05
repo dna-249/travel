@@ -379,8 +379,9 @@ const App = () => {
             class: formData.class,
             term: formData.term,
             session: formData.session,
+            admissionNo:formData.admissionNo,
             sex: formData.sex,
-            school: formData.school,
+            school: formData.school
         };
 
         try {
