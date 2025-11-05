@@ -585,7 +585,7 @@ const App = () => {
     const studentClassFields = [
         { label: "Student Name", name: "studentName", type: "text" },
         { label: "Class", name: "class", type: "text" },
-        { label: "Admission No", name: "admissionNo", type: "text", disabled: true }, 
+        { label: "Admission No", name: "admissionNo", type: "text"}, 
         { label: "Term", name: "term", type: "text" },
         { label: "Sex", name: "sex", type: "text" },
         { label: "Session", name: "session", type: "text" },
