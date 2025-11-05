@@ -115,7 +115,7 @@ const ReportPage = () => {
         }
         
         return {
-            school: data?.school, studentName: data?.studentName, class: data?.class,
+            school: data?.school, studentName: data?.studentName, class: data?.class,studentPhoto:data?.studentPhoto,
             term: data?.term, session: data?.session, admissionNo: data?.admissionNo,
             age: data?.age, sex: data?.sex, house: data?.house, noInClass: data?.noInClass,
             classHighest: data?.classHighest, classLowest: data?.classLowest, classPos: data?.classPos,
@@ -212,7 +212,7 @@ const ReportPage = () => {
     const { 
         studentName, class: studentClass, admissionNo, age, sex, 
         totalScore, avgScore, subjects, behavior, term,
-        headRemark, classTeacherRemark, overallStats 
+        headRemark, classTeacherRemark, overallStats,studentPhoto 
     } = calculatedData;
     
     // --- JSX Render ---
@@ -389,7 +389,7 @@ const ReportPage = () => {
                             <img src='/aiifheader.png'  height={150} width={700} />    
                           <h3 className="report-title">STATEMENT OF RESULT</h3>
                     </div>
-                    <img src="https://placehold.co/70x70/E0F2F1/333333?text=Photo" alt="Student" className="student-photo" />
+                    <img src={studentPhoto} alt="Student" className="student-photo" />
                 </div>
                 
                 {/* Student Info Table - FINAL CORRECTED LAYOUT */}
