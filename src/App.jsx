@@ -7,6 +7,7 @@ import StudentSignIn from './components/home'
 import StudentSignupForm from './components/signUp'
 import AdminPinPage from './components/pinPage'
 import AdminDashboard from './components/admin'
+import Scroll from './components/test'
 function App() {
   
 
@@ -16,6 +17,7 @@ function App() {
            <Route path='/portal/:id' element={<ReportPage/>}/>
            <Route path='/entry' element={<DataEntryForm/>}/>
            <Route path='/' element={<StudentSignIn/>}/>
+           <Route path='/test' element={<Scroll />}/>
            <Route path='/admin' element={<AdminDashboard/>}/>
            <Route path='/pin' element={<AdminPinPage/>}/>
            <Route path='/signup' element={<StudentSignupForm/>}/>
