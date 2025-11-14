@@ -184,6 +184,17 @@ const AdminDashboard = () => {
 
                 {/* Option 1: Route to /entry */}
                 <div>
+                    <button style={{textAlign:"center",padding:"15px",backgroundColor:' #10b981'}}
+                        className="option-button"
+                        onClick={() => navigate('/signup')}
+                    >
+                        Register New Student 
+                    </button>
+                </div>
+
+                <hr style={{margin: '20px 0', border: 'none', borderTop: '1px solid #eee'}} />
+
+                <div>
                     <button style={{textAlign:"center",padding:"15px"}}
                         className="option-button"
                         onClick={() => navigate('/entry')}

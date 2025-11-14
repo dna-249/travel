@@ -13,7 +13,7 @@ function App() {
 
   return (
    
-       <Routes>
+       <Routes>s
            <Route path='/portal/:id' element={<ReportPage/>}/>
            <Route path='/entry' element={<DataEntryForm/>}/>
            <Route path='/' element={<StudentSignIn/>}/>
