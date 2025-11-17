@@ -210,12 +210,9 @@ const App = () => {
     const [searchQuery, setSearchQuery] = useState('');
 
     const MOCK_STUDENT_DATA = [
-        { name: "NURA IBRAHIM", id: "ATBS/N1/2024/001" },
-        { name: "MARYAM UMAR", id: "ATBS/N1/2024/002" },
-        { name: "SAMBO MUHAMMAD MALAMIYO", id: "ATBS/N1/2017/005" },
-        { name: "AISHA BELLO", id: "ATBS/P1/2020/010" },
-    ];
-
+        { name: "", id: "" },
+       
+    ]
     const usedSubjectNames = useMemo(() => {
         return formData.subjects.map(s => s.name.toUpperCase());
     }, [formData.subjects]);
@@ -842,7 +839,7 @@ const App = () => {
                                         onMouseOut={(e) => { e.currentTarget.style.backgroundColor = 'transparent'; e.currentTarget.style.fontWeight = 'normal'; }}
                                     >
                                         {student.name}
-                                        <span style={{ fontSize: '0.75rem', color: '#9ca3af' }}>ID: {student.id}</span>
+                                        
                                     </li>
                                 ))}
                             </ul>
