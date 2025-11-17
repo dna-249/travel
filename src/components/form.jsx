@@ -507,6 +507,7 @@ const App = () => {
                     session: student.session,
                     admissionNo:student.admissionNo,
                     sex: student.sex,
+                    image: student.image,
                     school: student.school
                 }));
                 const names = [...MOCK_STUDENT_DATA, ...apiNames.filter(a => !MOCK_STUDENT_DATA.some(m => m.id === a.id))];
@@ -746,7 +747,7 @@ const App = () => {
                                     {imagePreview ? (
                                         <img src={imagePreview} alt="Student Preview" style={{ objectFit: 'cover', width: '100%', height: '100%' }} />
                                     ) : formData.studentPhoto ? (
-                                        <img src={formData.existingPhotoUrl} alt="Existing Student Photo" style={{ objectFit: 'cover', width: '100%', height: '100%' }} />
+                                        <img src={formData.image} alt="Existing Student Photo" style={{ objectFit: 'cover', width: '100%', height: '100%' }} />
                                     ) : (
                                         <span style={{ color: '#6b7280', fontSize: '0.65rem', textAlign: 'center' }}>No Photo</span>
                                     )}
