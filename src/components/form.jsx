@@ -501,7 +501,13 @@ const App = () => {
                 const apiNames = response.data.map(student => ({
                     name: student.studentName,
                     id: student._id,
-                    class :student.class
+                    class :student.class,
+                    studentName: student.studentName,
+                    term: student.term,
+                    session: student.session,
+                    admissionNo:student.admissionNo,
+                    sex: student.sex,
+                    school: student.school
                 }));
                 const names = [...MOCK_STUDENT_DATA, ...apiNames.filter(a => !MOCK_STUDENT_DATA.some(m => m.id === a.id))];
                 setStudentList(names);
