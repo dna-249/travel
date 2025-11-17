@@ -21,12 +21,12 @@ const ALL_SUBJECTS = [
 const INITIAL_FORM_DATA = {
     // --- School/Student Info (Simplified) ---
     school: "ALTASFIYAH TAHFEEZ AND ISLAMIYAH SCHOOL, ABUJA",
-    studentName: "NURA IBRAHIM",
-    class: "NURSERY CLASS 1",
-    term: "FIRST TERM",
+    studentName: "",
+    class: "",
+    term: "",
     session: "ACADEMIC YEAR 2024/2025",
-    admissionNo: "ATBS/N1/2024/001", // Updated admissionNo (used as ID for the API)
-    sex: "Female",
+    admissionNo: "", // Updated admissionNo (used as ID for the API)
+    sex: "",
     headRemark: "An excellent result, keep up the good work",
     classTeacherRemark: "A hardworking learner and shows respect",
     existingPhotoUrl: null, // New field to hold existing photo URL
@@ -500,7 +500,8 @@ const App = () => {
             .then((response)=> {
                 const apiNames = response.data.map(student => ({
                     name: student.studentName,
-                    id: student._id 
+                    id: student._id,
+                    class :student.class
                 }));
                 const names = [...MOCK_STUDENT_DATA, ...apiNames.filter(a => !MOCK_STUDENT_DATA.some(m => m.id === a.id))];
                 setStudentList(names);
@@ -839,7 +840,7 @@ const App = () => {
                                         onMouseOut={(e) => { e.currentTarget.style.backgroundColor = 'transparent'; e.currentTarget.style.fontWeight = 'normal'; }}
                                     >
                                         {student.name}
-                                        
+                                          <span style={{ fontSize: '0.75rem', color: '#9ca3af' }}>Class: {student.class}</span> 
                                     </li>
                                 ))}
                             </ul>
