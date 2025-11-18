@@ -378,7 +378,7 @@ const App = () => {
             session: formData.session,
             admissionNo:formData.admissionNo,
             sex: formData.sex,
-            school: formData.school
+            password: formData.password
         };
 
         try {
@@ -508,7 +508,7 @@ const App = () => {
                     admissionNo:student.admissionNo,
                     sex: student.sex,
                     image: student.image,
-                    school: student.school
+                    password: student.password
                 }));
                 const names = [...MOCK_STUDENT_DATA, ...apiNames.filter(a => !MOCK_STUDENT_DATA.some(m => m.id === a.id))];
                 setStudentList(names);
@@ -563,7 +563,15 @@ const App = () => {
             ...prev,
             studentName: student.name,
             id: student.id,
-            existingPhotoUrl: mockPhoto, // Set the mock existing URL
+            existingPhotoUrl: mockPhoto,
+            class :student.class,
+            studentName: student.studentName,
+            term: student.term,
+            session: student.session,
+            admissionNo:student.admissionNo,
+            sex: student.sex,
+            image: student.image,
+            password: student.password // Set the mock existing URL
         }));
 
         setImagePreview(null);
@@ -594,6 +602,7 @@ const App = () => {
         { label: "Admission No", name: "admissionNo", type: "text"}, 
         { label: "Term", name: "term", type: "text" },
         { label: "Sex", name: "sex", type: "text" },
+        { label: "Password", name: "password", type: "number" },
         { label: "Session", name: "session", type: "text" },
     ];
 
