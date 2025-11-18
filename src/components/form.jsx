@@ -563,7 +563,6 @@ const App = () => {
             ...prev,
             studentName: student.name,
             id: student.id,
-            existingPhotoUrl: mockPhoto,
             class :student.class,
             studentName: student.studentName,
             term: student.term,
@@ -758,7 +757,8 @@ const App = () => {
                                     ) : formData.studentPhoto ? (
                                         <img src={formData.image} alt="Existing Student Photo" style={{ objectFit: 'cover', width: '100%', height: '100%' }} />
                                     ) : (
-                                        <span style={{ color: '#6b7280', fontSize: '0.65rem', textAlign: 'center' }}>No Photo</span>
+                                        <span style={{ color: '#6b7280', fontSize: '0.65rem', textAlign: 'center' }}>
+                                            {formData.image?   <img src={formData.image} alt="Existing Student Photo" style={{ objectFit: 'cover', width: '100%', height: '100%' }} /> : "No Photo"}</span>
                                     )}
                                 </div>
 
