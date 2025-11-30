@@ -260,7 +260,7 @@ const StudentListModal = ({
                         >
                             <span style={{ fontWeight: '600' }}>{student.name}</span>
                             <span style={{ fontSize: '0.75rem', color: '#6b7280' }}>
-                                **{student.class || 'N/A'}** (ID: {student.id})
+                                {student.class}
                             </span>
                         </div>
                     ))}
@@ -668,7 +668,7 @@ const App = () => {
         setShowStudentList(false);
         setNotification({
             type: 'success',
-            message: `Selected **${student.name}** (ID: ${student.id}). You can now enter scores and remarks.`
+            message: `Selected **${student.name}** (ID: ${student.id})`
         });
         setTimeout(() => setNotification(null), 5000);
     };
