@@ -191,8 +191,10 @@ const getNotificationStyle = (type) => ({
 // --- NEW COMPONENT: StudentListModal with Class Filter ---
 const CLASS_OPTIONS = [
     { label: "All Classes", value: "" },
-    { label: "Basic", value: "Basic" },
-    { label: "Intermediate", value: "Intermediate" },
+    { label: "Basic 1", value: "basic 1" },
+    { label: "Basic 2", value: "basic 2" },
+    { label: "Basic 3", value: "basic 3" },
+    { label: "Intermediate", value: "intermediate" },
     { label: "Advance", value: "Advance" },
 ];
 
