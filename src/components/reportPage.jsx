@@ -439,7 +439,7 @@ const ReportPage = () => {
                     <thead>
                         <tr className="main-header-row">
                             <th rowSpan="2">SUBJECTS / المواد</th>
-                            <th colSpan="3">C.A. (30% + Ass)</th>
+                            <th colSpan="3">C.A. (30% + Ass(10%))</th>
                             <th>EXAM (60%)</th>
                             <th rowSpan="2">TOTAL (100%)</th>
                             <th rowSpan="2">GRADE</th>
@@ -449,7 +449,7 @@ const ReportPage = () => {
                             <th>CA. 1 (15%)</th>
                             <th>CA. 2 (15%)</th>
                             <th>ASS (10%)</th>
-                            <th>Exam (100%)</th>
+                            <th>Exam (60%)</th>
                         </tr>
                     </thead>
                     <tbody>
