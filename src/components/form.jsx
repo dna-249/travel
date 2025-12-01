@@ -24,7 +24,7 @@ const INITIAL_FORM_DATA = {
     studentName: "",
     class: "",
     term: "",
-    session: "ACADEMIC YEAR 2024/2025",
+    session: "ACADEMIC YEAR 2025/2026",
     admissionNo: "", // Updated admissionNo (used as ID for the API)
     sex: "",
     headRemark: "An excellent result, keep up the good work",
