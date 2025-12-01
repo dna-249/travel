@@ -298,12 +298,7 @@ const App = () => {
     // ----------------------------------
 
 
-    const MOCK_STUDENT_DATA = [
-        { name: "Example Basic Student", id: "001", class: "Basic", studentName: "Example Basic Student", term: "First", session: "2024/2025", admissionNo: "001", sex: "Male", image: null, password: "123" },
-        { name: "Test Intermediate Student", id: "002", class: "Intermediate", studentName: "Test Intermediate Student", term: "First", session: "2024/2025", admissionNo: "002", sex: "Female", image: null, password: "456" },
-        { name: "Advanced Learner Student", id: "003", class: "Advance", studentName: "Advanced Learner Student", term: "First", session: "2024/2025", admissionNo: "003", sex: "Male", image: null, password: "789" },
-       
-    ]
+    const MOCK_STUDENT_DATA = [ ]
     const usedSubjectNames = useMemo(() => {
         return formData.subjects.map(s => s.name.toUpperCase());
     }, [formData.subjects]);
