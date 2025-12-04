@@ -665,7 +665,7 @@ const App = () => {
         setShowStudentList(false);
         setNotification({
             type: 'success',
-            message: `Selected **${student.image}** (ID: ${student.id})`
+            message: `Selected **${formData.image}** (ID: ${student.id})`
         });
         setTimeout(() => setNotification(null), 5000);
     };
@@ -859,7 +859,11 @@ const App = () => {
                                         />
                                     ) : (
                                         <span style={{color: '#9ca3af', fontSize: '0.8rem'}}>
-                                            {formData.image} </span>
+                                            {formData.image? <img 
+                                            src={formData.image} 
+                                            alt="Student Preview" 
+                                            style={{ objectFit: 'cover', width: '100%', height: '100%' }}
+                                        /> :" No Photo"} </span>
                                     )}
                                 </div>
                                 <input
