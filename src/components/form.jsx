@@ -593,7 +593,7 @@ const App = () => {
                     session: student.session,
                     admissionNo:student.admissionNo,
                     sex: student.sex,
-                    image: student.studentPhoto,
+                    image: student.image,
                     password: student.password
                 }));
                 const names = [...MOCK_STUDENT_DATA, ...apiNames.filter(a => !MOCK_STUDENT_DATA.some(m => m.id === a.id))];
@@ -656,7 +656,7 @@ const App = () => {
             session: student.session,
             admissionNo:student.admissionNo,
             sex: student.sex,
-            image: student.studentPhoto,
+            image: student.image,
             password: student.password // Set the mock existing URL
         }));
       console.log(formData)
@@ -860,7 +860,7 @@ const App = () => {
                                     ) : (
                                         <span style={{color: '#9ca3af', fontSize: '0.8rem'}}>
                                             {formData.image? <img 
-                                            src={student.image} 
+                                            src={formData.image} 
                                             alt="Student Preview" 
                                             style={{ objectFit: 'cover', width: '100%', height: '100%' }}
                                         /> :" No Photo"} </span>
