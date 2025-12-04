@@ -593,7 +593,7 @@ const App = () => {
                     session: student.session,
                     admissionNo:student.admissionNo,
                     sex: student.sex,
-                    image: student.image,
+                    image: student.studentPhoto,
                     password: student.password
                 }));
                 const names = [...MOCK_STUDENT_DATA, ...apiNames.filter(a => !MOCK_STUDENT_DATA.some(m => m.id === a.id))];
