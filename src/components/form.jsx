@@ -475,7 +475,7 @@ const App = () => {
             );
 
             if (response.status === 200 || response.status === 201) {
-                setNotification({ type: 'success', message: `✅ Student Info for **${formData.image}** successfully updated! (Status: 200)` });
+                setNotification({ type: 'success', message: `✅ Student Info for **${formData.studentName}** successfully updated! (Status: 200)` });
             } else {
                 throw new Error(`Submission failed with status ${response.status}.`);
             }
@@ -665,7 +665,7 @@ const App = () => {
         setShowStudentList(false);
         setNotification({
             type: 'success',
-            message: `Selected **${student.name}** (ID: ${student.id})`
+            message: `Selected **${student.image}** (ID: ${student.id})`
         });
         setTimeout(() => setNotification(null), 5000);
     };
