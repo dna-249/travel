@@ -859,11 +859,7 @@ const App = () => {
                                         />
                                     ) : (
                                         <span style={{color: '#9ca3af', fontSize: '0.8rem'}}>
-                                            {formData.image? <img 
-                                            src={formData.image} 
-                                            alt="Student Preview" 
-                                            style={{ objectFit: 'cover', width: '100%', height: '100%' }}
-                                        /> :" No Photo"} </span>
+                                            {formData.image} </span>
                                     )}
                                 </div>
                                 <input
