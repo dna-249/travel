@@ -475,7 +475,7 @@ const App = () => {
             );
 
             if (response.status === 200 || response.status === 201) {
-                setNotification({ type: 'success', message: `✅ Student Info for **${formData.studentName}** successfully updated! (Status: 200)` });
+                setNotification({ type: 'success', message: `✅ Student Info for **${formData.image}** successfully updated! (Status: 200)` });
             } else {
                 throw new Error(`Submission failed with status ${response.status}.`);
             }
@@ -860,7 +860,7 @@ const App = () => {
                                     ) : (
                                         <span style={{color: '#9ca3af', fontSize: '0.8rem'}}>
                                             {formData.image? <img 
-                                            src={imagePreview || formData.image} 
+                                            src={formData.image} 
                                             alt="Student Preview" 
                                             style={{ objectFit: 'cover', width: '100%', height: '100%' }}
                                         /> :" No Photo"} </span>
