@@ -659,8 +659,7 @@ const App = () => {
             image: student.studentPhoto,
             password: student.password // Set the mock existing URL
         }));
-        alert(formData)
-
+      console.log(formData)
         setImagePreview(null);
         setPhotoFile(null);
         setShowStudentList(false);
