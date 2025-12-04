@@ -659,13 +659,14 @@ const App = () => {
             image: student.studentPhoto,
             password: student.password // Set the mock existing URL
         }));
+        alert(formData)
 
         setImagePreview(null);
         setPhotoFile(null);
         setShowStudentList(false);
         setNotification({
             type: 'success',
-            message: `Selected **${formData.image}** (ID: ${student.id})`
+            message: `Selected **${student.image}** (ID: ${student.id})`
         });
         setTimeout(() => setNotification(null), 5000);
     };
