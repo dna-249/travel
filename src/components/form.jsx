@@ -606,7 +606,7 @@ const App = () => {
             .finally(() => {
                 setIsFetchingList(false);
             });
-    },[])
+    },[formData])
 
     const fetchStudentList = async () => {
         if (studentList.length > 0) {
