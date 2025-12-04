@@ -606,7 +606,7 @@ const App = () => {
             .finally(() => {
                 setIsFetchingList(false);
             });
-    },[formData])
+    },[])
 
     const fetchStudentList = async () => {
         if (studentList.length > 0) {
@@ -860,7 +860,7 @@ const App = () => {
                                     ) : (
                                         <span style={{color: '#9ca3af', fontSize: '0.8rem'}}>
                                             {formData.image? <img 
-                                            src={formData.image} 
+                                            src={student.image} 
                                             alt="Student Preview" 
                                             style={{ objectFit: 'cover', width: '100%', height: '100%' }}
                                         /> :" No Photo"} </span>
