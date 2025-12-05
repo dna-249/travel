@@ -221,7 +221,7 @@ const AdminDashboard = () => {
                             {students.map(student => (
                                 <option key={student._id} value={student._id}>
                                     {/* Display Student Name and ID/Class for easy lookup */}
-                                    {`${student.studentName}`}
+                                    {`${student.studentName}`}{`${student.class}`}
                                 </option>
                             ))}
                         </select>

@@ -630,7 +630,7 @@ const App = () => {
                 type: 'error',
                 message: `Failed to fetch student list. Check the console for details.`
             });
-            setTimeout(() => setNotification(null), 5000);
+            setTimeout(() => setNotification(null), 1000);
         } finally {
             setIsFetchingList(false);
         }
@@ -665,9 +665,9 @@ const App = () => {
         setShowStudentList(false);
         setNotification({
             type: 'success',
-            message: `Selected **${student.image}** (ID: ${student.id})`
+            message: `Selected **${student.name}** (ID: ${student.id})`
         });
-        setTimeout(() => setNotification(null), 5000);
+        setTimeout(() => setNotification(null), 1000);
     };
 
     // Filtered List Logic (MODIFIED TO INCLUDE CLASS FILTER)
