@@ -596,7 +596,7 @@ const navigate = useNavigate()
                     session: student.session,
                     admissionNo:student.admissionNo,
                     sex: student.sex,
-                    image: student.image,
+                    image: student.studentPhoto,
                     password: student.password
                 }));
                 const names = [...MOCK_STUDENT_DATA, ...apiNames.filter(a => !MOCK_STUDENT_DATA.some(m => m.id === a.id))];
@@ -633,7 +633,7 @@ const navigate = useNavigate()
                 type: 'error',
                 message: `Failed to fetch student list. Check the console for details.`
             });
-            setTimeout(() => setNotification(null), 5000);
+            setTimeout(() => setNotification(null), 1000);
         } finally {
             setIsFetchingList(false);
         }
@@ -662,7 +662,7 @@ const navigate = useNavigate()
             image: student.image,
             password: student.password // Set the mock existing URL
         }));
-
+      console.log(formData)
         setImagePreview(null);
         setPhotoFile(null);
         setShowStudentList(false);
@@ -670,7 +670,7 @@ const navigate = useNavigate()
             type: 'success',
             message: `Selected **${student.name}** (ID: ${student.id})`
         });
-        setTimeout(() => setNotification(null), 5000);
+        setTimeout(() => setNotification(null), 1000);
     };
 
     // Filtered List Logic (MODIFIED TO INCLUDE CLASS FILTER)
@@ -861,7 +861,12 @@ const navigate = useNavigate()
                                             style={{ objectFit: 'cover', width: '100%', height: '100%' }}
                                         />
                                     ) : (
-                                        <span style={{color: '#9ca3af', fontSize: '0.8rem'}}>No Photo</span>
+                                        <span style={{color: '#9ca3af', fontSize: '0.8rem'}}>
+                                            {formData.image? <img 
+                                            src={formData.image} 
+                                            alt="Student Preview" 
+                                            style={{ objectFit: 'cover', width: '100%', height: '100%' }}
+                                        /> :" No Photo"} </span>
                                     )}
                                 </div>
                                 <input
