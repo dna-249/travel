@@ -1,5 +1,7 @@
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 import React, { useState, useEffect, useMemo } from 'react';
+
 
 // API endpoints (Kept for reference, but API call is mocked/replaced)
 const BASE_API_URL = "https://portal-database-seven.vercel.app/student";
@@ -283,6 +285,7 @@ const App = () => {
     const [imagePreview, setImagePreview] = useState(null);
     const [isPostingPhoto, setIsPostingPhoto] = useState(false);
     // -------------------------
+const navigate = useNavigate()
 
     const [formData, setFormData] = useState(INITIAL_FORM_DATA);
     const [postingSubjectIndex, setPostingSubjectIndex] = useState(null);
@@ -822,7 +825,7 @@ const App = () => {
                 {/* 1. Student & Class Details */}
                 <fieldset style={{ ...styles.fieldset, border: '2px solid #3b82f6', position: 'relative' }}>
                     <div style={styles.studentDetailsHeader}>
-                        <legend style={{ ...styles.legend, color: '#2563eb' }}>Student Info</legend>
+                        <legend  onClick={()=>navigate(`/portal/${formData.id}`)} style={{ ...styles.legend, color: '#2563eb' }} >View Report</legend>
                         <button
                             type="button"
                             onClick={fetchStudentList}
