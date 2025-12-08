@@ -25,10 +25,10 @@ const getGradeAndRemark = (score) => {
 
 // Calculates Total, Grade, and Remark for a single subject
 const calculateSubjectData = (subject) => {
-    const CA1 = +subject.CA1 || '--';
-    const CA2 = +subject.CA2 || '--';
-    const Ass = +subject.Ass || '--';
-    const Exam = +subject.Exam || '--';
+    const CA1 = +subject.CA1 || '';
+    const CA2 = +subject.CA2 || '';
+    const Ass = +subject.Ass || '';
+    const Exam = +subject.Exam || '';
     const Total = CA1 + CA2 + Ass + Exam; 
     const { Grade, Remark } = getGradeAndRemark(Total);
 
