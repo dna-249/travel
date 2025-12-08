@@ -1,124 +1,143 @@
-import React, { useState, useEffect } from 'react';
+import axios from "axios";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-// Get the height of the header for the transition distance
-const HEADER_HEIGHT = 80; 
+// 🔑 Professional Style & Best Practices: Forgot Password/Reset Component
 
 const Scroll = () => {
-    // State for Header (Vertical Hide/Show)
-    const [headerTop, setHeaderTop] = useState(0); 
-    
-    // State for Section Movement (Horizontal Scroll Offset)
-    const [scrollOffset, setScrollOffset] = useState(0);
-    
-    // Ref to store the last scroll position across renders
-    const [lastScrollY, setLastScrollY] = useState(0); 
-    
-    // --- The Core Scroll Logic ---
-    useEffect(() => {
-        const handleScroll = () => {
-            const currentScrollY = window.scrollY;
+    // State Management
+    // Removed 'token' state as it's not typically used for the *initial* reset request
+    const [username, setUsername] = useState(''); // Student Name for verification
+    const [newPassword, setNewPassword] = useState(''); // New password field
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(null); // State for structured error display
+    const [success, setSuccess] = useState(false); // New state for success indicator
+    const nav = useNavigate();
 
-            // 1. HEADER LOGIC (Vertical Hide/Show)
-            const isScrollingDown = currentScrollY > lastScrollY;
+    /**
+     * Handles the password reset request attempt.
+     * In a real application, this would typically be a two-step process:
+     * 1. Request reset link/code (using username/email).
+     * 2. Use link/code to set new password.
+     * This implementation simplifies it to a single request for demonstration.
+     * @async
+     */
+    const handlePasswordReset = async (e) => {
+        e.preventDefault(); // Prevents default form submission behavior
+
+        // 1. Clear previous status
+        setError(null);
+        setSuccess(false);
+
+        // Basic validation
+        if (!username.trim() || !newPassword.trim()) {
+            setError("Please enter your name and the new password.");
+            return;
+        }
+
+        setLoading(true);
+
+        try {
+            // NOTE: The API endpoint and request body are hypothetical for a password change/reset.
+            // Replace with your actual reset/update password endpoint.
+            const res = await axios.put(
+                `https://portal-database-seven.vercel.app/student/reset/${username}`, // Changed API endpoint
+                {
+                    studentName: username.trim(),
+                    // Sending the new password directly for simplicity. 
+                    // In a secure flow, a temporary token/OTP is usually required.
+                    newPassword: newPassword.trim(), 
+                }
+            );
             
-            if (isScrollingDown && currentScrollY > HEADER_HEIGHT) {
-                setHeaderTop(-HEADER_HEIGHT); 
-            } else {
-                setHeaderTop(0); 
-            }
+            // 2. SUCCESS: Password updated
+            console.log('Password reset successful:', res.data);
+            setSuccess(true);
+            
+            // Optional: Redirect back to the login page after a brief delay
+            setTimeout(() => {
+                nav("/"); // Redirect to the original sign-in page
+            }, 3000); 
 
-            // 2. SECTION LOGIC (Horizontal Slide/Offset)
-            // Use the current scroll position to determine a movement offset.
-            // A divisor (e.g., 5) controls the speed of the effect.
-            // Adding a small constant (e.g., 50) creates an initial "hidden" position.
-            // As currentScrollY increases, scrollOffset decreases, sliding the element right.
-            const newOffset = 50 - (currentScrollY / 5); 
-            setScrollOffset(newOffset);
-
-
-            // 3. Update last known scroll position
-            setLastScrollY(currentScrollY);
-        };
-
-        // Attach the event listener when the component mounts
-        window.addEventListener('scroll', handleScroll);
-
-        // Clean up the event listener when the component unmounts
-        return () => {
-            window.removeEventListener('scroll', handleScroll);
-        };
-    }, [lastScrollY]); // Re-run effect only when lastScrollY changes
-
-    // --- Inline Styles ---
-    const pageStyles = {
-        minHeight: '300vh', // Increased height for better effect demonstration
-        paddingTop: `${HEADER_HEIGHT}px`,
-        fontFamily: 'Arial, sans-serif',
-        backgroundColor: '#f8f8f8',
-        padding: '20px',
+        } catch (err) {
+            // 3. ERROR: Reset failed (e.g., username not found)
+            console.error('Password Reset error:', err.response?.data || err.message);
+            const errorMessage = err.response?.data?.message || "Password reset failed. Check your student name.";
+            setError(errorMessage);
+        } finally {
+            // 4. FINALLY: Reset loading state
+            setLoading(false);
+        }
     };
 
-    const headerStyles = {
-        position: 'fixed',
-        top: `${headerTop}px`, // Vertical movement controlled by state
-        left: 0,
-        width: '100%',
-        height: `${HEADER_HEIGHT}px`,
-        backgroundColor: '#007bff',
-        color: 'white',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        boxShadow: '0 4px 6px rgba(0,0,0,0.1)',
-        zIndex: 1000,
-        transition: 'top 0.3s ease-out', 
-    };
+    // Removed the handleVerify and useEffect blocks as they are specific to the login flow.
 
-    // Style function for sections, including the horizontal transform effect
-    const getSectionStyles = (initialOffset) => ({
-        margin: '50px 0',
-        padding: '20px',
-        backgroundColor: 'white',
-        borderRadius: '8px',
-        boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
-        minHeight: '400px',
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
-        // --- KEY CHANGE: Horizontal movement via transform ---
-        transform: `translateX(${scrollOffset}px)`, 
-        opacity: 1 - (scrollOffset / 50), // Added opacity fade effect based on offset
-        transition: 'opacity 0.5s ease-out', // Only transition opacity, let transform be direct
-        willChange: 'transform, opacity', // Performance hint
-    });
-    
-    // --- JSX Render ---
     return (
-        <div style={pageStyles}>
-            
-            {/* The Smart Header (Hides/Shows vertically) */}
-            <nav style={headerStyles}>
-                <h2>React Smart Header (Vertical Hide)</h2>
-            </nav>
+        <div className="portal-container">
+            <div className="sign-in-box">
+                <header>
+                    <img src="/aiiflogo.png" width={100} height={100 } alt="Attasfiyah Logo"/>
+                    {/* Updated Header Text */}
+                    <h3>Reset Your Password</h3>
+                    <p className="subtitle">Enter your **name** to create new password</p> 
+                </header>
 
-            {/* Content Sections (Slide in Horizontally) */}
-            <div style={getSectionStyles()}>
-                <h3>Section 1: Horizontal Scroll Effect</h3>
-                <p>Scroll down! This box will slide horizontally and fade in/out slightly based on your scroll position.</p>
-            </div>
-            
-            <div style={getSectionStyles()}>
-                <h3>Section 2: Continuous Movement</h3>
-                <p>The movement is tied directly to the scroll position, creating a continuous parallax effect.</p>
-            </div>
+                <form onSubmit={handlePasswordReset}> 
+                    {/* Input field 1: Username/Name */}
+                    <input
+                        type="text"
+                        // Updated Placeholder
+                        placeholder="Enter Student Name/School ID" 
+                        value={username}
+                        onChange={(e) => setUsername(e.target.value)}
+                        required
+                        disabled={loading || success}
+                    />
+                    {/* Input field 2: New Password */}
+                    <input
+                        type="password"
+                        // Updated Placeholder
+                        placeholder="Enter New Password" 
+                        value={newPassword}
+                        onChange={(e) => setNewPassword(e.target.value)}
+                        required
+                        disabled={loading || success}
+                    />
 
-            <div style={getSectionStyles()}>
-                <h3>Section 3: Customization</h3>
-                <p>Change the `/ 5` divisor in the `handleScroll` function to make the effect slower or faster.</p>
+                    {/* Removed Checkbox as it's irrelevant for password reset */}
+                    <div className="controls-row">
+                        <span onClick={() => nav('/')} style={{cursor: 'pointer', color: '#007bff'}}>
+                            Go back to Sign In
+                        </span>
+                    </div>
+                    
+                    {/* --- Success/Error Indicator --- */}
+                    {error && (
+                        <p className="error-message" style={{ color: 'red', fontWeight: 'bold' }}>
+                            ❌ {error}
+                        </p>
+                    )}
+                    
+                    {success && !loading && (
+                        <p className="success-message" style={{ color: 'green', fontWeight: 'bold' }}>
+                            ✅ Password Successfully Reset! Redirecting to login...
+                        </p>
+                    )}
+                    {/* --- End Status Indicator --- */}
+
+                    {/* The button is a submit button */}
+                    <button type="submit" disabled={loading || success}>
+                        {/* Updated Button Text */}
+                        {loading ? 'Processing...' : 'Set New Password'} 
+                    </button>
+                </form>
+
+                <footer>
+                    <p className="footer-note">Powered by **dnaTech@2025**</p>
+                </footer>
             </div>
         </div>
     );
-};
+}
 
-export default Scroll;
+export default Scroll; // Renamed export

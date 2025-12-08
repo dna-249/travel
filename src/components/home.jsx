@@ -116,12 +116,11 @@ const StudentSignIn = () => {
         <div className="portal-container">
             <div className="sign-in-box">
                 <header>
-                 <img src="/aiiflogo.png" width={100} height={100 }/>
+                   <img src="/aiiflogo.png" width={100} height={100 } alt="Attasfiyah Logo"/>
                     <h3>Welcome to Attasfiyah Portal</h3>
                     <p className="subtitle">Sign in to Continue</p>
                 </header>
 
-                {/* Changed onClick to onSubmit on the form and preventDefault in handleSignIn */}
                 <form onSubmit={handleSignIn}> 
                     {/* Input fields */}
                     <input
@@ -141,11 +140,30 @@ const StudentSignIn = () => {
                         disabled={loading}
                     />
 
-                    {/* Checkbox and Status Display */}
-                    <div className="controls-row">
+                    {/* Checkbox and Reset Password Button - MODIFIED BLOCK */}
+                    <div className="controls-row" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                        {/* 1. Remember Me Checkbox */}
                         <label className="remember-me">
                             <input type="checkbox" disabled={loading} /> Remember Me
                         </label>
+                        
+                        {/* 2. Reset Password Button/Link */}
+                        <button 
+                            type="button" // Important: use type="button" to prevent form submission
+                            onClick={() => nav("/test")} // Assuming a reset password route
+                            disabled={loading || success}
+                            style={{ 
+                                background: 'none', 
+                                border: 'none', 
+                                color: '#007bff', // Typical link color
+                                cursor: 'pointer',
+                                padding: 0, // Remove padding from button
+                                textDecoration: 'underline', // Make it look like a link
+                                fontSize: 'inherit' // Inherit font size from container
+                            }}
+                        >
+                            Reset Password
+                        </button>
                     </div>
                     
                     {/* --- Success/Error Indicator --- */}
@@ -163,7 +181,6 @@ const StudentSignIn = () => {
                     {/* --- End Status Indicator --- */}
 
                     {/* The button is a submit button */}
-                    {/* Removed redundant onClick on button, form's onSubmit handles it */}
                     <button type="submit" disabled={loading || success}>
                         {loading ? 'Signing In...' : 'Sign In'}
                     </button>
