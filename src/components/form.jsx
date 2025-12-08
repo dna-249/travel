@@ -825,7 +825,7 @@ const navigate = useNavigate()
                 {/* 1. Student & Class Details */}
                 <fieldset style={{ ...styles.fieldset, border: '2px solid #3b82f6', position: 'relative' }}>
                     <div style={styles.studentDetailsHeader}>
-                        <legend  onClick={()=>navigate(`/portal/${formData.id}`)} style={{ ...styles.legend, color: '#2563eb' }} >View Report</legend>
+                        <legend  onClick={()=>navigate(`/portal/${formData.id}`)} style={{ ...styles.legend, backgroundColor: '#2563eb',padding:"10px",borderRadius:"10px",color:"white",fontSize:"12px" }} >View Report</legend>
                         <button
                             type="button"
                             onClick={fetchStudentList}
