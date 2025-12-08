@@ -16,8 +16,10 @@ const getGradeAndRemark = (score) => {
         return { Grade: "C", Remark: "GOOD" };
     } else if (score >= 50) {
         return { Grade: "D", Remark: "PASS" };
-    } else {
+    } else if(score >= 1) {
         return { Grade: "F", Remark: "FAIL" };
+    } else {
+        return {Grade:"--",Remark:"--"}
     }
 };
 
