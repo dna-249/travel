@@ -703,7 +703,7 @@ const navigate = useNavigate()
         { label: "Admission No", name: "admissionNo", type: "text"}, 
         { label: "Term", name: "term", type: "text" },
         { label: "Sex", name: "sex", type: "text" },
-        { label: "Password", name: "password", type: "number" },
+        { label: "Password", name: "password", type: "text" },
         { label: "Session", name: "session", type: "text" },
     ];
 
