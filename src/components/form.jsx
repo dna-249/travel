@@ -414,12 +414,10 @@ const navigate = useNavigate()
     // Handler for Subject array changes
     const handleSubjectChange = (index, field, value) => {
         setItems(()=>({
-            id:formData.id,
             key:field,
-            value:value
+            item:value
         }))
 
-        console.log(items)
         const newSubjects = [...formData.subjects];
         newSubjects[index] = {
             ...newSubjects[index],
@@ -557,7 +555,7 @@ const navigate = useNavigate()
             setTimeout(() => setNotification(null), 5000);
             return;
         }
-
+          console.log(formData.id,capitalizedName,items.key,items.item)
         const { CA1, CA2, Exam, Ass } = scores;
 
         try {
@@ -618,8 +616,8 @@ const navigate = useNavigate()
 
         try {
             const response = await axios.put(
-                `https://portal-database-seven.vercel.app/student/set/${formData.id}/${formData.subjects[index].name}/${items.key}`,
-                { value:items.value },
+                `https://portal-database-seven.vercel.app/student/set/${formData.id}/${capitalizedName}/${items.key}`,
+                { value:items.item },
                 { headers: { 'Content-Type': 'application/json' } }
             );
 
