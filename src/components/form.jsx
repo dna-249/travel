@@ -982,8 +982,8 @@ const navigate = useNavigate()
                             backgroundColor: '#175118ff', color: '#fff', marginTop: '0.5rem',
                             cursor: (!formData.id || ALL_SUBJECTS.length <= usedSubjectNames.length) ? 'not-allowed' : 'pointer'
                         }}
-                        onMouseOver={(e) => { if (formData.id && ALL_SUBJECTS.length > usedSubjectNames.length) e.currentTarget.style.backgroundColor = '#a855f7'; }}
-                        onMouseOut={(e) => { if (formData.id && ALL_SUBJECTS.length > usedSubjectNames.length) e.currentTarget.style.backgroundColor = '#c084fc'; }}
+                        onMouseOver={(e) => { if (formData.id && ALL_SUBJECTS.length > usedSubjectNames.length) e.currentTarget.style.backgroundColor =' #175118ff'; }}
+                        onMouseOut={(e) => { if (formData.id && ALL_SUBJECTS.length > usedSubjectNames.length) e.currentTarget.style.backgroundColor = '#81be82ff'; }}
                     >
                       {edit? "Editing Mode":"Normal Mode"}
                     </button>
