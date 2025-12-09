@@ -614,7 +614,7 @@ const navigate = useNavigate()
         try {
             const response = await axios.put(
                 `https://portal-database-seven.vercel.app/student/set/${formData.id}/${capitalizedName}/${items.key}`,
-                { value:items.item },
+//                 { value:items.item },
                 { headers: { 'Content-Type': 'application/json' } })
 
             if (response.status === 201 || response.status === 200) {
