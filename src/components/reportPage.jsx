@@ -135,9 +135,9 @@ const ReportPage = () => {
                 { name: "HURUF", CA1: data.HURUF?.[0]?.CA1, CA2: data.HURUF?.[0]?.CA2, Ass: data.HURUF?.[0]?.Ass, Exam: data.HURUF?.[0]?.Exam, Position: data.HURUF?.[0]?.Position || "N/A" },
             ],
             behavior: data.behavior || {
-                moralEthics: "N/A", punctuality: "N/A", handWriting: "N/A",
-                honesty: "N/A", fluency: "N/A", selfControl: "N/A",
-                responsibility: "N/A", initiative: "N/A", politeness: "N/A"
+                moralEthics: moralEthics, punctuality: punctuality, handWriting: handWriting,
+                honesty: honesty, fluency: fluency, selfControl:selfControl,
+                responsibility: responsibility, initiative:initiative, politeness: politeness
             },
         };
     };
