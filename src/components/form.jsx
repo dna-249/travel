@@ -297,6 +297,7 @@ const navigate = useNavigate()
     const [studentList, setStudentList] = useState([]);
     const [isFetchingList, setIsFetchingList] = useState(false);
     const [searchQuery, setSearchQuery] = useState('');
+    const [edit,setEdit] = useState(false)
     // --- NEW STATE FOR CLASS FILTER ---
     const [classFilter, setClassFilter] = useState(''); 
     // ----------------------------------
@@ -556,72 +557,33 @@ const navigate = useNavigate()
             return;
         }
         const { CA1, CA2, Exam, Ass } = scores;
-   console.log(formData.id,capitalizedName,items.key,items.item)
+    
         try {
-             const response = await axios.put(
-                `https://portal-database-seven.vercel.app/student/set/${formData.id}/${capitalizedName}/${items.key}`,
-                { value:items.item },
-                { headers: { 'Content-Type': 'application/json' } })
+           
+           if(edit === true){ const response = await axios.put(
+                        `https://portal-database-seven.vercel.app/student/set/${formData.id}/${capitalizedName}/${items.key}`,
+                        { value:items.item },
+                        { headers: { 'Content-Type': 'application/json' } })
 
-            if (response.status === 201 || response.status === 200) {
-                setNotification({ type: 'success', message: `✅ Subject **${name}** data successfully posted! Status: ${response.status}` });
-            } else {
-                const dataMessage = response.data?.message || response.data?.error || response.statusText;
-                throw new Error(`Submission failed with status ${response.status}. Message: ${dataMessage}`);
-            }
-        } catch (error) {
-            console.error("Subject Submission Error:", error);
-            let errorMessage = "An unknown error occurred during submission.";
-            if (error.response) {
-                errorMessage = `API Error (${error.response.status}): ${error.response.data?.message || error.response.statusText}`;
-            } else if (error.request) {
-                errorMessage = "No response received from the server. Check network connection.";
-            } else {
-                errorMessage = `Client Error: ${error.message}`;
-            }
-            setNotification({ type: 'error', message: `❌ Failed to submit **${name}**: ${errorMessage}` });
-        } finally {
-            setPostingSubjectIndex(null);
-            setTimeout(() => setNotification(null), 7000);
-        }
-    };
-
- const handleSingleSubjectSubmissionSet = async (index) => {
-        if (!formData.id) {
-            setNotification({ type: 'error', message: "Please select a student first (Admission No is missing)." });
-            setTimeout(() => setNotification(null), 5000);
-            return;
-        }
-
-        setPostingSubjectIndex(index);
-        setNotification(null);
-
-        const subjectToSubmit = formData.subjects[index];
-        const { name, ...scores } = subjectToSubmit;
-
-        const capitalizedName = name.toUpperCase().replace(/[^A-Z0-9]/g, '');
-        if (!capitalizedName) {
-            setNotification({ type: 'error', message: "Subject name cannot be empty." });
-            setPostingSubjectIndex(null);
-            setTimeout(() => setNotification(null), 5000);
-            return;
-        }
-        const { CA1, CA2, Exam, Ass } = scores;
-
-        console.log(formData.id,capitalizedName,items.key,items.item)
-
-        try {
-            const response = await axios.put(
-                `https://portal-database-seven.vercel.app/student/set/${formData.id}/${capitalizedName}/${items.key}`,
-                { value:items.item },
-                { headers: { 'Content-Type': 'application/json' } })
-
-            if (response.status === 201 || response.status === 200) {
-                setNotification({ type: 'success', message: `✅ Subject **${name}** data successfully posted! Status: ${response.status}` });
-            } else {
-                const dataMessage = response.data?.message || response.data?.error || response.statusText;
-                throw new Error(`Submission failed with status ${response.status}. Message: ${dataMessage}`);
-            }
+                    if (response.status === 201 || response.status === 200) {
+                        setNotification({ type: 'success', message: `✅ Subject **${name}** data successfully posted! Status: ${response.status}` });
+                    } else {
+                        const dataMessage = response.data?.message || response.data?.error || response.statusText;
+                        throw new Error(`Submission failed with status ${response.status}. Message: ${dataMessage}`);
+                    }
+       }else{    const response = await axios.put(
+                `https://portal-database-seven.vercel.app/student/push/${formData.id}/${capitalizedName}`,
+                { CA1: CA1, CA2: CA2, Ass: Ass, Exam: Exam },
+                { headers: { 'Content-Type': 'application/json' } }
+            );
+          if (response.status === 201 || response.status === 200) {
+                        setNotification({ type: 'success', message: `✅ Subject **${name}** data successfully posted! Status: ${response.status}` });
+                    } else {
+                        const dataMessage = response.data?.message || response.data?.error || response.statusText;
+                        throw new Error(`Submission failed with status ${response.status}. Message: ${dataMessage}`);
+                    }
+     }
+             
         } catch (error) {
             console.error("Subject Submission Error:", error);
             let errorMessage = "An unknown error occurred during submission.";
@@ -1013,7 +975,7 @@ const navigate = useNavigate()
                     </button>
                    <button
                         type="button"
-                        onClick={handleSingleSubjectSubmissionSet}
+                        onClick={setEdit(pre=>!pre)}
                         disabled={!formData.id || ALL_SUBJECTS.length <= usedSubjectNames.length}
                         style={{
                             ...styles.submitButton,
@@ -1023,7 +985,7 @@ const navigate = useNavigate()
                         onMouseOver={(e) => { if (formData.id && ALL_SUBJECTS.length > usedSubjectNames.length) e.currentTarget.style.backgroundColor = '#a855f7'; }}
                         onMouseOut={(e) => { if (formData.id && ALL_SUBJECTS.length > usedSubjectNames.length) e.currentTarget.style.backgroundColor = '#c084fc'; }}
                     >
-                       Save Edit
+                      {edit? "Editing Mode":"Normal Mode"}
                     </button>
 
                 </fieldset>
