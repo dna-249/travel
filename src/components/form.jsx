@@ -975,7 +975,7 @@ const navigate = useNavigate()
                     </button>
                    <button
                         type="button"
-                        onClick={setEdit(pre=>!pre)}
+                        onClick={()=>setEdit(pre=>!pre)}
                         disabled={!formData.id || ALL_SUBJECTS.length <= usedSubjectNames.length}
                         style={{
                             ...styles.submitButton,
