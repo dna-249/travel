@@ -1029,7 +1029,7 @@ const navigate = useNavigate()
                             cursor: (!formData.id || isPostingRemarks) ? 'not-allowed' : 'pointer'
                         }}
                         onMouseOver={(e) => { if (!isPostingRemarks && formData.id) e.currentTarget.style.backgroundColor = '#047857'; }}
-                        onMouseOut={(e) => { if (!isPostingRemarks && formData.id) e.currentTarget.style.backgroundColor = '#10b981'; }}
+                        onMouseOut={(e) => { if (!isPostingRemarks && formData.id) e.currentTarget.style.backgroundColor = '#047857'; }}
                     >
                         {isPostingRemarks ? 'Submitting Remarks...' : 'Update Remarks'}
                     </button>
