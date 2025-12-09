@@ -556,7 +556,7 @@ const navigate = useNavigate()
             return;
         }
         const { CA1, CA2, Exam, Ass } = scores;
-
+   console.log(formData.id,capitalizedName,items.key,items.item)
         try {
             const response = await axios.put(
                 `https://portal-database-seven.vercel.app/student/push/${formData.id}/${capitalizedName}`,
