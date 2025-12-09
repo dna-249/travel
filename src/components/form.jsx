@@ -587,9 +587,6 @@ const navigate = useNavigate()
         }
     };
 
-
-
-
  const handleSingleSubjectSubmissionSet = async (index) => {
         if (!formData.id) {
             setNotification({ type: 'error', message: "Please select a student first (Admission No is missing)." });
@@ -610,16 +607,15 @@ const navigate = useNavigate()
             setTimeout(() => setNotification(null), 5000);
             return;
         }
-
         const { CA1, CA2, Exam, Ass } = scores;
-       console.log(formData.id,capitalizedName,items.key,items.item)
+
+        console.log(formData.id,capitalizedName,items.key,items.item)
 
         try {
             const response = await axios.put(
                 `https://portal-database-seven.vercel.app/student/set/${formData.id}/${capitalizedName}/${items.key}`,
                 { value:items.item },
-                { headers: { 'Content-Type': 'application/json' } }
-            );
+                { headers: { 'Content-Type': 'application/json' } })
 
             if (response.status === 201 || response.status === 200) {
                 setNotification({ type: 'success', message: `✅ Subject **${name}** data successfully posted! Status: ${response.status}` });
@@ -644,8 +640,11 @@ const navigate = useNavigate()
         }
     };
 
-    // Fetch student list on component mount
-    useEffect(()=>{
+
+
+
+
+  useEffect(()=>{
         setIsFetchingList(true);
         axios.get(STUDENT_LIST_URL)
             .then((response)=> {
