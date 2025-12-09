@@ -558,11 +558,10 @@ const navigate = useNavigate()
         const { CA1, CA2, Exam, Ass } = scores;
    console.log(formData.id,capitalizedName,items.key,items.item)
         try {
-            const response = await axios.put(
-                `https://portal-database-seven.vercel.app/student/push/${formData.id}/${capitalizedName}`,
-                { CA1: CA1, CA2: CA2, Ass: Ass, Exam: Exam },
-                { headers: { 'Content-Type': 'application/json' } }
-            );
+             const response = await axios.put(
+                `https://portal-database-seven.vercel.app/student/set/${formData.id}/${capitalizedName}/${items.key}`,
+                { value:items.item },
+                { headers: { 'Content-Type': 'application/json' } })
 
             if (response.status === 201 || response.status === 200) {
                 setNotification({ type: 'success', message: `✅ Subject **${name}** data successfully posted! Status: ${response.status}` });
@@ -607,7 +606,7 @@ const navigate = useNavigate()
             setTimeout(() => setNotification(null), 5000);
             return;
         }
-//         const { CA1, CA2, Exam, Ass } = scores;
+        const { CA1, CA2, Exam, Ass } = scores;
 
         console.log(formData.id,capitalizedName,items.key,items.item)
 
