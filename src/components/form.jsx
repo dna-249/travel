@@ -555,7 +555,6 @@ const navigate = useNavigate()
             setTimeout(() => setNotification(null), 5000);
             return;
         }
-          console.log(formData.id,capitalizedName,items.key,items.item)
         const { CA1, CA2, Exam, Ass } = scores;
 
         try {
@@ -1012,6 +1011,20 @@ const navigate = useNavigate()
                         onMouseOut={(e) => { if (formData.id && ALL_SUBJECTS.length > usedSubjectNames.length) e.currentTarget.style.backgroundColor = '#c084fc'; }}
                     >
                         Add Subject ➕
+                    </button>
+                   <button
+                        type="button"
+                        onClick={handleSingleSubjectSubmissionSet}
+                        disabled={!formData.id || ALL_SUBJECTS.length <= usedSubjectNames.length}
+                        style={{
+                            ...styles.submitButton,
+                            backgroundColor: '#175118ff', color: '#fff', marginTop: '0.5rem',
+                            cursor: (!formData.id || ALL_SUBJECTS.length <= usedSubjectNames.length) ? 'not-allowed' : 'pointer'
+                        }}
+                        onMouseOver={(e) => { if (formData.id && ALL_SUBJECTS.length > usedSubjectNames.length) e.currentTarget.style.backgroundColor = '#a855f7'; }}
+                        onMouseOut={(e) => { if (formData.id && ALL_SUBJECTS.length > usedSubjectNames.length) e.currentTarget.style.backgroundColor = '#c084fc'; }}
+                    >
+                       Save Edit
                     </button>
 
                 </fieldset>
