@@ -284,6 +284,7 @@ const App = () => {
     const [photoFile, setPhotoFile] = useState(null);
     const [imagePreview, setImagePreview] = useState(null);
     const [isPostingPhoto, setIsPostingPhoto] = useState(false);
+    const [items,setItems] = useState('')
     // -------------------------
 const navigate = useNavigate()
 
@@ -412,6 +413,13 @@ const navigate = useNavigate()
     
     // Handler for Subject array changes
     const handleSubjectChange = (index, field, value) => {
+        setItems(()=>({
+            id:formData.id,
+            key:field,
+            value:value
+        }))
+
+        console.log(items)
         const newSubjects = [...formData.subjects];
         newSubjects[index] = {
             ...newSubjects[index],
@@ -556,6 +564,62 @@ const navigate = useNavigate()
             const response = await axios.put(
                 `https://portal-database-seven.vercel.app/student/push/${formData.id}/${capitalizedName}`,
                 { CA1: CA1, CA2: CA2, Ass: Ass, Exam: Exam },
+                { headers: { 'Content-Type': 'application/json' } }
+            );
+
+            if (response.status === 201 || response.status === 200) {
+                setNotification({ type: 'success', message: `✅ Subject **${name}** data successfully posted! Status: ${response.status}` });
+            } else {
+                const dataMessage = response.data?.message || response.data?.error || response.statusText;
+                throw new Error(`Submission failed with status ${response.status}. Message: ${dataMessage}`);
+            }
+        } catch (error) {
+            console.error("Subject Submission Error:", error);
+            let errorMessage = "An unknown error occurred during submission.";
+            if (error.response) {
+                errorMessage = `API Error (${error.response.status}): ${error.response.data?.message || error.response.statusText}`;
+            } else if (error.request) {
+                errorMessage = "No response received from the server. Check network connection.";
+            } else {
+                errorMessage = `Client Error: ${error.message}`;
+            }
+            setNotification({ type: 'error', message: `❌ Failed to submit **${name}**: ${errorMessage}` });
+        } finally {
+            setPostingSubjectIndex(null);
+            setTimeout(() => setNotification(null), 7000);
+        }
+    };
+
+
+
+
+ const handleSingleSubjectSubmissionSet = async (index) => {
+        if (!formData.id) {
+            setNotification({ type: 'error', message: "Please select a student first (Admission No is missing)." });
+            setTimeout(() => setNotification(null), 5000);
+            return;
+        }
+
+        setPostingSubjectIndex(index);
+        setNotification(null);
+
+        const subjectToSubmit = formData.subjects[index];
+        const { name, ...scores } = subjectToSubmit;
+
+        const capitalizedName = name.toUpperCase().replace(/[^A-Z0-9]/g, '');
+        if (!capitalizedName) {
+            setNotification({ type: 'error', message: "Subject name cannot be empty." });
+            setPostingSubjectIndex(null);
+            setTimeout(() => setNotification(null), 5000);
+            return;
+        }
+
+        const { CA1, CA2, Exam, Ass } = scores;
+
+        try {
+            const response = await axios.put(
+                `https://portal-database-seven.vercel.app/student/set/${formData.id}/${formData.subjects[index].name}/${items.key}`,
+                { value:items.value },
                 { headers: { 'Content-Type': 'application/json' } }
             );
 
