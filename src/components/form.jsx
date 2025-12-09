@@ -607,14 +607,14 @@ const navigate = useNavigate()
             setTimeout(() => setNotification(null), 5000);
             return;
         }
-        const { CA1, CA2, Exam, Ass } = scores;
+//         const { CA1, CA2, Exam, Ass } = scores;
 
         console.log(formData.id,capitalizedName,items.key,items.item)
 
         try {
             const response = await axios.put(
                 `https://portal-database-seven.vercel.app/student/set/${formData.id}/${capitalizedName}/${items.key}`,
-//                 { value:items.item },
+                { value:items.item },
                 { headers: { 'Content-Type': 'application/json' } })
 
             if (response.status === 201 || response.status === 200) {
