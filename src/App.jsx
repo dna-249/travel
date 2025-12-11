@@ -8,6 +8,7 @@ import StudentSignupForm from './components/signUp'
 import AdminPinPage from './components/pinPage'
 import AdminDashboard from './components/admin'
 import Scroll from './components/test'
+import Pay from './components/pay'
 function App() {
   
 
@@ -20,6 +21,7 @@ function App() {
            <Route path='/test' element={<Scroll />}/>
            <Route path='/admin' element={<AdminDashboard/>}/>
            <Route path='/pin' element={<AdminPinPage/>}/>
+           <Route path='/pay' element={<Pay/>}/>
            <Route path='/signup' element={<StudentSignupForm/>}/>
            
        </Routes>

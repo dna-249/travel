@@ -101,7 +101,7 @@ const StudentSignIn = () => {
                 nav(`/portal/${res.data._id}`);
                  }else{
                     alert("You have not pay your examination fees\n Kindly pay your examination fees to view your result")
-                 nav(`/`); }
+                 nav(`/pay`); }
             }, 500); // 500ms delay
 
         } catch (err) {
