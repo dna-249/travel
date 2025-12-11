@@ -100,7 +100,7 @@ const StudentSignIn = () => {
                 if(res.data.payment === 'paid'){
                 nav(`/portal/${res.data._id}`);
                  }else{
-                    alert(res.data.payment)
+                    
                     alert("You have not pay your examination fees\n Kindly pay your examination fees to view your result")
                  nav(`/pay`)}
             }, 500); // 500ms delay
