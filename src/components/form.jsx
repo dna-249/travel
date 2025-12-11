@@ -29,6 +29,7 @@ const INITIAL_FORM_DATA = {
     session: "ACADEMIC YEAR 2025/2026",
     admissionNo: "", // Updated admissionNo (used as ID for the API)
     sex: "",
+    payment: "",
     headRemark: "An excellent result, keep up the good work",
     classTeacherRemark: "A hardworking learner and shows respect",
     existingPhotoUrl: null, // New field to hold existing photo URL
@@ -474,7 +475,8 @@ const navigate = useNavigate()
             session: formData.session,
             admissionNo:formData.admissionNo,
             sex: formData.sex,
-            password: formData.password
+            password: formData.password,
+            payment: formData.payment
         };
 
         try {
@@ -620,7 +622,8 @@ const navigate = useNavigate()
                     admissionNo:student.admissionNo,
                     sex: student.sex,
                     image: student.studentPhoto,
-                    password: student.password
+                    password: student.password,
+                    payment: student.payment
                 }));
                 const names = [...MOCK_STUDENT_DATA, ...apiNames.filter(a => !MOCK_STUDENT_DATA.some(m => m.id === a.id))];
                 setStudentList(names);
@@ -683,6 +686,7 @@ const navigate = useNavigate()
             admissionNo:student.admissionNo,
             sex: student.sex,
             image: student.image,
+            payment: student.payment,
             password: student.password // Set the mock existing URL
         }));
       console.log(formData)
@@ -728,6 +732,7 @@ const navigate = useNavigate()
         { label: "Sex", name: "sex", type: "text" },
         { label: "Password", name: "password", type: "text" },
         { label: "Session", name: "session", type: "text" },
+        { label: "Payment", name: "payment", type: "text" },
     ];
 
 
