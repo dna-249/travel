@@ -97,7 +97,11 @@ const StudentSignIn = () => {
             setSuccess(true);
             // Optional: A brief delay for the user to see the success message before redirecting
             setTimeout(() => {
+                if(res.data.payment === 'paid'){
                 nav(`/portal/${res.data._id}`);
+                 }else{
+                    alert("You have not pay examination fees\n Kindly pay your examination fees to view your result")
+                 }
             }, 500); // 500ms delay
 
         } catch (err) {
