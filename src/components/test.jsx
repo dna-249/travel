@@ -41,7 +41,7 @@ const Scroll = () => {
             // NOTE: The API endpoint and request body are hypothetical for a password change/reset.
             // Replace with your actual reset/update password endpoint.
             const res = await axios.put(
-                `https://portal-database-seven.vercel.app/student/reset/${username}`, // Changed API endpoint
+                `https://portal-database-seven.vercel.app/student/reset/${username.trim()}`, // Changed API endpoint
                 {
                     password: newPassword.trim(), 
                 }

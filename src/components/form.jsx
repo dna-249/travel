@@ -469,13 +469,13 @@ const navigate = useNavigate()
         setNotification(null);
 
         const payload = {
-            studentName: formData.studentName,
+            studentName: formData.studentName.trim(),
             class: formData.class,
             term: formData.term,
             session: formData.session,
             admissionNo:formData.admissionNo,
             sex: formData.sex,
-            password: formData.password,
+            password: formData.password.trim(),
             payment: formData.payment
         };
 

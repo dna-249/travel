@@ -216,7 +216,7 @@ const StudentSignupForm = () => {
                         <div>
                             <label style={styles.label} htmlFor="studentName">Full Name *</label>
                             <input
-                                type="text" id="studentName" name="studentName" value={formData.studentName} onChange={handleChange}
+                                type="text" id="studentName" name="studentName" value={formData.studentName.trim()} onChange={handleChange}
                                 style={styles.input} required placeholder="e.g., NURA IBRAHIM"
                             />
                         </div>
@@ -225,7 +225,7 @@ const StudentSignupForm = () => {
                         <div>
                             <label style={styles.label} htmlFor="password">Password *</label>
                             <input
-                                type="password" id="password" name="password" value={formData.password} onChange={handleChange}
+                                type="password" id="password" name="password" value={formData.password.trim()} onChange={handleChange}
                                 style={styles.input} required placeholder="Set a secure password"
                             />
                         </div>
