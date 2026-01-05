@@ -9,6 +9,7 @@ import AdminPinPage from './components/pinPage'
 import AdminDashboard from './components/admin'
 import Scroll from './components/test'
 import Pay from './components/pay'
+import WeeklyReport from './components/prograss'
 function App() {
   
 
@@ -22,6 +23,7 @@ function App() {
            <Route path='/admin' element={<AdminDashboard/>}/>
            <Route path='/pin' element={<AdminPinPage/>}/>
            <Route path='/pay' element={<Pay/>}/>
+           <Route path='/prograss' element={<WeeklyReport/>}/>
            <Route path='/signup' element={<StudentSignupForm/>}/>
            
        </Routes>
