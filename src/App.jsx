@@ -23,6 +23,7 @@ function App() {
            <Route path='/admin' element={<AdminDashboard/>}/>
            <Route path='/pin' element={<AdminPinPage/>}/>
            <Route path='/pay' element={<Pay/>}/>
+           <Route path='/view' element={<WeeklyReport/>}/>
            <Route path='/prograss' element={<WeeklyReport/>}/>
            <Route path='/signup' element={<StudentSignupForm/>}/>
            
