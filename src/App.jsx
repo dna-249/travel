@@ -10,6 +10,7 @@ import AdminDashboard from './components/admin'
 import Scroll from './components/test'
 import Pay from './components/pay'
 import WeeklyReport from './components/prograss'
+import WeeklyReportView from './components/veiw'
 function App() {
   
 
@@ -23,7 +24,7 @@ function App() {
            <Route path='/admin' element={<AdminDashboard/>}/>
            <Route path='/pin' element={<AdminPinPage/>}/>
            <Route path='/pay' element={<Pay/>}/>
-           <Route path='/view' element={<WeeklyReport/>}/>
+           <Route path='/view' element={<WeeklyReportView/>}/>
            <Route path='/prograss' element={<WeeklyReport/>}/>
            <Route path='/signup' element={<StudentSignupForm/>}/>
            
