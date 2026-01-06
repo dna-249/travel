@@ -25,7 +25,7 @@ function App() {
            <Route path='/pin' element={<AdminPinPage/>}/>
            <Route path='/pay' element={<Pay/>}/>
            <Route path='/view' element={<WeeklyReportView/>}/>
-           <Route path='/prograss' element={<WeeklyReport/>}/>
+           <Route path='/progress' element={<WeeklyReport/>}/>
            <Route path='/signup' element={<StudentSignupForm/>}/>
            
        </Routes>
