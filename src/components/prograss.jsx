@@ -1,7 +1,11 @@
+import axios from 'axios';
 import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 
 const WeeklyReport = () => {
   const days = ['Saturday', 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
+    const {id} = useParams
+
   
   // --- STATES ---
   const [teacherData, setTeacherData] = useState(
@@ -22,14 +26,24 @@ const WeeklyReport = () => {
   const [status, setStatus] = useState({ teacher: 'idle', mgmt: 'idle', parent: 'idle' });
 
   // --- POST HANDLER ---
-  const submitToBackend = async (section, endpoint, payload) => {
+  const submitToBackend = async (section) => {
     setStatus(prev => ({ ...prev, [section]: 'loading' }));
     
     try {
-      const response = await fetch(`http://localhost:5000/api/${endpoint}`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload),
+      const response = await axios.put(`https://portal-database-seven.vercel.app/student/push/${id}`, {
+       
+date: date,tajweed: tajweed,hifz: hifz,tajError:tajError,hifzError: hifzError,toV:toV,fromV: fromV,chapter:  chapter,
+week: week,term: term, 
+teacherComment: teacherComment,
+teacherName: teacherName, 
+teacherSign:teacherSign , 
+newStarting: newStarting,
+newStopping: newStopping,
+newScore: newScore,
+hodComment:  hodComment,
+prevStarting: prevStarting,
+preStopping: preStopping, 
+preScore: preScore,
       });
 
       if (response.ok) {
