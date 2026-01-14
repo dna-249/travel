@@ -53,7 +53,27 @@ prevStarting: mgmtData.prevHifz.starting,
 preStopping: mgmtData.prevHifz.stopping, 
 preScore: mgmtData.prevHifz.score,
       });
-
+       console.log({ate:teacherData.date,
+tajweed:teacherData.tajweed,
+hifz:teacherData.hifz,
+tajError:teacherData.tajError,
+hifzError:teacherData.hifzError,
+toV:teacherData.toV,
+fromV:teacherData.fromV,
+chapter:teacherData.chapter,
+week:teacherData.week,
+term:teacherData.term, 
+teacherComment:teacherComments.comment,
+teacherName:teacherComments.name, 
+teacherSign:teacherComments.signature , 
+newStarting: mgmtData.newHifz.starting,
+newStopping: mgmtData.newHifz.stopping,
+newScore: mgmtData.newHifz.score,
+hodComment: mgmtData.hodComment,
+prevStarting: mgmtData.prevHifz.starting,
+preStopping: mgmtData.prevHifz.stopping, 
+preScore: mgmtData.prevHifz.score,
+    })
       if (response.ok) {
         setStatus(prev => ({ ...prev, [section]: 'success' }));
         // Reset to idle after 3 seconds
