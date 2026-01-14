@@ -32,18 +32,26 @@ const WeeklyReport = () => {
     try {
       const response = await axios.put(`https://portal-database-seven.vercel.app/student/push/${id}`, {
        
-date: date,tajweed: tajweed,hifz: hifz,tajError:tajError,hifzError: hifzError,toV:toV,fromV: fromV,chapter:  chapter,
-week: week,term: term, 
-teacherComment: teacherComment,
-teacherName: teacherName, 
-teacherSign:teacherSign , 
-newStarting: newStarting,
-newStopping: newStopping,
-newScore: newScore,
-hodComment:  hodComment,
-prevStarting: prevStarting,
-preStopping: preStopping, 
-preScore: preScore,
+date:teacherData.date,
+tajweed:teacherData.tajweed,
+hifz:teacherData.hifz,
+tajError:teacherData.tajError,
+hifzError:teacherData.hifzError,
+toV:teacherData.toV,
+fromV:teacherData.fromV,
+chapter:teacherData.chapter,
+week:teacherData.week,
+term:teacherData.term, 
+teacherComment:teacherComments.comment,
+teacherName:teacherComments.name, 
+teacherSign:teacherComments.signature , 
+newStarting: mgmtData.newHifz.starting,
+newStopping: mgmtData.newHifz.stopping,
+newScore: mgmtData.newHifz.score,
+hodComment: mgmtData.hodComment,
+prevStarting: mgmtData.prevHifz.starting,
+preStopping: mgmtData.prevHifz.stopping, 
+preScore: mgmtData.prevHifz.score,
       });
 
       if (response.ok) {
