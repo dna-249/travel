@@ -30,7 +30,7 @@ const WeeklyReport = () => {
     setStatus(prev => ({ ...prev, [section]: 'loading' }));
     
     try {
-      const response = await axios.put(`https://portal-database-seven.vercel.app/student/push/${id}`, {
+      const response = await axios.put(`https://portal-database-seven.vercel.app/student/push/69086a3eeb4adef8689d1948`, {
        
 date:teacherData.date,
 tajweed:teacherData.tajweed,
