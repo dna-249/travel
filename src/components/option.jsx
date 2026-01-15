@@ -3,7 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 
 const AdminOptionPage = () => {
     const navigate = useNavigate();
-    const {id} = useParams
+    const {id} = useParams()
 
 
     const primaryColor = '#0047AB'; // Dark Blue
