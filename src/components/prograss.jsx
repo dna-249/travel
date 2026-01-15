@@ -90,7 +90,7 @@ const WeeklyReport = () => {
     }
   };
 
-  // --- UI COMPONENTS ---
+  // --- UI COMPONENTS ---z
   const StatusMessage = ({ type }) => {
     if (type === 'idle') return null;
     const config = {
