@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom';
 
 const WeeklyReport = () => {
   const days = ['Saturday', 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
-  const [day, setDay] = useState('mon')
+  const [day, setDay] = useState('')
   
   // 1. FIXED: useParams is a hook and must be called with ()
   const { id } = useParams(); 
@@ -167,7 +167,7 @@ const WeeklyReport = () => {
                     />
                   </td>
                 ))}
-                <td onClick={()=>setDay(row.day)} className={day? " border border-black text-white bg-blue-50 font-bold text-center": "border border-black bg-gray-50 font-bold text-center"}>{row.day}</td>
+                <td onClick={()=>setDay(row.day)} className={day !== ''? " border border-black text-white bg-blue-50 font-bold text-center": "border border-black bg-gray-50 font-bold text-center"}>{row.day}</td>
               </tr>
             ))}
           </tbody>
