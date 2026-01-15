@@ -75,15 +75,13 @@ const WeeklyReport = () => {
           hodComment: mgmtData.hodComment,
           prevStarting: mgmtData.prevHifz.starting,
           preStopping: mgmtData.prevHifz.stopping, 
-preScore: mgmtData.prevHifz.score,
-      });
+          preScore: mgmtData.prevHifz.score,}
+      );
       
-      if (response.ok) {
+      // 3. FIXED: Axios uses response.status (Fetch uses response.ok)
+      if (response.status === 200 || response.status === 204) {
         setStatus(prev => ({ ...prev, [section]: 'success' }));
-        // Reset to idle after 3 seconds
         setTimeout(() => setStatus(prev => ({ ...prev, [section]: 'idle' })), 3000);
-      } else {
-        throw new Error();
       }
     } catch (error) {
       console.error("Submission error:", error);
@@ -101,7 +99,7 @@ preScore: mgmtData.prevHifz.score,
       error: { text: 'Failed to save. Try again.', color: 'text-red-600', icon: '❌' }
     };
     return (
-      <div className={`flex items-center gap-2 font-bold text-[12px] animate-fade-in ${config[type].color}`}>
+      <div className={`flex items-center gap-2 font-bold text-[12px] ${config[type].color}`}>
         <span>{config[type].icon}</span> {config[type].text}
       </div>
     );
@@ -109,23 +107,16 @@ preScore: mgmtData.prevHifz.score,
 
   const SubmitButton = ({ section, onClick, label }) => {
     const isIdle = status[section] === 'idle';
-    const isLoading = status[section] === 'loading';
-
     return (
       <div className="flex items-center gap-4 mt-4 print:hidden">
         <button
           onClick={onClick}
           disabled={!isIdle}
-          className={`relative overflow-hidden flex items-center justify-center min-w-[200px] px-6 py-2 rounded font-bold transition-all shadow-md active:scale-95 ${
-            isLoading ? 'bg-gray-400 cursor-not-allowed' : 'bg-blue-800 hover:bg-blue-900 text-white'
+          className={`px-6 py-2 rounded font-bold text-white transition-all ${
+            !isIdle ? 'bg-gray-400' : 'bg-blue-800 hover:bg-blue-900'
           }`}
         >
-          {isLoading ? (
-            <div className="flex items-center gap-2">
-              <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-              Processing...
-            </div>
-          ) : label}
+          {status[section] === 'loading' ? 'Processing...' : label}
         </button>
         <StatusMessage type={status[section]} />
       </div>
