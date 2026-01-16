@@ -28,13 +28,22 @@ const WeeklyReportView = () => {
 
   const [parentData, setParentData] = useState({ name: '', comment: '', date: '' });
   const [status, setStatus] = useState({ teacher: 'idle', mgmt: 'idle', parent: 'idle' });
-  useEffect(()=>{
+  useEffect(async()=>{
     
-      const responses =  axios.get(
-        `https://portal-database-seven.vercel.app/student/${id}`)
-       
-        console.log("response:" + responses.data)
-
+    try {
+                const res = await axios.get(`https://portal-database-seven.vercel.app/student/${id}`)
+                
+                if (!res.data) {
+                    throw new Error("No data received from API.");
+                }
+                
+                setResponse(res.data); 
+                console.log(res.data)
+                
+            } catch (err) {
+                console.error("Fetch error:", err);
+                setError("Failed to load report data. Please check the API connection.");
+                }
   },[id])
 
   // --- POST HANDLER ---a
