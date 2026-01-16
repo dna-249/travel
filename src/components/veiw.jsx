@@ -5,7 +5,7 @@ import { useParams } from 'react-router-dom';
 const WeeklyReportView = () => {
   const days = ['Saturday', 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
   const [day, setDay] = useState('')
-  const [response, setResponse] = useState('')
+  const [response, setResponse] = useState([''])
   
   // 1. FIXED: useParams is a hook and must be called with ()
   const { id } = useParams(); 
@@ -169,7 +169,7 @@ const WeeklyReportView = () => {
             </tr>
           </thead>
           <tbody>
-            {teacherData.map((row, idx) => (
+            {response.map((row, idx) => (
               <tr key={idx} className="h-8">
                 {['date', 'remark', 'total', 'tajweed', 'hifz', 'tajError', 'hifzError', 'toV', 'fromV', 'chapter'].map((field) => (
                   <td key={field} className="border border-black">
