@@ -169,14 +169,14 @@ const WeeklyReportView = () => {
             </tr>
           </thead>
           <tbody>
-            {response.map((row, idx) => (
+            {response.teacher[0].map((row, idx) => (
               <tr key={idx} className="h-8">
                 {['date', 'remark', 'total', 'tajweed', 'hifz', 'tajError', 'hifzError', 'toV', 'fromV', 'chapter'].map((field) => (
                   <td key={field} className="border border-black">
                     <input 
                       type={field === "date" ? "date" : "text"} 
                       className={inputClass} 
-                      value={row[field]} 
+                      value={row[0][field]} 
                       onChange={(e) => {
                         const updated = [...teacherData];
                         updated[idx][field] = e.target.value;
