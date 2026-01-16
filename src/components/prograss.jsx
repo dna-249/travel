@@ -27,9 +27,12 @@ const WeeklyReport = () => {
 
   const [parentData, setParentData] = useState({ name: '', comment: '', date: '' });
   const [status, setStatus] = useState({ teacher: 'idle', mgmt: 'idle', parent: 'idle' });
-  useEffect(async ()=>{
-    await axios.get(
+  useEffect(()=>{
+    async function fech(params) {
+      await axios.get(
         `https://portal-database-seven.vercel.app/student/${id}`)
+    };fech()
+    
   },[id])
 
   // --- POST HANDLER ---a

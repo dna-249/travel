@@ -26,7 +26,7 @@ function App() {
            <Route path='/pin' element={<AdminPinPage/>}/>
            <Route path='/pay' element={<Pay/>}/>
            <Route path='/option/:id' element={<AdminOptionPage/>}/>
-           <Route path='/view' element={<WeeklyReportView/>}/>
+           <Route path='/view/:id' element={<WeeklyReportView/>}/>
            <Route path='/progress/:id' element={<WeeklyReport/>}/>
            <Route path='/signup' element={<StudentSignupForm/>}/>
            
