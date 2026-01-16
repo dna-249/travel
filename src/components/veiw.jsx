@@ -30,10 +30,10 @@ const WeeklyReportView = () => {
   const [status, setStatus] = useState({ teacher: 'idle', mgmt: 'idle', parent: 'idle' });
   useEffect(()=>{
     
-       axios.get(
+      const responses =  axios.get(
         `https://portal-database-seven.vercel.app/student/${id}`)
-        .then((res) => setResponse(res.data)).catch((err) => console.log(err))
-        console.log("response:" + response)
+       
+        console.log("response:" + responses)
 
   },[id])
 
