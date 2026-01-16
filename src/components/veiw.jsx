@@ -166,7 +166,7 @@ const WeeklyReportView = () => {
               <th className="border border-black p-1">من آية<br/>From Verse</th>
               <th className="border border-black p-1">سورة<br/>Chapters</th>
               <th className="border border-black p-1 bg-gray-200 uppercase">Days<br/>الأيام</th>
-            </tr>z
+            </tr>
           </thead>
           <tbody>
             {response?.['teacher.0']?.map((row, idx) => (
@@ -176,7 +176,7 @@ const WeeklyReportView = () => {
                     <input 
                       type={field === "date" ? "date" : "text"} 
                       className={inputClass} 
-                      value={row[field]} 
+                      value={row[0][field]} 
                       onChange={(e) => {
                         const updated = [...teacherData];
                         updated[idx][field] = e.target.value;
