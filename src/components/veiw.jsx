@@ -176,7 +176,7 @@ const WeeklyReportView = () => {
                     <input 
                       type={field === "date" ? "date" : "text"} 
                       className={inputClass} 
-                      value={row[0][field]} 
+                      value={row[field]} 
                       onChange={(e) => {
                         const updated = [...teacherData];
                         updated[idx][field] = e.target.value;
