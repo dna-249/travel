@@ -33,7 +33,7 @@ const WeeklyReportView = () => {
       const responses =  axios.get(
         `https://portal-database-seven.vercel.app/student/${id}`)
        
-        console.log("response:" + responses)
+        console.log("response:" + responses.data)
 
   },[id])
 
