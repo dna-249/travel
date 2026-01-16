@@ -35,7 +35,7 @@ const WeeklyReportView = () => {
         .then((res) => setResponse(()=>res.data)).catch((err) => console.log(err))
         console.log("response:" + response)
     };fech()
-  },[id])
+  },[])
 
   // --- POST HANDLER ---a
   const submitToBackend = async (section) => {
