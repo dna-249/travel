@@ -166,10 +166,10 @@ const WeeklyReportView = () => {
               <th className="border border-black p-1">من آية<br/>From Verse</th>
               <th className="border border-black p-1">سورة<br/>Chapters</th>
               <th className="border border-black p-1 bg-gray-200 uppercase">Days<br/>الأيام</th>
-            </tr>
+            </tr>z
           </thead>
           <tbody>
-            {response?.teacher[0]?.map((row, idx) => (
+            {response?.['teacher.0']?.map((row, idx) => (
               <tr key={idx} className="h-8">
                 {['date', 'remark', 'total', 'tajweed', 'hifz', 'tajError', 'hifzError', 'toV', 'fromV', 'chapter'].map((field) => (
                   <td key={field} className="border border-black">
