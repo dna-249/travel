@@ -31,7 +31,7 @@ const WeeklyReportView = () => {
   useEffect(()=>{
     async function fech(params) {
       await axios.get(
-        `https://portal-database-seven.vercel.app/student/${id}`)
+        `https://portal-database-seven.vercel.app/student`)
         .then((res) => setResponse(()=>res.data)).catch((err) => console.log(err))
         console.log("response:" + response)
     };fech()
