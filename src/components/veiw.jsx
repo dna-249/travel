@@ -4,6 +4,8 @@ import { useParams } from 'react-router-dom';
 
 const WeeklyReportView = () => {
   const days = ['Saturday', 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
+  const lower = days.map((items)=> items.slice(0,3).toLocaleLowerCase())
+
   const [day, setDay] = useState('')
   const [response, setResponse] = useState([''])
   
@@ -171,12 +173,13 @@ const WeeklyReportView = () => {
           <tbody>
             {response?.['teacher.0']?.map((row, idx) => (
               <tr key={idx} className="h-8">
+                {lower.map((daily)=>
                 {['date', 'remark', 'total', 'tajweed', 'hifz', 'tajError', 'hifzError', 'toV', 'fromV', 'chapter'].map((field) => (
                   <td key={field} className="border border-black">
                     <input 
                       type={field === "date" ? "date" : "text"} 
                       className={inputClass} 
-                      value={row[field]} 
+                      value={row[daily][field]} 
                       onChange={(e) => {
                         const updated = [...teacherData];
                         updated[idx][field] = e.target.value;
@@ -185,6 +188,7 @@ const WeeklyReportView = () => {
                     />
                   </td>
                 ))}
+                )}
                 <td onClick={()=>setDay(row.day)} className={day === row.day? " border border-black text-white bg-sky-500/100 font-bold text-center": "border border-black bg-gray-50 font-bold text-center"}>{row.day}</td>
               </tr>
             ))}
