@@ -29,13 +29,13 @@ const WeeklyReportView = () => {
   const [parentData, setParentData] = useState({ name: '', comment: '', date: '' });
   const [status, setStatus] = useState({ teacher: 'idle', mgmt: 'idle', parent: 'idle' });
   useEffect(()=>{
-    async function fech(params) {
-      await axios.get(
-        `https://portal-database-seven.vercel.app/student`)
-        .then((res) => setResponse(()=>res.data)).catch((err) => console.log(err))
+    
+       axios.get(
+        `https://portal-database-seven.vercel.app/student/${id}`)
+        .then((res) => setResponse(res.data)).catch((err) => console.log(err))
         console.log("response:" + response)
-    };fech()
-  },[])
+
+  },[id])
 
   // --- POST HANDLER ---a
   const submitToBackend = async (section) => {
