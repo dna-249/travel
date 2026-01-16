@@ -32,7 +32,7 @@ const WeeklyReportView = () => {
     async function fech(params) {
       await axios.get(
         `https://portal-database-seven.vercel.app/student/${id}`)
-        .then((res) => setResponse(res.data)).catch((err) => console.log(err))
+        .then((res) => setResponse(()=>res.data)).catch((err) => console.log(err))
         console.log(response)
     };fech()
   },[id])
