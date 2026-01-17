@@ -48,6 +48,26 @@ const WeeklyReportView = () => {
                 }
   },[id])
 
+
+const createDataSource = () => {
+       const daily = 'sat'
+        return {
+              date: response?.teacher?.[0][daily].date,
+              remark: response?.teacher?.[0][daily].remark,
+              total: response?.teacher?.[0][daily].total, 
+              tajweed: response?.teacher?.[0][daily].tajweed, 
+              hifz: response?.teacher?.[0][daily].hifz,
+              tajError: response?.teacher?.[0][daily].tajError, 
+              hifzError: response?.teacher?.[0][daily].hifzError,
+              toV: response?.teacher?.[0][daily].toV,
+              fromV: response?.teacher?.[0][daily].fromV,
+              chapter: response?.teacher?.[0][daily].chapter
+        }  
+           
+    };
+
+  console.log(createDataSource())
+
   // --- POST HANDLER ---a
   const submitToBackend = async (section) => {
     setStatus(prev => ({ ...prev, [section]: 'loading' }));
