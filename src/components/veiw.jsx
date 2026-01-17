@@ -195,7 +195,6 @@ const createDataSource = (daily,k) => {
               <tr key={idx} className="h-8">
                 {['date', 'remark', 'total', 'tajweed', 'hifz', 'tajError', 'hifzError', 'toV', 'fromV', 'chapter'].map((field) => (
                   <td key={field} className="border border-black">
-                    {lower.map((sub,idy) => (
                     <input 
                       type={field === "date" ? "date" : "text"} 
                       className={inputClass} 
@@ -206,8 +205,6 @@ const createDataSource = (daily,k) => {
                         setTeacherData(updated);
                       }} 
                     />
-                ))}
-                    
                   </td>
                 ))}
                 <td onClick={()=>setDay(row.day)} className={day === row.day? " border border-black text-white bg-sky-500/100 font-bold text-center": "border border-black bg-gray-50 font-bold text-center"}>{row.day}</td>
