@@ -14,7 +14,7 @@ const WeeklyReportView = () => {
 
   // --- STATES ---
   const [teacherData, setTeacherData] = useState(
-    days.map(day => ({ 
+    lower.map(day => ({ 
       day, date: '', remark: '', total: '', tajweed: '', 
       hifz: '', tajError: '', hifzError: '', toV: '', fromV: '', chapter: '' 
     }))
@@ -199,7 +199,7 @@ const createDataSource = (daily,k) => {
                     <input 
                       type={field === "date" ? "date" : "text"} 
                       className={inputClass} 
-                      value={createDataSource(sub[idy],field)[field] } 
+                      value={createDataSource(row.day,field)[field] } 
                       onChange={(e) => {
                         const updated = [...teacherData];
                         updated[idx][field] = e.target.value;
