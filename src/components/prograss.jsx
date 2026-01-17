@@ -5,16 +5,13 @@ import { useParams } from 'react-router-dom';
 const WeeklyReport = () => {
   const days = ['Saturday', 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
   const [day, setDay] = useState('')
+  const [items, setItems] = useState('')
   
   // 1. FIXED: useParams is a hook and must be called with ()
   const { id } = useParams(); 
 
   // --- STATES ---
-  const [teacherData, setTeacherData] = useState([{
-      day:option(), date: '', remark: '', total: '', tajweed: '', 
-      hifz: '', tajError: '', hifzError: '', toV: '', fromV: '', chapter: '' 
-    }]
-  );
+
   const option = () =>{
     return(<div>
         <select name="" id="" onChange={(e)=>setItems(e.target.value)}>
@@ -24,6 +21,12 @@ const WeeklyReport = () => {
       </select>
     </div>)
   }
+  const [teacherData, setTeacherData] = useState([{
+      day:option(), date: '', remark: '', total: '', tajweed: '', 
+      hifz: '', tajError: '', hifzError: '', toV: '', fromV: '', chapter: '' 
+    }]
+  );
+  
   const [teacherComments, setTeacherComments] = useState({ week: '', term: '', comment: '', name: '', signature: '' });
   
   const [mgmtData, setMgmtData] = useState({
