@@ -49,19 +49,19 @@ const WeeklyReportView = () => {
   },[id])
 
 
-const createDataSource = () => {
-       const daily = 'sat'
+const createDataSource = (daily,k) => {
+      
         return {
-              date: response?.teacher?.[0][0].sat?.[0]?.date,
-              remark: response?.teacher?.[0][0].sat?.[0]?.remark,
-              total: response?.teacher?.[0][0].sat?.[0]?.total, 
-              tajweed: response?.teacher?.[0][0].sat?.[0]?.tajweed, 
-              hifz: response?.teacher?.[0][0].sat?.[0]?.hifz,
-              tajError: response?.teacher?.[0][0].sat?.[0]?.tajError, 
-              hifzError: response?.teacher?.[0][0].sat?.[0]?.hifzError,
-              toV: response?.teacher?.[0][0].sat?.[0]?.toV,
-              fromV: response?.teacher?.[0][0].sat?.[0]?.fromV,
-              chapter: response?.teacher?.[0][0].sat?.[0]?.chapter
+              date: response?.teacher?.[0][0][daily][0][k],
+              remark: response?.teacher?.[0][0][daily][0][k],
+              total: response?.teacher?.[0][0][daily][0][k], 
+              tajweed: response?.teacher?.[0][0][daily][0][k], 
+              hifz: response?.teacher?.[0][0][daily][0][k],
+              tajError: response?.teacher?.[0][0][daily][0][k], 
+              hifzError: response?.teacher?.[0][0][daily][0][k],
+              toV: response?.teacher?.[0][0][daily][0][k],
+              fromV: response?.teacher?.[0][0][daily][0][k],
+              chapter: response?.teacher?.[0][0][daily][0][k]
         }  
            
     };
@@ -191,15 +191,14 @@ const createDataSource = () => {
             </tr>
           </thead>
           <tbody>
-            {response?.['teacher.0']?.map((row, idx) => (
+            {teacherData.map((row, idx) => (
               <tr key={idx} className="h-8">
-                {lower.map((daily)=>
                 {['date', 'remark', 'total', 'tajweed', 'hifz', 'tajError', 'hifzError', 'toV', 'fromV', 'chapter'].map((field) => (
                   <td key={field} className="border border-black">
                     <input 
                       type={field === "date" ? "date" : "text"} 
                       className={inputClass} 
-                      value={row?.[daily]?.[0]?.[field] || ''} 
+                      value={createDataSource('sat',field) } 
                       onChange={(e) => {
                         const updated = [...teacherData];
                         updated[idx][field] = e.target.value;
@@ -208,7 +207,6 @@ const createDataSource = () => {
                     />
                   </td>
                 ))}
-                )}
                 <td onClick={()=>setDay(row.day)} className={day === row.day? " border border-black text-white bg-sky-500/100 font-bold text-center": "border border-black bg-gray-50 font-bold text-center"}>{row.day}</td>
               </tr>
             ))}
