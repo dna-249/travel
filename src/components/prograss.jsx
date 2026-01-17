@@ -184,7 +184,7 @@ const WeeklyReport = () => {
                     />
                   </td>
                 ))}
-                <td onClick={()=>setDay(row.day)} className={day === row.day? " border border-black text-white bg-sky-500/100 font-bold text-center": "border border-black bg-gray-50 font-bold text-center"}>{row.day}</td>
+                <td  className= "border border-black bg-gray-50 font-bold text-center">{row.day}</td>
               </tr>
             ))}
           </tbody>
