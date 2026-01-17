@@ -52,16 +52,16 @@ const WeeklyReportView = () => {
 const createDataSource = () => {
        const daily = 'sat'
         return {
-              date: response?.teacher?.[0][daily].date,
-              remark: response?.teacher?.[0][daily].remark,
-              total: response?.teacher?.[0][daily].total, 
-              tajweed: response?.teacher?.[0][daily].tajweed, 
-              hifz: response?.teacher?.[0][daily].hifz,
-              tajError: response?.teacher?.[0][daily].tajError, 
-              hifzError: response?.teacher?.[0][daily].hifzError,
-              toV: response?.teacher?.[0][daily].toV,
-              fromV: response?.teacher?.[0][daily].fromV,
-              chapter: response?.teacher?.[0][daily].chapter
+              date: response?.teacher?.[0][daily][0].date,
+              remark: response?.teacher?.[0][daily][0].remark,
+              total: response?.teacher?.[0][daily][0].total, 
+              tajweed: response?.teacher?.[0][daily][0].tajweed, 
+              hifz: response?.teacher?.[0][daily][0].hifz,
+              tajError: response?.teacher?.[0][daily][0].tajError, 
+              hifzError: response?.teacher?.[0][daily][0].hifzError,
+              toV: response?.teacher?.[0][daily][0].toV,
+              fromV: response?.teacher?.[0][daily][0].fromV,
+              chapter: response?.teacher?.[0][daily][0].chapter
         }  
            
     };
