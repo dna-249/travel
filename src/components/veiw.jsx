@@ -52,16 +52,16 @@ const WeeklyReportView = () => {
 const createDataSource = (daily,k) => {
       
         return {
-              date: response?.teacher?.[0][0][daily][0][k],
-              remark: response?.teacher?.[0][0][daily][0][k],
-              total: response?.teacher?.[0][0][daily][0][k], 
-              tajweed: response?.teacher?.[0][0][daily][0][k], 
-              hifz: response?.teacher?.[0][0][daily][0][k],
-              tajError: response?.teacher?.[0][0][daily][0][k], 
-              hifzError: response?.teacher?.[0][0][daily][0][k],
-              toV: response?.teacher?.[0][0][daily][0][k],
-              fromV: response?.teacher?.[0][0][daily][0][k],
-              chapter: response?.teacher?.[0][0][daily][0][k]
+              date: response?.teacher?.[0]?.[0]?.[daily]?.[0]?.[k],
+              remark: response?.teacher?.[0]?.[0]?.[daily]?.[0]?.[k],
+              total: response?.teacher?.[0]?.[0]?.[daily]?.[0]?.[k], 
+              tajweed: response?.teacher?.[0]?.[0]?.[daily]?.[0]?.[k], 
+              hifz: response?.teacher?.[0]?.[0]?.[daily]?.[0]?.[k],
+              tajError: response?.teacher?.[0]?.[0]?.[daily]?.[0]?.[k], 
+              hifzError: response?.teacher?.[0]?.[0]?.[daily]?.[0]?.[k],
+              toV: response?.teacher?.[0]?.[0]?.[daily]?.[0]?.[k],
+              fromV: response?.teacher?.[0]?.[0]?.[daily]?.[0]?.[k],
+              chapter: response?.teacher?.[0]?.[0]?.[daily]?.[0]?.[k]
         }  
            
     };
