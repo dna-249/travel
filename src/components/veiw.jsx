@@ -195,11 +195,11 @@ const createDataSource = (daily,k) => {
               <tr key={idx} className="h-8">
                 {['date', 'remark', 'total', 'tajweed', 'hifz', 'tajError', 'hifzError', 'toV', 'fromV', 'chapter'].map((field) => (
                   <td key={field} className="border border-black">
-                    {lower.map((sub) => (
+                    {lower.map((sub,idy) => (
                     <input 
                       type={field === "date" ? "date" : "text"} 
                       className={inputClass} 
-                      value={createDataSource(sub,field)[field] } 
+                      value={createDataSource(sub[idy],field)[field] } 
                       onChange={(e) => {
                         const updated = [...teacherData];
                         updated[idx][field] = e.target.value;
