@@ -198,7 +198,7 @@ const createDataSource = (daily,k) => {
                     <input 
                       type={field === "date" ? "date" : "text"} 
                       className={inputClass} 
-                      value={createDataSource('sat',field) } 
+                      value={createDataSource('sat',field)[field] } 
                       onChange={(e) => {
                         const updated = [...teacherData];
                         updated[idx][field] = e.target.value;
