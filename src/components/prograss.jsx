@@ -10,10 +10,10 @@ const WeeklyReport = () => {
   const { id } = useParams(); 
 
   // --- STATES ---
-  const [teacherData, setTeacherData] = useState({
+  const [teacherData, setTeacherData] = useState([{
       day:"oPTION", date: '', remark: '', total: '', tajweed: '', 
       hifz: '', tajError: '', hifzError: '', toV: '', fromV: '', chapter: '' 
-    }
+    }]
   );
   
   const [teacherComments, setTeacherComments] = useState({ week: '', term: '', comment: '', name: '', signature: '' });
