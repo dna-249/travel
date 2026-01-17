@@ -11,11 +11,19 @@ const WeeklyReport = () => {
 
   // --- STATES ---
   const [teacherData, setTeacherData] = useState([{
-      day:"oPTION", date: '', remark: '', total: '', tajweed: '', 
+      day:option(), date: '', remark: '', total: '', tajweed: '', 
       hifz: '', tajError: '', hifzError: '', toV: '', fromV: '', chapter: '' 
     }]
   );
-  
+  const option = () =>{
+    return(<div>
+        <select name="" id="" onChange={(e)=>setItems(e.target.value)}>
+      {days.map((t) => (
+          <option value={t.slice(0,3).toLocaleLowerCase()}>{t}</option>
+      ))}
+      </select>
+    </div>)
+  }
   const [teacherComments, setTeacherComments] = useState({ week: '', term: '', comment: '', name: '', signature: '' });
   
   const [mgmtData, setMgmtData] = useState({
