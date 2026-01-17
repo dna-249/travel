@@ -67,7 +67,7 @@ const WeeklyReport = () => {
       };
 
       const response = await axios.put(
-        `https://portal-database-seven.vercel.app/student/push/${id}/${day.slice(0,3).toLocaleLowerCase()}`, 
+        `https://portal-database-seven.vercel.app/student/push/${id}/${items}`, 
        {
           date:teacherData[0]?.date,
           tajweed:teacherData[0]?.tajweed,
