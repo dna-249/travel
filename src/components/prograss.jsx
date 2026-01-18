@@ -88,7 +88,11 @@ const WeeklyReport = () => {
           hodComment: mgmtData.hodComment,
           prevStarting: mgmtData.prevHifz.starting,
           preStopping: mgmtData.prevHifz.stopping, 
-          preScore: mgmtData.prevHifz.score,}
+          preScore: mgmtData.prevHifz.score,
+         parentName: parentData.parentName,
+          parentComment: parentData.parentComment,
+          parentDate: parentData. parentDate
+        }
       );
       
       // 3. FIXED: Axios uses response.status (Fetch uses response.ok)
