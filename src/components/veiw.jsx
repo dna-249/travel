@@ -47,8 +47,25 @@ const WeeklyReportView = () => {
                 setError("Failed to load report data. Please check the API connection.");
                 }
   },[id])
+const managementFunc =()=>{
 
+  
+  return {
+newHifz: { starting:response?.management?.[0]?.newStarting?.[0]?.newStarting,
+          stopping:response?.management?.[0]?.newStopping?.[0]?.newStopping,
+          score:response?.management?.[0]?.newScore?.[0]?.newScore,
+          grade:'',
+          remark:'', 
+},
+prevHifz: { starting:response?.management?.[0]?.prevStarting?.[0]?.prevStarting,
+            stopping:response?.management?.[0]?.preStopping?.[0]?.preStopping,
+            score:response?.management?.[0]?. preScore?.[0]?. preScore,
+            grade:'',
+            remark:'', 
+          },
 
+  }
+}
 const createDataSource = (daily,k) => {
       
         return {
@@ -242,7 +259,7 @@ const createDataSource = (daily,k) => {
               <tr key={topic.k} className="h-12">
                 {['remark', 'grade', 'score', 'stopping', 'starting'].map(field => (
                   <td key={field} className="border border-black">
-                    <input className={inputClass} value={ mgmtData[topic.k][field]} onChange={e => setMgmtData({...mgmtData, [topic.k]: {...mgmtData[topic.k], [field]: e.target.value}})} />
+                    <input className={inputClass} value={ mgmtData[topic.k][field] ?  mgmtData[topic.k][field]: managementFunc()[topic.k][field]} onChange={e => setMgmtData({...mgmtData, [topic.k]: {...mgmtData[topic.k], [field]: e.target.value}})} />
                   </td>
                 ))}
                 <td className="border border-black font-bold bg-gray-50 text-[10px]">{topic.l}</td>
