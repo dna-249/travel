@@ -107,28 +107,33 @@ const createDataSource = (daily,k) => {
       };
 
       const response = await axios.put(
-        `https://portal-database-seven.vercel.app/student/push/${id}/${day.slice(0,3).toLocaleLowerCase()}`, 
+        `https://portal-database-seven.vercel.app/student/push/${id}/sat`, 
        {
-          date:teacherData[0]?.date,
-          tajweed:teacherData[0]?.tajweed,
-          hifz:teacherData[0]?.hifz,
-          tajError:teacherData[0]?.tajError,
-          hifzError:teacherData[0]?.hifzError,
-          toV:teacherData[0]?.toV,
-          fromV:teacherData[0]?.fromV,
-          chapter:teacherData[0]?.chapter,
-          weeks:teacherData[0]?.week,
-          terms:teacherData[0]?.term, 
-          teacherComment:teacherComments.comment,
-          teacherName:teacherComments.name, 
-          teacherSign:teacherComments.signature , 
-          newStarting: mgmtData.newHifz.starting,
-          newStopping: mgmtData.newHifz.stopping,
-          newScore: mgmtData.newHifz.score,
-          hodComment: mgmtData.hodComment,
-          prevStarting: mgmtData.prevHifz.starting,
-          preStopping: mgmtData.prevHifz.stopping, 
-          preScore: mgmtData.prevHifz.score,}
+          // date:teacherData[0]?.date,
+          // tajweed:teacherData[0]?.tajweed,
+          // hifz:teacherData[0]?.hifz,
+          // tajError:teacherData[0]?.tajError,
+          // hifzError:teacherData[0]?.hifzError,
+          // toV:teacherData[0]?.toV,
+          // fromV:teacherData[0]?.fromV,
+          // chapter:teacherData[0]?.chapter,
+          // weeks:teacherData[0]?.week,
+          // terms:teacherData[0]?.term, 
+          // teacherComment:teacherComments.comment,
+          // teacherName:teacherComments.name, 
+          // teacherSign:teacherComments.signature , 
+          // newStarting: mgmtData.newHifz.starting,
+          // newStopping: mgmtData.newHifz.stopping,
+          // newScore: mgmtData.newHifz.score,
+          // hodComment: mgmtData.hodComment,
+          // prevStarting: mgmtData.prevHifz.starting,
+          // preStopping: mgmtData.prevHifz.stopping, 
+          // preScore: mgmtData.prevHifz.score,
+      
+          parentName: parentData.parentName,
+          parentComment: parentData.parentComment,
+          parentDate: parentData. parentDate
+        }
       );
       
       // 3. FIXED: Axios uses response.status (Fetch uses response.ok)
