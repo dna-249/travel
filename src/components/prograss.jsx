@@ -237,7 +237,7 @@ const WeeklyReport = () => {
       </section>
 
       {/* --- PARENT SECTION --- */}
-      <section className="mb-6">
+      {/* <section className="mb-6">
         <h2 className="text-xl font-bold text-center text-blue-900 mb-4 uppercase">Parent/Guardian's Weekly Report</h2>
         <p className="mb-4 leading-relaxed text-[12px] italic text-gray-800">
           I, <input className={underlineInput} value={parentData.name} onChange={e => setParentData({...parentData, name: e.target.value})} /> the Parent/Guardian of the above named pupil/ward hereby certified that, I listened, observed and supervised my child's/ward's progress for this week in comparison with the school report and Allah is my witness.
@@ -248,7 +248,7 @@ const WeeklyReport = () => {
         </div>
 
         <SubmitButton section="parent" label="Submit Parent Report" onClick={() => submitToBackend('parent', 'parent-report', parentData)} />
-      </section>
+      </section> */}
 
       {/* --- GRADING KEY --- */}
       <div className="flex w-full border border-black text-center font-bold text-[10px] uppercase mt-10 bg-gray-50">

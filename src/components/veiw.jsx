@@ -242,7 +242,6 @@ const createDataSource = (daily,k) => {
           <div className="text-right">Teacher's Name: <input className={underlineInput} value={teacherComments ? response?.teacher?.[0]?.teacherName?.[0].teacherName: teacherComments.name} onChange={e => setTeacherComments({...teacherComments, name: e.target.value})} /> اسم المعلم</div>
         </div>
         
-        <SubmitButton section="teacher" label="Submit Teacher Report" onClick={() => submitToBackend('teacher', 'teacher-report', { teacherData, teacherComments })} />
       </section>
 
       {/* --- MANAGEMENT SECTION --- */}
@@ -277,7 +276,6 @@ const createDataSource = (daily,k) => {
           Qur'an HOD's Comment: <input className="w-3/4 border-b border-black outline-none font-normal" value={!mgmtData.hodComment ? response?.management?.[0]?.[0]?.hodComment?.[0]?.hodComment:  mgmtData.hodComment} onChange={e => setMgmtData({...mgmtData, hodComment: e.target.value})} /> ملاحظات رئيس القسم
         </div>
         
-        <SubmitButton section="mgmt" label="Submit Management Report" onClick={() => submitToBackend('mgmt', 'management-report', mgmtData)} />
       </section>
 
       {/* --- PARENT SECTION --- */}
