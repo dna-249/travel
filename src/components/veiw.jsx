@@ -269,7 +269,7 @@ const createDataSource = (daily,k) => {
         </table>
         
         <div className="mb-4 font-bold">
-          Qur'an HOD's Comment: <input className="w-3/4 border-b border-black outline-none font-normal" value={mgmtData.hodComment ? management?.[0].hodComment?.[0]?.hodComment:  mgmtData.hodComment} onChange={e => setMgmtData({...mgmtData, hodComment: e.target.value})} /> ملاحظات رئيس القسم
+          Qur'an HOD's Comment: <input className="w-3/4 border-b border-black outline-none font-normal" value={mgmtData.hodComment ? management?.[0]?.[0]?.hodComment?.[0]?.hodComment:  mgmtData.hodComment} onChange={e => setMgmtData({...mgmtData, hodComment: e.target.value})} /> ملاحظات رئيس القسم
         </div>
         
         <SubmitButton section="mgmt" label="Submit Management Report" onClick={() => submitToBackend('mgmt', 'management-report', mgmtData)} />
