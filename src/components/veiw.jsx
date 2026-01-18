@@ -287,7 +287,7 @@ const createDataSource = (daily,k) => {
           I, <input className={underlineInput} value={!parentData.name ? response?.parent?.[0]?.[0]?.parentName?.[0]?.parentName : parentData.name} onChange={e => setParentData({...parentData, name: e.target.value})} /> the Parent/Guardian of the above named pupil/ward hereby certified that, I listened, observed and supervised my child's/ward's progress for this week in comparison with the school report and Allah is my witness.
         </p>
         <div className="space-y-4 mb-4">
-          <div className="font-bold">Parent/Guardian's Comment: <input className="w-2/3 border-b border-black outline-none font-normal" value={!parentData? response?.parent?.[0]?.[0]?.parentComment?.[0]?.parentComment : parentData.comment} onChange={e => setParentData({...parentData, comment: e.target.value})} /></div>
+          <div className="font-bold">Parent/Guardian's Comment: <input className="w-2/3 border-b border-black outline-none font-normal" value={!parentData.comment? response?.parent?.[0]?.[0]?.parentComment?.[0]?.parentComment : parentData.comment} onChange={e => setParentData({...parentData, comment: e.target.value})} /></div>
           <div className="font-bold">Sign/Date: <input className={underlineInput} type="date" value={!parentData.date? response?.parent?.[0]?.[0]?.parentDate?.[0]?.parentDate : parentData.date} onChange={e => setParentData({...parentData, date: e.target.value})} /></div>
         </div>
 
