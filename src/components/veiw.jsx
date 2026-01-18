@@ -130,9 +130,9 @@ const createDataSource = (daily,k) => {
           // preStopping: mgmtData.prevHifz.stopping, 
           // preScore: mgmtData.prevHifz.score,
       
-          parentName: parentData.parentName,
-          parentComment: parentData.parentComment,
-          parentDate: parentData. parentDate
+          parentName: parentData.name,
+          parentComment: parentData.comment,
+          parentDate: parentData.date
         }
       );
       
