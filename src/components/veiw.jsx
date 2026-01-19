@@ -30,6 +30,24 @@ const WeeklyReportView = () => {
 
   const [parentData, setParentData] = useState({ name: '', comment: '', date: '' });
   const [status, setStatus] = useState({ teacher: 'idle', mgmt: 'idle', parent: 'idle' });
+
+const getGradeAndRemark = (score) => {
+    if (score >= 75) {
+        return { Grade: "A", Remark: "EXCELLENT" };
+    } else if (score >= 70) {
+        return { Grade: "B", Remark: "VERY GOOD" };
+    } else if (score >= 60) {
+        return { Grade: "C", Remark: "GOOD" };
+    } else if (score >= 50) {
+        return { Grade: "D", Remark: "PASS" };
+    } else if(score >= 1) {
+        return { Grade: "F", Remark: "FAIL" };
+    } else {
+        return {Grade:"--",Remark:"--"}
+    }
+};
+
+
   useEffect(async()=>{
     
     try {
@@ -48,30 +66,47 @@ const WeeklyReportView = () => {
                 }
   },[id])
 const managementFunc =()=>{
+  const nScore = getGradeAndRemark(response?.management?.[0]?.[0]?.newScore?.[0]?.newScore)
+  const pScore = getGradeAndRemark(response?.management?.[0]?.[0]?.preScore?.[0]?.newScore)
 
-  
   return {
 newHifz: { starting:response?.management?.[0]?.[0]?.newStarting?.[0]?.newStarting,
           stopping:response?.management?.[0]?.[0]?.newStopping?.[0]?.newStopping,
           score:response?.management?.[0]?.[0]?.newScore?.[0]?.newScore,
-          grade:'',
-          remark:'', 
+          grade:nScore.Grade,
+          remark:nScore.Remark, 
 },
 prevHifz: { starting:response?.management?.[0]?.[0]?.prevStarting?.[0]?.prevStarting,
             stopping:response?.management?.[0]?.[0]?.preStopping?.[0]?.preStopping,
             score:response?.management?.[0]?.[0]?. preScore?.[0]?. preScore,
-            grade:'',
-            remark:'', 
+            grade:pScore.Grade,
+            remark:pScore.Remark,
           },
 
   }
 }
+
+const totalScore =  () =>{
+       const { tajweed,tajError, hifz,hifzError} = createDataSource()
+     const cal = parseInt(hifz) + parseInt(tajweed)
+     const calErr = parseInt(hifzError) + parseInt(tajError)
+
+       return{
+        total: cal - calErr,
+        plus : cal,
+        minus : calErr
+       }
+
+    }
+
 const createDataSource = (daily,k) => {
-      
+
+  const {total } = totalScore()
+       const {Remark} = getGradeAndRemark(total)                                                                       
         return {
               date: response?.teacher?.[0]?.[0]?.[daily]?.[0]?.[k],
-              remark: response?.teacher?.[0]?.[0]?.[daily]?.[0]?.[k],
-              total: response?.teacher?.[0]?.[0]?.[daily]?.[0]?.[k], 
+              remark:Remark,
+              total:total,
               tajweed: response?.teacher?.[0]?.[0]?.[daily]?.[0]?.[k], 
               hifz: response?.teacher?.[0]?.[0]?.[daily]?.[0]?.[k],
               tajError: response?.teacher?.[0]?.[0]?.[daily]?.[0]?.[k], 
@@ -82,6 +117,8 @@ const createDataSource = (daily,k) => {
         }  
            
     };
+    
+    
 
   console.log(createDataSource())
 
