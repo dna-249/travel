@@ -157,8 +157,6 @@ const WeeklyReport = () => {
           <thead className="bg-gray-100 uppercase text-[9px]">
             <tr className="h-12">
               <th className="border border-black p-1">التاريخ<br/>Date</th>
-              <th className="border border-black p-1">التقدير<br/>Remark</th>
-              <th className="border border-black p-1 w-12">مجموع<br/>Total (100)</th>
               <th className="border border-black p-1">درجة التجويد<br/>Tajweed (30)</th>
               <th className="border border-black p-1">درجة الحفظ<br/>Hifz (70)</th>
               <th className="border border-black p-1">أخطاء تجويدية<br/>Tajweed Rule</th>
@@ -172,7 +170,7 @@ const WeeklyReport = () => {
           <tbody>
             {teacherData.map((row, idx) => (
               <tr key={idx} className="h-8">
-                {['date', 'remark', 'total', 'tajweed', 'hifz', 'tajError', 'hifzError', 'toV', 'fromV', 'chapter'].map((field) => (
+                {['date', 'tajweed', 'hifz', 'tajError', 'hifzError', 'toV', 'fromV', 'chapter'].map((field) => (
                   <td key={field} className="border border-black">
                     <input 
                       type={field === "date" ? "date" : "text"} 
