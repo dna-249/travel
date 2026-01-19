@@ -106,11 +106,14 @@ const createDataSource = (daily,k) => {
      response?.teacher?.[0]?.[daily]?.[0]?.tajweed,
      response?.teacher?.[0]?.[daily]?.[0]?.tajError,
   )
-       const {Remark} = getGradeAndRemark(total)                                                                       
+       const {Remark} = getGradeAndRemark(total)  
+       const totalY =()=>{
+        if(typeof total === NaN) return "--"; else total
+       }                                                                     
         return {
               date: response?.teacher?.[0]?.[daily]?.[0]?.[k],
               remark:Remark,
-              total:total === NaN ? '--':total,
+              total:totalY(),
               tajweed: response?.teacher?.[0]?.[daily]?.[0]?.[k], 
               hifz: response?.teacher?.[0]?.[daily]?.[0]?.[k],
               tajError: response?.teacher?.[0]?.[daily]?.[0]?.[k], 
