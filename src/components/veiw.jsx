@@ -67,7 +67,7 @@ const getGradeAndRemark = (score) => {
   },[id])
 const managementFunc =()=>{
   const nScore = getGradeAndRemark(response?.management?.[0]?.newScore?.[0]?.newScore)
-  const pScore = getGradeAndRemark(response?.management?.[0]?.preScore?.[0]?.newScore)
+  const pScore = getGradeAndRemark(response?.management?.[0]?.preScore?.[0]?.preScore)
 
   return {
 newHifz: { starting:response?.management?.[0]?.newStarting?.[0]?.newStarting,
