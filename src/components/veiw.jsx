@@ -108,7 +108,7 @@ const createDataSource = (daily,k) => {
   )
        const {Remark} = getGradeAndRemark(total)  
        const totalY =()=>{
-        if(typeof total === NaN) return "--"; else total
+        if(typeof total === NaN) return "--";else return  total
        }                                                                     
         return {
               date: response?.teacher?.[0]?.[daily]?.[0]?.[k],
