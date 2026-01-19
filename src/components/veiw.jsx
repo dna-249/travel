@@ -110,7 +110,7 @@ const createDataSource = (daily,k) => {
         return {
               date: response?.teacher?.[0]?.[daily]?.[0]?.[k],
               remark:Remark,
-              total:total,
+              total:total === NaN ? '--':total,
               tajweed: response?.teacher?.[0]?.[daily]?.[0]?.[k], 
               hifz: response?.teacher?.[0]?.[daily]?.[0]?.[k],
               tajError: response?.teacher?.[0]?.[daily]?.[0]?.[k], 
