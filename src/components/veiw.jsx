@@ -89,11 +89,13 @@ prevHifz: { starting:response?.management?.[0]?.prevStarting?.[0]?.prevStarting,
 const totalScore =  (hifz,hifzError,tajweed,tajError) =>{
      const cal = parseInt(hifz) + parseInt(tajweed)
      const calErr = parseInt(hifzError) + parseInt(tajError)
-
-       return{
+     
+      if(hifz || hifzError || tajError || tajweed ){ return{
         total: cal - calErr,
-        plus : cal,
-        minus : calErr
+       }} else{
+                return{
+                  total:"--"
+                }
        }
 
     }
@@ -107,13 +109,11 @@ const createDataSource = (daily,k) => {
      response?.teacher?.[0]?.[daily]?.[0]?.tajError,
   )
        const {Remark} = getGradeAndRemark(total)  
-       const totalY =()=>{
-        if(total === NaN) return "--";else return  total
-       }                                                                     
+                                                                            
         return {
               date: response?.teacher?.[0]?.[daily]?.[0]?.[k],
               remark:Remark,
-              total:totalY(),
+              total:total,
               tajweed: response?.teacher?.[0]?.[daily]?.[0]?.[k], 
               hifz: response?.teacher?.[0]?.[daily]?.[0]?.[k],
               tajError: response?.teacher?.[0]?.[daily]?.[0]?.[k], 
