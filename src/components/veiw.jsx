@@ -86,8 +86,7 @@ prevHifz: { starting:response?.management?.[0]?.[0]?.prevStarting?.[0]?.prevStar
   }
 }
 
-const totalScore =  () =>{
-       const { tajweed,tajError, hifz,hifzError} = createDataSource()
+const totalScore =  (hifz,hifzError,tajweed,tajError) =>{
      const cal = parseInt(hifz) + parseInt(tajweed)
      const calErr = parseInt(hifzError) + parseInt(tajError)
 
@@ -101,7 +100,12 @@ const totalScore =  () =>{
 
 const createDataSource = (daily,k) => {
 
-  const {total } = totalScore()
+  const {total } = totalScore(
+     response?.teacher?.[0]?.[0]?.[daily]?.[0]?.hifz,
+     response?.teacher?.[0]?.[0]?.[daily]?.[0]?.hifzError,
+     response?.teacher?.[0]?.[0]?.[daily]?.[0]?.tajweed,
+     response?.teacher?.[0]?.[0]?.[daily]?.[0]?.tajError,
+  )
        const {Remark} = getGradeAndRemark(total)                                                                       
         return {
               date: response?.teacher?.[0]?.[0]?.[daily]?.[0]?.[k],
