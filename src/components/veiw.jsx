@@ -270,6 +270,7 @@ const createDataSource = (daily,k) => {
                         updated[idx][field] = e.target.value;
                         setTeacherData(updated);
                       }} 
+                      readOnly
                     />
                   </td>
                 ))}
