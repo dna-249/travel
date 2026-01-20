@@ -1,5 +1,6 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
+import { FaArrowAltCircleLeft, FaArrowAltCircleRight } from 'react-icons/fa';
 import { useParams } from 'react-router-dom';
 
 const WeeklyReportView = () => {
@@ -62,23 +63,44 @@ const getGradeAndRemark = (score) => {
                 
             } catch (err) {
                 console.error("Fetch error:", err);
-                setError("Failed to load report data. Please check the API connection.");
                 }
   },[id])
+  const [increase,setIncrease] =  useState(0)
+
+  const move = () =>{
+    const init = response?.teacher?.[0]?.sat?.at(0)
+    const last = response?.teacher?.[0]?.sat?.at(-1)
+    if(!increase === last){
+      setIncrease(prev => prev + 1)
+    }  else if(increase < init){
+      setIncrease(prev => prev + 1)
+    }else {
+      back()
+    }
+  }
+  const back = ()=>{
+    const init = response?.teacher?.[0]?.sat?.at(0)
+    const last = response?.teacher?.[0]?.sat?.at(-1)
+    if(!increase === init){
+      setIncrease(prev => prev - 1)
+    }  else{
+      setIncrease(prev => prev + 1 )
+    }
+  }
 const managementFunc =()=>{
-  const nScore = getGradeAndRemark(response?.management?.[0]?.newScore?.[0]?.newScore)
-  const pScore = getGradeAndRemark(response?.management?.[0]?.preScore?.[0]?.preScore)
+  const nScore = getGradeAndRemark(response?.management?.[0]?.newScore?.[increase]?.newScore)
+  const pScore = getGradeAndRemark(response?.management?.[0]?.preScore?.[increase]?.preScore)
 
   return {
-newHifz: { starting:response?.management?.[0]?.newStarting?.[0]?.newStarting,
-          stopping:response?.management?.[0]?.newStopping?.[0]?.newStopping,
-          score:response?.management?.[0]?.newScore?.[0]?.newScore,
+newHifz: { starting:response?.management?.[0]?.newStarting?.[increase]?.newStarting,
+          stopping:response?.management?.[0]?.newStopping?.[increase]?.newStopping,
+          score:response?.management?.[0]?.newScore?.[increase]?.newScore,
           grade:nScore.Grade,
           remark:nScore.Remark, 
 },
-prevHifz: { starting:response?.management?.[0]?.prevStarting?.[0]?.prevStarting,
-            stopping:response?.management?.[0]?.preStopping?.[0]?.preStopping,
-            score:response?.management?.[0]?. preScore?.[0]?. preScore,
+prevHifz: { starting:response?.management?.[0]?.prevStarting?.[increase]?.prevStarting,
+            stopping:response?.management?.[0]?.preStopping?.[increase]?.preStopping,
+            score:response?.management?.[0]?. preScore?.[increase]?. preScore,
             grade:pScore.Grade,
             remark:pScore.Remark,
           },
@@ -103,24 +125,24 @@ const totalScore =  (hifz,hifzError,tajweed,tajError) =>{
 const createDataSource = (daily,k) => {
 
   const {total } = totalScore(
-     response?.teacher?.[0]?.[daily]?.[0]?.hifz,
-     response?.teacher?.[0]?.[daily]?.[0]?.hifzError,
-     response?.teacher?.[0]?.[daily]?.[0]?.tajweed,
-     response?.teacher?.[0]?.[daily]?.[0]?.tajError,
+     response?.teacher?.[0]?.[daily]?.[increase]?.hifz,
+     response?.teacher?.[0]?.[daily]?.[increase]?.hifzError,
+     response?.teacher?.[0]?.[daily]?.[increase]?.tajweed,
+     response?.teacher?.[0]?.[daily]?.[increase]?.tajError,
   )
        const {Remark} = getGradeAndRemark(total)  
                                                                             
         return {
-              date: response?.teacher?.[0]?.[daily]?.[0]?.[k],
+              date: response?.teacher?.[0]?.[daily]?.[increase]?.[k],
               remark:Remark,
               total:total,
-              tajweed: response?.teacher?.[0]?.[daily]?.[0]?.[k], 
-              hifz: response?.teacher?.[0]?.[daily]?.[0]?.[k],
-              tajError: response?.teacher?.[0]?.[daily]?.[0]?.[k], 
-              hifzError: response?.teacher?.[0]?.[daily]?.[0]?.[k],
-              toV: response?.teacher?.[0]?.[daily]?.[0]?.[k],
-              fromV: response?.teacher?.[0]?.[daily]?.[0]?.[k],
-              chapter: response?.teacher?.[0]?.[daily]?.[0]?.[k]
+              tajweed: response?.teacher?.[0]?.[daily]?.[increase]?.[k], 
+              hifz: response?.teacher?.[0]?.[daily]?.[increase]?.[k],
+              tajError: response?.teacher?.[0]?.[daily]?.[increase]?.[k], 
+              hifzError: response?.teacher?.[0]?.[daily]?.[increase]?.[k],
+              toV: response?.teacher?.[0]?.[daily]?.[increase]?.[k],
+              fromV: response?.teacher?.[0]?.[daily]?.[increase]?.[k],
+              chapter: response?.teacher?.[0]?.[daily]?.[increase]?.[k]
         }  
            
     };
@@ -153,16 +175,16 @@ const createDataSource = (daily,k) => {
       const response = await axios.put(
         `https://portal-database-seven.vercel.app/student/push/${id}/sat`, 
        {
-          // date:teacherData[0]?.date,
-          // tajweed:teacherData[0]?.tajweed,
-          // hifz:teacherData[0]?.hifz,
-          // tajError:teacherData[0]?.tajError,
-          // hifzError:teacherData[0]?.hifzError,
-          // toV:teacherData[0]?.toV,
-          // fromV:teacherData[0]?.fromV,
-          // chapter:teacherData[0]?.chapter,
-          // weeks:teacherData[0]?.week,
-          // terms:teacherData[0]?.term, 
+          // date:teacherData[increase]?.date,
+          // tajweed:teacherData[increase]?.tajweed,
+          // hifz:teacherData[increase]?.hifz,
+          // tajError:teacherData[increase]?.tajError,
+          // hifzError:teacherData[increase]?.hifzError,
+          // toV:teacherData[increase]?.toV,
+          // fromV:teacherData[increase]?.fromV,
+          // chapter:teacherData[increase]?.chapter,
+          // weeks:teacherData[increase]?.week,
+          // terms:teacherData[increase]?.term, 
           // teacherComment:teacherComments.comment,
           // teacherName:teacherComments.name, 
           // teacherSign:teacherComments.signature , 
@@ -237,6 +259,8 @@ const createDataSource = (daily,k) => {
         
         <div className="flex justify-between mb-4 font-bold text-[12px]">
           <div>Week <input className={underlineInput} value={teacherComments.week} onChange={e => setTeacherComments({...teacherComments, week: e.target.value})} /> الأسبوع</div>
+          <div onClick={()=>back()}><FaArrowAltCircleLeft/> </div>||
+          <div onClick={()=>move()}><FaArrowAltCircleRight /></div>
           <div>Term <input className={underlineInput} value={teacherComments.term} onChange={e => setTeacherComments({...teacherComments, term: e.target.value})} /> الفترة</div>
         </div>
 
@@ -282,9 +306,9 @@ const createDataSource = (daily,k) => {
         </table>
 
         <div className="grid grid-cols-2 gap-y-4 mb-4">
-          <div className="col-span-2">Teacher's Comments: <input className="w-3/4 border-b border-black outline-none" value={teacherComments ? response?.teacher?.[0]?.teacherComment?.[0].teacherComment : teacherComments.comment} onChange={e => setTeacherComments({...teacherComments, comment: e.target.value})} /> ملاحظات المعلم</div>
-          <div>Signature: <input className={underlineInput} value={teacherComments ? response?.teacher?.[0]?.teacherSign?.[0].teacherSign : teacherComments.signature} onChange={e => setTeacherComments({...teacherComments, signature: e.target.value})} /> التوقيع</div>
-          <div className="text-right">Teacher's Name: <input className={underlineInput} value={teacherComments ? response?.teacher?.[0]?.teacherName?.[0].teacherName: teacherComments.name} onChange={e => setTeacherComments({...teacherComments, name: e.target.value})} /> اسم المعلم</div>
+          <div className="col-span-2">Teacher's Comments: <input className="w-3/4 border-b border-black outline-none" value={teacherComments ? response?.teacher?.[0]?.teacherComment?.[increase].teacherComment : teacherComments.comment} onChange={e => setTeacherComments({...teacherComments, comment: e.target.value})} /> ملاحظات المعلم</div>
+          <div>Signature: <input className={underlineInput} value={teacherComments ? response?.teacher?.[0]?.teacherSign?.[increase].teacherSign : teacherComments.signature} onChange={e => setTeacherComments({...teacherComments, signature: e.target.value})} /> التوقيع</div>
+          <div className="text-right">Teacher's Name: <input className={underlineInput} value={teacherComments ? response?.teacher?.[0]?.teacherName?.[increase].teacherName: teacherComments.name} onChange={e => setTeacherComments({...teacherComments, name: e.target.value})} /> اسم المعلم</div>
         </div>
         
       </section>
@@ -318,7 +342,7 @@ const createDataSource = (daily,k) => {
         </table>
         
         <div className="mb-4 font-bold">
-          Qur'an HOD's Comment: <input className="w-3/4 border-b border-black outline-none font-normal" value={!mgmtData.hodComment ? response?.management?.[0]?.hodComment?.[0]?.hodComment:  mgmtData.hodComment} onChange={e => setMgmtData({...mgmtData, hodComment: e.target.value})} /> ملاحظات رئيس القسم
+          Qur'an HOD's Comment: <input className="w-3/4 border-b border-black outline-none font-normal" value={!mgmtData.hodComment ? response?.management?.[0]?.hodComment?.[increase]?.hodComment:  mgmtData.hodComment} onChange={e => setMgmtData({...mgmtData, hodComment: e.target.value})} /> ملاحظات رئيس القسم
         </div>
         
       </section>
@@ -327,11 +351,11 @@ const createDataSource = (daily,k) => {
       <section className="mb-6">
         <h2 className="text-xl font-bold text-center text-blue-900 mb-4 uppercase">Parent/Guardian's Weekly Report</h2>
         <p className="mb-4 leading-relaxed text-[12px] italic text-gray-800">
-          I, <input className={underlineInput} value={!parentData.name ? response?.parent?.[0]?.parentName?.[0]?.parentName : parentData.name} onChange={e => setParentData({...parentData, name: e.target.value})} /> the Parent/Guardian of the above named pupil/ward hereby certified that, I listened, observed and supervised my child's/ward's progress for this week in comparison with the school report and Allah is my witness.
+          I, <input className={underlineInput} value={!parentData.name ? response?.parent?.[0]?.parentName?.[increase]?.parentName : parentData.name} onChange={e => setParentData({...parentData, name: e.target.value})} /> the Parent/Guardian of the above named pupil/ward hereby certified that, I listened, observed and supervised my child's/ward's progress for this week in comparison with the school report and Allah is my witness.
         </p>
         <div className="space-y-4 mb-4">
-          <div className="font-bold">Parent/Guardian's Comment: <input className="w-2/3 border-b border-black outline-none font-normal" value={!parentData.comment? response?.parent?.[0]?.parentComment?.[0]?.parentComment : parentData.comment} onChange={e => setParentData({...parentData, comment: e.target.value})} /></div>
-          <div className="font-bold">Sign/Date: <input className={underlineInput} type="date" value={!parentData.date? response?.parent?.[0]?.parentDate?.[0]?.parentDate : parentData.date} onChange={e => setParentData({...parentData, date: e.target.value})} /></div>
+          <div className="font-bold">Parent/Guardian's Comment: <input className="w-2/3 border-b border-black outline-none font-normal" value={!parentData.comment? response?.parent?.[0]?.parentComment?.[increase]?.parentComment : parentData.comment} onChange={e => setParentData({...parentData, comment: e.target.value})} /></div>
+          <div className="font-bold">Sign/Date: <input className={underlineInput} type="date" value={!parentData.date? response?.parent?.[0]?.parentDate?.[increase]?.parentDate : parentData.date} onChange={e => setParentData({...parentData, date: e.target.value})} /></div>
         </div>
 
         <SubmitButton section="parent" label="Submit Parent Report" onClick={() => submitToBackend('parent', 'parent-report', parentData)} />
