@@ -68,8 +68,8 @@ const getGradeAndRemark = (score) => {
   const [increase,setIncrease] =  useState(0)
 
   const move = () =>{
-    const init = response?.teacher?.[0]?.sat?.at(0)
-    const last = response?.teacher?.[0]?.sat?.at(-1)
+    const init = 0
+    const last = response?.teacher?.[0]?.sat?.length
     if(!increase === last){
       setIncrease(prev => prev + 1)
     }  else if(increase < init){
@@ -79,8 +79,8 @@ const getGradeAndRemark = (score) => {
     }
   }
   const back = ()=>{
-    const init = response?.teacher?.[0]?.sat?.at(0)
-    const last = response?.teacher?.[0]?.sat?.at(-1)
+    const init = 0
+    const last = response?.teacher?.[0]?.sat?.length
     if(!increase === init){
       setIncrease(prev => prev - 1)
     }  else{
@@ -259,7 +259,7 @@ const createDataSource = (daily,k) => {
         
         <div className="flex justify-between mb-4 font-bold text-[12px]">
           <div>Week <input className={underlineInput} value={teacherComments.week} onChange={e => setTeacherComments({...teacherComments, week: e.target.value})} /> الأسبوع</div>
-          <div onClick={()=>back()}><FaArrowAltCircleLeft/> </div>||
+          <div onClick={()=>back()}><FaArrowAltCircleLeft/> </div>
           <div onClick={()=>move()}><FaArrowAltCircleRight /></div>
           <div>Term <input className={underlineInput} value={teacherComments.term} onChange={e => setTeacherComments({...teacherComments, term: e.target.value})} /> الفترة</div>
         </div>
