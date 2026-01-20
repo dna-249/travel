@@ -69,7 +69,7 @@ const getGradeAndRemark = (score) => {
 
   const move = () =>{
     const init = 0
-    const last = 10
+    const last = response?.teacher?.[0]?.sat?.length
     if(increase === init){
       setIncrease(prev => prev + 1)
       console.log(increase)
@@ -79,13 +79,14 @@ const getGradeAndRemark = (score) => {
       console.log(increase)
     
   } else{
-      setIncrease(()=> last)
+      setIncrease(prev => prev + 1)
        console.log(increase)
   }
 }
   const back = ()=>{
     const init = 0
-    const last = 10
+    const last = response?.teacher?.[0]?.sat?.length
+    
     if(increase === init){
       setIncrease(()=> last)
       console.log(increase)
