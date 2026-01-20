@@ -72,8 +72,12 @@ const getGradeAndRemark = (score) => {
     const last = response?.teacher?.[0]?.sat?.length
     if(!increase === last){
       setIncrease(prev => prev + 1)
+      console.log(increase)
+
     }  else if(increase < init){
       setIncrease(prev => prev + 1)
+      console.log(increase)
+
     }else {
       back()
     }
@@ -83,8 +87,11 @@ const getGradeAndRemark = (score) => {
     const last = response?.teacher?.[0]?.sat?.length
     if(!increase === init){
       setIncrease(prev => prev - 1)
+      console.log(increase)
     }  else{
       setIncrease(prev => prev + 1 )
+      console.log(increase)
+
     }
   }
 const managementFunc =()=>{
