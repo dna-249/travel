@@ -75,7 +75,7 @@ const getGradeAndRemark = (score) => {
       console.log(increase)
 
     }  else if(increase === last){
-      setIncrease(()=>init)
+      setIncrease(init)
       console.log(increase)
     
   } else{
