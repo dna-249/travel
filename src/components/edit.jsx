@@ -8,7 +8,8 @@ const Edit = () => {
   const lower = days.map((items)=> items.slice(0,3).toLocaleLowerCase())
 
   const [response, setResponse] = useState([''])
-  
+  const [datas, setDatas] =useState('')
+const [datas2, setDatas2] =useState('')
   // 1. FIXED: useParams is a hook and must be called with ()
   const { id } = useParams(); 
 
@@ -117,15 +118,10 @@ prevHifz: { starting:response?.management?.[0]?.prevStarting?.[increase]?.prevSt
 
   };
 
- set2(data)
+//  setDatas2(()=>data);
   return data;
 
 }
-
-const set2 =(data)=>{
-   setDatas(()=>data);
- } 
-
 
 const totalScore =  (hifz,hifzError,tajweed,tajError) =>{
      const cal = parseInt(hifz) + parseInt(tajweed)
@@ -140,8 +136,7 @@ const totalScore =  (hifz,hifzError,tajweed,tajError) =>{
        }
 
     }
-const [datas, setDatas] =useState('')
-const [datas2, setDatas2] =useState('')
+
 const createDataSource = (daily,k) => {
 
   const {total } = totalScore(
@@ -165,15 +160,13 @@ const createDataSource = (daily,k) => {
               chapter: response?.teacher?.[0]?.[daily]?.[increase]?.[k]
         }
 
-       set(data)
+        // setDatas(()=>data);
         return data;
            
     };
     
     
- const set =(data)=>{
-   setDatas(()=>data);
- } 
+  
 
   // --- POST HANDLER ---a
 const returnValue =(a,b)=>{
@@ -312,7 +305,7 @@ for (let i = 0; i < arr.length; i++) {
                     <input 
                       type={field === "date" ? "date" : "text"} 
                       className={inputClass} 
-                      value={createDataSource(row.day,field)[field] } 
+                      // value={createDataSource(row.day,field)[field] } 
                       onChange={(e) => {
                         const updated = [...teacherData];
                         updated[idx][field] = e.target.value;
