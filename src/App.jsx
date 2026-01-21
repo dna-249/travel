@@ -12,6 +12,7 @@ import Pay from './components/pay'
 import WeeklyReport from './components/prograss'
 import WeeklyReportView from './components/veiw'
 import AdminOptionPage from './components/option'
+import Edit from './components/edit'
 function App() {
   
 
@@ -27,6 +28,7 @@ function App() {
            <Route path='/pay' element={<Pay/>}/>
            <Route path='/option/:id' element={<AdminOptionPage/>}/>
            <Route path='/view/:id' element={<WeeklyReportView/>}/>
+           <Route path='/edit/:id' element={<Edit/>}/>
            <Route path='/progress/:id' element={<WeeklyReport/>}/>
            <Route path='/signup' element={<StudentSignupForm/>}/>
            
