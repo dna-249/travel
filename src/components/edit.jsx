@@ -168,8 +168,6 @@ const createDataSource = (daily,k) => {
     
     
 
-  console.log(createDataSource())
-
   // --- POST HANDLER ---a
 const returnValue =(a,b)=>{
   if(a === ''){
