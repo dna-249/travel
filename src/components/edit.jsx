@@ -117,10 +117,15 @@ prevHifz: { starting:response?.management?.[0]?.prevStarting?.[increase]?.prevSt
 
   };
 
- setDatas2(()=>data);
+ set2(data)
   return data;
 
 }
+
+const set2 =(data)=>{
+   setDatas(()=>data);
+ } 
+
 
 const totalScore =  (hifz,hifzError,tajweed,tajError) =>{
      const cal = parseInt(hifz) + parseInt(tajweed)
@@ -160,13 +165,15 @@ const createDataSource = (daily,k) => {
               chapter: response?.teacher?.[0]?.[daily]?.[increase]?.[k]
         }
 
-        setDatas(()=>data);
+       set(data)
         return data;
            
     };
     
     
-  
+ const set =(data)=>{
+   setDatas(()=>data);
+ } 
 
   // --- POST HANDLER ---a
 const returnValue =(a,b)=>{
