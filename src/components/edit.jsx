@@ -100,7 +100,7 @@ const managementFunc =()=>{
   const nScore = getGradeAndRemark(response?.management?.[0]?.newScore?.[increase]?.newScore)
   const pScore = getGradeAndRemark(response?.management?.[0]?.preScore?.[increase]?.preScore)
 
-  take(prevHifz)
+  
 
   const data = {
 newHifz: { starting:response?.management?.[0]?.newStarting?.[increase]?.newStarting,
