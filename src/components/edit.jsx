@@ -49,10 +49,10 @@ const getGradeAndRemark = (score) => {
 };
 
 
-  useEffect(()=>{
+  useEffect( async ()=>{
     
     try {
-                const res =  axios.get(`https://portal-database-seven.vercel.app/student/${id}`)
+                const res =await  axios.get(`https://portal-database-seven.vercel.app/student/${id}`)
                 
                 if (!res.data) {
                     throw new Error("No data received from API.");
@@ -311,7 +311,7 @@ for (let i = 0; i < arr.length; i++) {
                         updated[idx][field] = e.target.value;
                         setTeacherData(updated);
                       }} 
-                    //   readOnly
+            
                     />
                   </td>
                 ))}
