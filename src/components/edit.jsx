@@ -315,7 +315,7 @@ for (let i = 0; i < arr.length; i++) {
                     <input 
                       type={field === "date" ? "date" : "text"} 
                       className={inputClass} 
-                      value={teacherData[row.day][field] || createDataSource(row.day, field)[field]}
+                      value={teacherData[row.day][field] || createDataSource(row?.day, field)[field]}
                       onChange={(e) => {
                         const updated = [...teacherData];
                         updated[idx][field] = e.target.value;
