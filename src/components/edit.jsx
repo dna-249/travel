@@ -138,7 +138,6 @@ const totalScore =  (hifz,hifzError,tajweed,tajError) =>{
     }
 const [datas, setDatas] =useState('')
 const [datas2, setDatas2] =useState('')
-const [datas3, setDatas3] =useState('')
 const createDataSource = (daily,k) => {
 
   const {total } = totalScore(
