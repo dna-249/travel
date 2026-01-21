@@ -7,7 +7,6 @@ const Edit = () => {
   const days = ['Saturday', 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
   const lower = days.map((items)=> items.slice(0,3).toLocaleLowerCase())
 
-  const [day, setDay] = useState('')
   const [response, setResponse] = useState([''])
   
   // 1. FIXED: useParams is a hook and must be called with ()
@@ -49,10 +48,10 @@ const getGradeAndRemark = (score) => {
 };
 
 
-  useEffect(async()=>{
+  useEffect(()=>{
     
     try {
-                const res = await axios.get(`https://portal-database-seven.vercel.app/student/${id}`)
+                const res =  axios.get(`https://portal-database-seven.vercel.app/student/${id}`)
                 
                 if (!res.data) {
                     throw new Error("No data received from API.");
@@ -116,10 +115,10 @@ prevHifz: { starting:response?.management?.[0]?.prevStarting?.[increase]?.prevSt
             remark:pScore.Remark,
           },
 
-  }
+  };
 
- setDatas2(()=>data)
-  return data
+ setDatas2(()=>data);
+  return data;
 
 }
 
@@ -161,8 +160,8 @@ const createDataSource = (daily,k) => {
               chapter: response?.teacher?.[0]?.[daily]?.[increase]?.[k]
         }
 
-        setDatas(()=>data)
-        return data
+        setDatas(()=>data);
+        return data;
            
     };
     
@@ -324,9 +323,9 @@ for (let i = 0; i < arr.length; i++) {
         </table>
 
         <div className="grid grid-cols-2 gap-y-4 mb-4">
-          <div className="col-span-2">Teacher's Comments: <input className="w-3/4 border-b border-black outline-none" value={teacherComments ? response?.teacher?.[0]?.teacherComment?.[increase]?.teacherComment : teacherComments.comment} onChange={e => setTeacherComments({...teacherComments, comment: e.target.value})} /> ملاحظات المعلم</div>
-          <div>Signature: <input className={underlineInput} value={teacherComments ? response?.teacher?.[0]?.teacherSign?.[increase]?.teacherSign : teacherComments.signature} onChange={e => setTeacherComments({...teacherComments, signature: e.target.value})} /> التوقيع</div>
-          <div className="text-right">Teacher's Name: <input className={underlineInput} value={teacherComments ? response?.teacher?.[0]?.teacherName?.[increase]?.teacherName: teacherComments.name} onChange={e => setTeacherComments({...teacherComments, name: e.target.value})} /> اسم المعلم</div>
+          <div className="col-span-2">Teacher's Comments: <input className="w-3/4 border-b border-black outline-none" value={teacherComments.comment ? response?.teacher?.[0]?.teacherComment?.[increase]?.teacherComment : teacherComments.comment} onChange={e => setTeacherComments({...teacherComments, comment: e.target.value})} /> ملاحظات المعلم</div>
+          <div>Signature: <input className={underlineInput} value={teacherComments.signature ? response?.teacher?.[0]?.teacherSign?.[increase]?.teacherSign : teacherComments.signature} onChange={e => setTeacherComments({...teacherComments, signature: e.target.value})} /> التوقيع</div>
+          <div className="text-right">Teacher's Name: <input className={underlineInput} value={teacherComments.name ? response?.teacher?.[0]?.teacherName?.[increase]?.teacherName: teacherComments.name} onChange={e => setTeacherComments({...teacherComments, name: e.target.value})} /> اسم المعلم</div>
         </div>
         <SubmitButton section="teacher" label="Submit Teacher Report" onClick={() => submitToBackend('teacher', 'teacher-report', { teacherData, teacherComments })} />
         
