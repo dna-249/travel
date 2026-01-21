@@ -167,6 +167,7 @@ const createDataSource = (daily,k) => {
     };
     
     
+  
 
   // --- POST HANDLER ---a
 const returnValue =(a,b)=>{
@@ -181,7 +182,7 @@ const returnValue =(a,b)=>{
     setStatus(prev => ({ ...prev, [section]: 'loading' }));
    const arr = ['sat', 'sun', 'mon','tue','wed','thur','fri'];
 
-// for (let i = 0; i < arr.length; i++) {
+for (let i = 0; i < arr.length; i++) {
   
 
 
@@ -228,7 +229,7 @@ const returnValue =(a,b)=>{
       setStatus(prev => ({ ...prev, [section]: 'error' }));
       setTimeout(() => setStatus(prev => ({ ...prev, [section]: 'idle' })), 5000);
     // }
-  }
+  }}
   };
 
   // --- UI COMPONENTS ---z
