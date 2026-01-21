@@ -128,7 +128,7 @@ prevHifz: { starting:response?.management?.[0]?.prevStarting?.[increase]?.prevSt
 
   };
 
- setDatas2(()=>data);
+//  setDatas2(()=>data);
   return data;
 
 }
@@ -170,7 +170,7 @@ const createDataSource = (daily,k) => {
               chapter: response?.teacher?.[0]?.[daily]?.[increase]?.[k]
         }
 
-        setDatas(()=>data);
+        // setDatas(()=>data);
         return data;
            
     };
@@ -315,7 +315,7 @@ for (let i = 0; i < arr.length; i++) {
                     <input 
                       type={field === "date" ? "date" : "text"} 
                       className={inputClass} 
-                      value={teacherData[idx][field] || createDataSource(row.day, field)[field]}
+                      value={teacherData[row.day][field] || createDataSource(row.day, field)[field]}
                       onChange={(e) => {
                         const updated = [...teacherData];
                         updated[idx][field] = e.target.value;
