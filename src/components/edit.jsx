@@ -121,7 +121,7 @@ prevHifz: { starting:response?.management?.[0]?.prevStarting?.[increase]?.prevSt
 
   };
 
- setDatas2(data);
+//  setDatas2(data);
   return data;
 
 }
@@ -163,7 +163,7 @@ const createDataSource = (daily,k) => {
               chapter: response?.teacher?.[0]?.[daily]?.[increase]?.[k]
         }
 
-        setDatas(data);
+        // setDatas(data);
         return data;
            
     };
