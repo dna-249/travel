@@ -8,8 +8,15 @@ const Edit = () => {
   const lower = days.map((items)=> items.slice(0,3).toLocaleLowerCase())
 
   const [response, setResponse] = useState([''])
-  const [datas, setDatas] =useState('')
-const [datas2, setDatas2] =useState('')
+  const [datas, setDatas] =useState({ 
+      day:'', date: '', remark: '', total: '', tajweed: '', 
+      hifz: '', tajError: '', hifzError: '', toV: '', fromV: '', chapter: '' 
+    })
+const [datas2, setDatas2] =useState({
+    newHifz: { starting: '', stopping: '', score: '', grade: '', remark: '' },
+    prevHifz: { starting: '', stopping: '', score: '', grade: '', remark: '' },
+    hodComment: ''
+  })
 const [increase,setIncrease] =  useState(0)
 
 
@@ -121,7 +128,7 @@ prevHifz: { starting:response?.management?.[0]?.prevStarting?.[increase]?.prevSt
 
   };
 
-//  setDatas2(data);
+ setDatas2(()=>data);
   return data;
 
 }
@@ -163,7 +170,7 @@ const createDataSource = (daily,k) => {
               chapter: response?.teacher?.[0]?.[daily]?.[increase]?.[k]
         }
 
-        // setDatas(data);
+        setDatas(()=>data);
         return data;
            
     };
