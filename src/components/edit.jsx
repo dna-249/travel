@@ -10,6 +10,9 @@ const Edit = () => {
   const [response, setResponse] = useState([''])
   const [datas, setDatas] =useState('')
 const [datas2, setDatas2] =useState('')
+const [increase,setIncrease] =  useState(0)
+
+
   // 1. FIXED: useParams is a hook and must be called with ()
   const { id } = useParams(); 
 
@@ -65,7 +68,7 @@ const getGradeAndRemark = (score) => {
                 console.error("Fetch error:", err);
                 }
   },[id])
-  const [increase,setIncrease] =  useState(0)
+  
 
   const move = () =>{
     const init = 0
@@ -118,7 +121,7 @@ prevHifz: { starting:response?.management?.[0]?.prevStarting?.[increase]?.prevSt
 
   };
 
-//  setDatas2(()=>data);
+ setDatas2(()=>data);
   return data;
 
 }
@@ -160,7 +163,7 @@ const createDataSource = (daily,k) => {
               chapter: response?.teacher?.[0]?.[daily]?.[increase]?.[k]
         }
 
-        // setDatas(()=>data);
+        setDatas(()=>data);
         return data;
            
     };
