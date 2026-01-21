@@ -184,8 +184,8 @@ const returnValue =(a,b)=>{
     setStatus(prev => ({ ...prev, [section]: 'loading' }));
    const arr = ['sat', 'sun', 'mon','tue','wed','thur','fri'];
 
-for (let i = 0; i < arr.length; i++) {
-  console.log(arr[i]);
+// for (let i = 0; i < arr.length; i++) {
+  
 
 
     try {
@@ -230,7 +230,7 @@ for (let i = 0; i < arr.length; i++) {
       console.error("Submission error:", error);
       setStatus(prev => ({ ...prev, [section]: 'error' }));
       setTimeout(() => setStatus(prev => ({ ...prev, [section]: 'idle' })), 5000);
-    }
+    // }
   }
   };
 
