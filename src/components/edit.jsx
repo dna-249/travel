@@ -233,8 +233,8 @@ const returnValue =(a,b)=>{
         setStatus(prev => ({ ...prev, [section]: 'success' }));
         setTimeout(() => setStatus(prev => ({ ...prev, [section]: 'idle' })), 3000);
       }
-    } catch (error) {
-      console.log("Submission error:", error);
+    } catch  {
+      console.log("Submission error:",);
       setStatus(prev => ({ ...prev, [section]: 'error' }));
       setTimeout(() => setStatus(prev => ({ ...prev, [section]: 'idle' })), 5000);
     // }
