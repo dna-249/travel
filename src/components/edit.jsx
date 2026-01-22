@@ -234,7 +234,7 @@ for (let i = 0; i < arr.length; i++) {
         setTimeout(() => setStatus(prev => ({ ...prev, [section]: 'idle' })), 3000);
       }
     } catch (error) {
-      console.error("Submission error:", error);
+      console.log("Submission error:", error);
       setStatus(prev => ({ ...prev, [section]: 'error' }));
       setTimeout(() => setStatus(prev => ({ ...prev, [section]: 'idle' })), 5000);
     // }
