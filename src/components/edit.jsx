@@ -199,7 +199,7 @@ const returnValue =(a,b)=>{
      
       
       const response = await axios.put(
-        `https://portal-database-seven.vercel.app/student/edit/${id}/${i}/${increase}`, 
+        `https://portal-database-seven.vercel.app/student/edit/${id}/sat/${increase}`, 
        {
           date: returnValue(teacherData[0]?.date,datas?.date),
           tajweed: returnValue(teacherData[0]?.tajweed,datas?.tajweed),
