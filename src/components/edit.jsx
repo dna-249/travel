@@ -199,7 +199,7 @@ for (let i = 0; i < arr.length; i++) {
      
       
       const response = await axios.put(
-        `https://portal-database-seven.vercel.app/student/edit/${id}/${i}/${increase}`, 
+        `https://portal-database-seven.vercel.app/student/edit/${id}/${arr[i]}/${increase}`, 
        {
           date:' returnValue(teacherData[0]?.date,datas?.date)',
           tajweed:' returnValue(teacherData[0]?.tajweed,datas?.tajweed)',
