@@ -189,9 +189,9 @@ const returnValue =(a,b)=>{
 
   const submitToBackend = async (section) => {
     setStatus(prev => ({ ...prev, [section]: 'loading' }));
-   const arr = ['sat', 'sun', 'mon','tue','wed','thur','fri'];
+//    const arr = ['sat', 'sun', 'mon','tue','wed','thur','fri'];
 
-for (let i = 0; i < arr.length; i++) {
+// for (let i = 0; i < arr.length; i++) {
   
 
 
@@ -238,7 +238,8 @@ for (let i = 0; i < arr.length; i++) {
       setStatus(prev => ({ ...prev, [section]: 'error' }));
       setTimeout(() => setStatus(prev => ({ ...prev, [section]: 'idle' })), 5000);
     // }
-  }}
+  }
+// }
   };
 
   // --- UI COMPONENTS ---z
@@ -315,7 +316,7 @@ for (let i = 0; i < arr.length; i++) {
                     <input 
                       type={field === "date" ? "date" : "text"} 
                       className={inputClass} 
-                      // value={'' || createDataSource(row?.day, field)[field]}
+                      value={createDataSource(row?.day, field)[field]}
                       onChange={(e) => {
                         const updated = [...teacherData];
                         updated[idx][field] = e.target.value;
