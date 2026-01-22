@@ -211,9 +211,9 @@ for (let i = 0; i < arr.length; i++) {
           chapter: returnValue(teacherData[0]?.chapter, 'datas?.chapter'),
           weeks: returnValue(teacherData[0]?.week, 'datas?.weeks'),
           terms: returnValue(teacherData[0]?.term, 'datas?.terms'), 
-          teacherComment: returnValue(teacherComments.comment, response?.teacher?.[0]?.teacherComment?.[increase]?.teacherComment),
-          teacherName: returnValue(teacherComments.name,  response?.teacher?.[0]?.teacherName?.[increase]?.teacherName), 
-          teacherSign: returnValue(teacherComments.signature ,  response?.teacher?.[0]?.teacherSign?.[increase]?.teacherSign ), 
+          teacherComment: returnValue(teacherComments.comment, response?.teacher?.[0]?.teacherComment?.[0]?.[increase]?.teacherComment),
+          teacherName: returnValue(teacherComments.name,  response?.teacher?.[0]?.teacherName?.[0]?.[increase]?.teacherName), 
+          teacherSign: returnValue(teacherComments.signature ,  response?.teacher?.[0]?.teacherSig?.[0]?.[increase]?.teacherSign ), 
           newStarting: returnValue( mgmtData.newHifz.starting,'datas2.newHifz.starting'),
           newStopping: returnValue( mgmtData.newHifz.stopping,'datas2.newHifz.stopping '),
           newScore: returnValue( mgmtData.newHifz.score,'datas2.newHifz.score '),
@@ -222,9 +222,9 @@ for (let i = 0; i < arr.length; i++) {
           preStopping: returnValue( mgmtData.prevHifz.stopping,'datas2.prevHifz.stopping, '), 
           preScore: returnValue( mgmtData.prevHifz.score,'datas2.prevHifz.score '),
       
-          parentName: returnValue(parentData.name, response?.parent?.[0]?.parentName?.[increase]?.parentName),
-          parentComment: returnValue(parentData.comment, response?.parent?.[0]?.parentComment?.[increase]?.parentComment),
-          parentDate: returnValue(parentData.date,  response?.parent?.[0]?.parentDate?.[increase]?.parentDate)
+          parentName: returnValue(parentData.name, response?.parent?.[0]?.parentName?.[0]?.[increase]?.parentName),
+          parentComment: returnValue(parentData.comment, response?.parent?.[0]?.parentComment?.[0]?.[increase]?.parentComment),
+          parentDate: returnValue(parentData.date,  response?.parent?.[0]?.parentDate?.[0]?.[increase]?.parentDate)
         }
       );
       
