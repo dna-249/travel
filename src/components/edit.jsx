@@ -316,7 +316,7 @@ const returnValue =(a,b)=>{
                     <input 
                       type={field === "date" ? "date" : "text"} 
                       className={inputClass} 
-                      value={createDataSource(row?.day, field)[field]}
+                      value={row[field]? row[field] :createDataSource(row?.day, field)[field]}
                       onChange={(e) => {
                         const updated = [...teacherData];
                         updated[idx][field] = e.target.value;
