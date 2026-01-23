@@ -210,7 +210,7 @@ for (let i = 0; i < arr.length; i++) {
           fromV: returnValue(teacherData.fromV,teacherData[increase]?.fromV ),
           chapter: returnValue(teacherData.chapter,teacherData[increase]?.chapter, ),
           weeks: returnValue(teacherData.week,teacherData[increase]?.week ),
-          terms: returnValue(teacherDataterm,teacherData[increase]?.term, ), 
+          terms: returnValue(teacherData.term,teacherData[increase]?.term, ), 
           teacherComment: returnValue(teacherComments.comment, teacherComments[increase]?.comment),
           teacherName: returnValue(teacherComments.name,  teacherComments[increase]?.name), 
           teacherSign: returnValue(teacherComments.signature ,  teacherComments[increase]?.signature ), 
