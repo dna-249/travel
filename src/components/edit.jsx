@@ -201,19 +201,19 @@ for (let i = 0; i < arr.length; i++) {
       const response = await axios.put(
         `https://portal-database-seven.vercel.app/student/edit/${id}/${arr[i]}/${increase}`, 
        {
-          date: returnValue(teacherData[0]?.date, 'datas?.date'),
-          tajweed: returnValue(teacherData[0]?.tajweed, 'datas?.tajweed'),
-          hifz: returnValue(teacherData[0]?.hifz, 'datas?.hifz'),
-          tajError: returnValue(teacherData[0]?.tajError, 'datas?.tajError'),
-          hifzError: returnValue(teacherData[0]?.hifzError, 'datas?.hifzError'),
-          toV: returnValue(teacherData[0]?.toV, 'datas?.toV'),
-          fromV: returnValue(teacherData[0]?.fromV, 'datas?.fromV'),
-          chapter: returnValue(teacherData[0]?.chapter, 'datas?.chapter'),
-          weeks: returnValue(teacherData[0]?.week, 'datas?.weeks'),
-          terms: returnValue(teacherData[0]?.term, 'datas?.terms'), 
-          teacherComment: returnValue(teacherComments.comment, response?.teacher?.[0]?.teacherComment?.[0]?.[increase]?.teacherComment),
-          teacherName: returnValue(teacherComments.name,  response?.teacher?.[0]?.teacherName?.[0]?.[increase]?.teacherName), 
-          teacherSign: returnValue(teacherComments.signature ,  response?.teacher?.[0]?.teacherSig?.[0]?.[increase]?.teacherSign ), 
+          date: returnValue(teacherData.date,teacherData[increase]?.date),
+          tajweed: returnValue(teacherData.tajweed,teacherData[increase]?.tajweed ),
+          hifz: returnValue(teacherData.hifz,teacherData[increase]?.hifz ),
+          tajError: returnValue(teacherData.tajError,teacherData[increase]?.tajError ),
+          hifzError: returnValue(teacherData.hifzError,teacherData[increase]?.hifzError ),
+          toV: returnValue(teacherData.toV,teacherData[increase]?.toV ),
+          fromV: returnValue(teacherData.fromV,teacherData[increase]?.fromV ),
+          chapter: returnValue(teacherData.chapter,teacherData[increase]?.chapter, ),
+          weeks: returnValue(teacherData.week,teacherData[increase]?.week ),
+          terms: returnValue(teacherDataterm,teacherData[increase]?.term, ), 
+          teacherComment: returnValue(teacherComments.comment, teacherComments[increase]?.comment),
+          teacherName: returnValue(teacherComments.name,  teacherComments[increase]?.name), 
+          teacherSign: returnValue(teacherComments.signature ,  teacherComments[increase]?.signature ), 
           newStarting: returnValue( mgmtData.newHifz.starting,'datas2.newHifz.starting'),
           newStopping: returnValue( mgmtData.newHifz.stopping,'datas2.newHifz.stopping '),
           newScore: returnValue( mgmtData.newHifz.score,'datas2.newHifz.score '),
@@ -222,9 +222,9 @@ for (let i = 0; i < arr.length; i++) {
           preStopping: returnValue( mgmtData.prevHifz.stopping,'datas2.prevHifz.stopping, '), 
           preScore: returnValue( mgmtData.prevHifz.score,'datas2.prevHifz.score '),
       
-          parentName: returnValue(parentData.name, response?.parent?.[0]?.parentName?.[0]?.[increase]?.parentName),
-          parentComment: returnValue(parentData.comment, response?.parent?.[0]?.parentComment?.[0]?.[increase]?.parentComment),
-          parentDate: returnValue(parentData.date,  response?.parent?.[0]?.parentDate?.[0]?.[increase]?.parentDate)
+          parentName: returnValue(parentData.name, parentData[increase]?.name),
+          parentComment: returnValue(parentData.comment, parentData[increase]?.comment),
+          parentDate: returnValue(parentData.date,  parentData[increase]?.date)
         }
       );
       
