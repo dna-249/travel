@@ -187,31 +187,31 @@ const createDataSource = (daily,k) => {
  const data = ['date', 'remark', 'total', 'tajweed', 'hifz', 'tajError', 'hifzError', 'toV', 'fromV', 'chapter'].map((k) =>
                                                                             
        { const data =  {
-              date: response?.teacher?.[0]?.[daily]?.[increase]?.[k],
+              date: response?.teacher?.[0]?.[daily]?.[0]?.[increase]?.[k],
               remark: Remark,
               total: total,
-              tajweed: response?.teacher?.[0]?.[daily]?.[increase]?.[k], 
-              hifz: response?.teacher?.[0]?.[daily]?.[increase]?.[k],
-              tajError: response?.teacher?.[0]?.[daily]?.[increase]?.[k], 
-              hifzError: response?.teacher?.[0]?.[daily]?.[increase]?.[k],
-              toV: response?.teacher?.[0]?.[daily]?.[increase]?.[k],
-              fromV: response?.teacher?.[0]?.[daily]?.[increase]?.[k],
-              chapter: response?.teacher?.[0]?.[daily]?.[increase]?.[k]
+              tajweed: response?.teacher?.[0]?.[daily]?.[0]?.[increase]?.[k], 
+              hifz: response?.teacher?.[0]?.[daily]?.[0]?.[increase]?.[k],
+              tajError: response?.teacher?.[0]?.[daily]?.[0]?.[increase]?.[k], 
+              hifzError: response?.teacher?.[0]?.[daily]?.[0]?.[increase]?.[k],
+              toV: response?.teacher?.[0]?.[daily]?.[0]?.[increase]?.[k],
+              fromV: response?.teacher?.[0]?.[daily]?.[0]?.[increase]?.[k],
+              chapter: response?.teacher?.[0]?.[daily]?.[0]?.[increase]?.[k]
         } 
       return data}
       )
       
        const data2 = {
-          weeks: response?.week?.[increase]?.week,
-          terms: response?.term?.[increase]?.term, 
-          teacherComment:response?.teacher?.[0]?.teacherComment?.[0]?.[increase]?.teacherComment,
-          teacherName:response?.teacher?.[0]?.teacherName?.[0]?.[increase]?.teacherName, 
-          teacherSign:response?.teacher?.[0]?.teacherSig?.[0]?.[increase]?.teacherSign , 
+          weeks: response?.teacher?.[0]?.week?.[increase]?.week,
+          terms: response?.teacher?.[0]?.term?.[increase]?.term, 
+          teacherComment:response?.teacher?.[0]?.teacherComment?.[increase]?.teacherComment,
+          teacherName:response?.teacher?.[0]?.teacherName?.[increase]?.teacherName, 
+          teacherSign:response?.teacher?.[0]?.teacherSig?.[increase]?.teacherSign , 
        }
 
-     const data3  = {     parentName:response?.parent?.[0]?.parentName?.[0]?.[increase]?.parentName,
-          parentComment:  response?.parent?.[0]?.parentComment?.[0]?.[increase]?.parentComment,
-          parentDate: response?.parent?.[0]?.parentDate?.[0]?.[increase]?.parentDate
+     const data3  = {     parentName:response?.parent?.[0]?.parentName?.[increase]?.parentName,
+          parentComment:  response?.parent?.[0]?.parentComment?.[increase]?.parentComment,
+          parentDate: response?.parent?.[0]?.parentDate?.[increase]?.parentDate
      }
        const arr  = [...data,data2,data3]
         return arr;
