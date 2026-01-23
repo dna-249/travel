@@ -244,7 +244,7 @@ for (let i = 0; i < arr.length; i++) {
     weeks, terms, teacherComment,teacherName,teacherSign,
     date,tajweed,hifz,tajError,hifzError,toV,fromV,chapter, } = createDataSource2(arr[i])
     const {hodComment, newHifz,prevHifz} = managementFunc()
-
+    console.log(createDataSource2(arr[i]))
     try {
      
       
