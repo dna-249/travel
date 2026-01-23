@@ -199,31 +199,36 @@ for (let i = 0; i < arr.length; i++) {
       const response = await axios.put(
         `https://portal-database-seven.vercel.app/student/edit/${id}/${arr[i]}/${increase}`, 
        {
-          date: returnValue(teacherData.date,teacherData[increase]?.date),
-          tajweed: returnValue(teacherData.tajweed,teacherData[increase]?.tajweed ),
-          hifz: returnValue(teacherData.hifz,teacherData[increase]?.hifz ),
-          tajError: returnValue(teacherData.tajError,teacherData[increase]?.tajError ),
-          hifzError: returnValue(teacherData.hifzError,teacherData[increase]?.hifzError ),
-          toV: returnValue(teacherData.toV,teacherData[increase]?.toV ),
-          fromV: returnValue(teacherData.fromV,teacherData[increase]?.fromV ),
-          chapter: returnValue(teacherData.chapter,teacherData[increase]?.chapter, ),
-          weeks: returnValue(teacherData.week,teacherData[increase]?.week ),
-          terms: returnValue(teacherData.term,teacherData[increase]?.term, ), 
-          teacherComment: returnValue(teacherComments.comment, teacherComments[increase]?.comment),
-          teacherName: returnValue(teacherComments.name,  teacherComments[increase]?.name), 
-          teacherSign: returnValue(teacherComments.signature ,  teacherComments[increase]?.signature ), 
-          newStarting: returnValue( mgmtData.newHifz.starting,'datas2.newHifz.starting'),
-          newStopping: returnValue( mgmtData.newHifz.stopping,'datas2.newHifz.stopping '),
-          newScore: returnValue( mgmtData.newHifz.score,'datas2.newHifz.score '),
-          hodComment: returnValue( mgmtData.hodComment,'datas2.hodComment '),
-          prevStarting: returnValue( mgmtData.prevHifz.starting,'datas2.prevHifz.starting '),
-          preStopping: returnValue( mgmtData.prevHifz.stopping,'datas2.prevHifz.stopping, '), 
-          preScore: returnValue( mgmtData.prevHifz.score,'datas2.prevHifz.score '),
-      
-          parentName: returnValue(parentData.name, parentData[increase]?.name),
-          parentComment: returnValue(parentData.comment, parentData[increase]?.comment),
-          parentDate: returnValue(parentData.date,  parentData[increase]?.date)
-        }
+        // Use optional chaining (?.) and nullish coalescing (??)
+        // This says: Use the first value, if empty use the second, if both empty use ""
+        date: teacherData?.date ?? teacherData?.[increase]?.date ?? "",
+        tajweed: teacherData?.tajweed ?? teacherData?.[increase]?.tajweed ?? "",
+        hifz: teacherData?.hifz ?? teacherData?.[increase]?.hifz ?? "",
+        tajError: teacherData?.tajError ?? teacherData?.[increase]?.tajError ?? "",
+        hifzError: teacherData?.hifzError ?? teacherData?.[increase]?.hifzError ?? "",
+        toV: teacherData?.toV ?? teacherData?.[increase]?.toV ?? "",
+        fromV: teacherData?.fromV ?? teacherData?.[increase]?.fromV ?? "",
+        chapter: teacherData?.chapter ?? teacherData?.[increase]?.chapter ?? "",
+        weeks: teacherData?.week ?? teacherData?.[increase]?.week ?? "",
+        terms: teacherData?.term ?? teacherData?.[increase]?.term ?? "",
+
+        // Management Data - NO QUOTES HERE
+        newStarting: mgmtData?.newHifz?.starting ?? datas2?.newHifz?.starting ?? "",
+        newStopping: mgmtData?.newHifz?.stopping ?? datas2?.newHifz?.stopping ?? "",
+        newScore: mgmtData?.newHifz?.score ?? datas2?.newHifz?.score ?? "",
+        hodComment: mgmtData?.hodComment ?? datas2?.hodComment ?? "",
+        prevStarting: mgmtData?.prevHifz?.starting ?? datas2?.prevHifz?.starting ?? "",
+        preStopping: mgmtData?.prevHifz?.stopping ?? datas2?.prevHifz?.stopping ?? "",
+        preScore: mgmtData?.prevHifz?.score ?? datas2?.prevHifz?.score ?? "",
+
+        // Teacher/Parent Comments
+        teacherComment: teacherComments?.comment ?? teacherComments?.[increase]?.comment ?? "",
+        teacherName: teacherComments?.name ?? teacherComments?.[increase]?.name ?? "",
+        teacherSign: teacherComments?.signature ?? teacherComments?.[increase]?.signature ?? "",
+        parentName: parentData?.name ?? parentData?.[increase]?.name ?? "",
+        parentComment: parentData?.comment ?? parentData?.[increase]?.comment ?? "",
+        parentDate: parentData?.date ?? parentData?.[increase]?.date ?? ""
+      }
       );
       
       // 3. FIXED: Axios uses response.status (Fetch uses response.ok)
