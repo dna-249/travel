@@ -179,13 +179,11 @@ const createDataSource = (daily,k) => {
   
 
   // --- POST HANDLER ---a
-const returnValue =(a,b)=>{
-  if(a === ''){
-   return b
-  } else {
-    return a
-  }
-}
+const returnValue = (val1, val2) => {
+  // If val1 has a value (isn't null/undefined/empty), use it. 
+  // Otherwise, use val2.
+  return (val1 !== undefined && val1 !== null && val1 !== "") ? val1 : val2;
+};
 
   const submitToBackend = async (section) => {
     setStatus(prev => ({ ...prev, [section]: 'loading' }));
