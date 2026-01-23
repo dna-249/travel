@@ -113,6 +113,7 @@ const managementFunc =()=>{
   
 
   const data = {
+    hodComment:response?.management?.[0]?.hodComment?.[increase]?.hodComment,
 newHifz: { starting:response?.management?.[0]?.newStarting?.[increase]?.newStarting,
           stopping:response?.management?.[0]?.newStopping?.[increase]?.newStopping,
           score:response?.management?.[0]?.newScore?.[increase]?.newScore,
@@ -175,15 +176,60 @@ const createDataSource = (daily,k) => {
            
     };
     
+  const createDataSource2 = (daily) => {
+  const {total } = totalScore(
+     response?.teacher?.[0]?.[daily]?.[increase]?.hifz,
+     response?.teacher?.[0]?.[daily]?.[increase]?.hifzError,
+     response?.teacher?.[0]?.[daily]?.[increase]?.tajweed,
+     response?.teacher?.[0]?.[daily]?.[increase]?.tajError,
+  )
+       const {Remark} = getGradeAndRemark(total)  
+ const data = ['date', 'remark', 'total', 'tajweed', 'hifz', 'tajError', 'hifzError', 'toV', 'fromV', 'chapter'].map((k) =>
+                                                                            
+       { const data =  {
+              date: response?.teacher?.[0]?.[daily]?.[increase]?.[k],
+              remark: Remark,
+              total: total,
+              tajweed: response?.teacher?.[0]?.[daily]?.[increase]?.[k], 
+              hifz: response?.teacher?.[0]?.[daily]?.[increase]?.[k],
+              tajError: response?.teacher?.[0]?.[daily]?.[increase]?.[k], 
+              hifzError: response?.teacher?.[0]?.[daily]?.[increase]?.[k],
+              toV: response?.teacher?.[0]?.[daily]?.[increase]?.[k],
+              fromV: response?.teacher?.[0]?.[daily]?.[increase]?.[k],
+              chapter: response?.teacher?.[0]?.[daily]?.[increase]?.[k]
+        } 
+      return data}
+      )
+      
+       const data2 = {
+          weeks: response?.week?.[increase]?.week,
+          terms: response?.term?.[increase]?.term, 
+          teacherComment:response?.teacher?.[0]?.teacherComment?.[0]?.[increase]?.teacherComment,
+          teacherName:response?.teacher?.[0]?.teacherName?.[0]?.[increase]?.teacherName, 
+          teacherSign:response?.teacher?.[0]?.teacherSig?.[0]?.[increase]?.teacherSign , 
+       }
+
+     const data3  = {     parentName:response?.parent?.[0]?.parentName?.[0]?.[increase]?.parentName,
+          parentComment:  response?.parent?.[0]?.parentComment?.[0]?.[increase]?.parentComment,
+          parentDate: response?.parent?.[0]?.parentDate?.[0]?.[increase]?.parentDate
+     }
+       const arr  = [...data,data2,data3]
+        return arr;
+           
+    };
+    
+    
     
   
 
   // --- POST HANDLER ---a
-const returnValue = (val1, val2) => {
-  // If val1 has a value (isn't null/undefined/empty), use it. 
-  // Otherwise, use val2.
-  return (val1 !== undefined && val1 !== null && val1 !== "") ? val1 : val2;
-};
+const returnValue =(a,b)=>{
+  if(a === ''){
+   return b
+  } else {
+    return a
+  }
+}
 
   const submitToBackend = async (section) => {
     setStatus(prev => ({ ...prev, [section]: 'loading' }));
@@ -191,7 +237,13 @@ const returnValue = (val1, val2) => {
 
 for (let i = 0; i < arr.length; i++) {
   
-
+  const { 
+    parentName,
+    parentComment,
+    parentDate,
+    weeks, terms, teacherComment,teacherName,teacherSign,
+    date,tajweed,hifz,tajError,hifzError,toV,fromV,chapter, } = createDataSource2(arr[i])
+    const {hodComment, newHifz,prevHifz} = managementFunc()
 
     try {
      
@@ -199,36 +251,31 @@ for (let i = 0; i < arr.length; i++) {
       const response = await axios.put(
         `https://portal-database-seven.vercel.app/student/edit/${id}/${arr[i]}/${increase}`, 
        {
-        // Use optional chaining (?.) and nullish coalescing (??)
-        // This says: Use the first value, if empty use the second, if both empty use ""
-        date: teacherData?.date ?? teacherData?.[increase]?.date ?? "",
-        tajweed: teacherData?.tajweed ?? teacherData?.[increase]?.tajweed ?? "",
-        hifz: teacherData?.hifz ?? teacherData?.[increase]?.hifz ?? "",
-        tajError: teacherData?.tajError ?? teacherData?.[increase]?.tajError ?? "",
-        hifzError: teacherData?.hifzError ?? teacherData?.[increase]?.hifzError ?? "",
-        toV: teacherData?.toV ?? teacherData?.[increase]?.toV ?? "",
-        fromV: teacherData?.fromV ?? teacherData?.[increase]?.fromV ?? "",
-        chapter: teacherData?.chapter ?? teacherData?.[increase]?.chapter ?? "",
-        weeks: teacherData?.week ?? teacherData?.[increase]?.week ?? "",
-        terms: teacherData?.term ?? teacherData?.[increase]?.term ?? "",
-
-        // Management Data - NO QUOTES HERE
-        newStarting: mgmtData?.newHifz?.starting ?? datas2?.newHifz?.starting ?? "",
-        newStopping: mgmtData?.newHifz?.stopping ?? datas2?.newHifz?.stopping ?? "",
-        newScore: mgmtData?.newHifz?.score ?? datas2?.newHifz?.score ?? "",
-        hodComment: mgmtData?.hodComment ?? datas2?.hodComment ?? "",
-        prevStarting: mgmtData?.prevHifz?.starting ?? datas2?.prevHifz?.starting ?? "",
-        preStopping: mgmtData?.prevHifz?.stopping ?? datas2?.prevHifz?.stopping ?? "",
-        preScore: mgmtData?.prevHifz?.score ?? datas2?.prevHifz?.score ?? "",
-
-        // Teacher/Parent Comments
-        teacherComment: teacherComments?.comment ?? teacherComments?.[increase]?.comment ?? "",
-        teacherName: teacherComments?.name ?? teacherComments?.[increase]?.name ?? "",
-        teacherSign: teacherComments?.signature ?? teacherComments?.[increase]?.signature ?? "",
-        parentName: parentData?.name ?? parentData?.[increase]?.name ?? "",
-        parentComment: parentData?.comment ?? parentData?.[increase]?.comment ?? "",
-        parentDate: parentData?.date ?? parentData?.[increase]?.date ?? ""
-      }
+          date: returnValue(teacherData[0]?.date,date?.[increase]?.date),
+          tajweed: returnValue(teacherData[0]?.tajweed, tajweed?.[increase]?.tajweed),
+          hifz: returnValue(teacherData[0]?.hifz,hifz?.[increase]?.hifz ),
+          tajError: returnValue(teacherData[0]?.tajError,tajError?.[increase]?.tajError ),
+          hifzError: returnValue(teacherData[0]?.hifzError,hifzError?.[increase]?.hifzError ),
+          toV: returnValue(teacherData[0]?.toV, toV?.[increase]?.toV ),
+          fromV: returnValue(teacherData[0]?.fromV, fromV?.[increase]?.fromV),
+          chapter: returnValue(teacherData[0]?.chapter, chapter.chapter ),
+          weeks: returnValue(teacherData[0]?.week, weeks?.[increase]?.week),
+          terms: returnValue(teacherData[0]?.term, terms?.[increase]?.term), 
+          teacherComment: returnValue(teacherComments.comment, teacherComment?.[increase]?.teacherComment),
+          teacherName: returnValue(teacherComments.name,  teacherName?.[increase]?.teacherName), 
+          teacherSign: returnValue(teacherComments.signature ,  teacherSign?.[increase]?.teacherSign ), 
+          newStarting: returnValue( mgmtData.newHifz.starting,newHifz.starting),
+          newStopping: returnValue( mgmtData.newHifz.stopping,newHifz.stopping),
+          newScore: returnValue( mgmtData.newHifz.score,newHifz.score),
+          hodComment: returnValue( mgmtData.hodComment,hodComment),
+          prevStarting: returnValue( mgmtData.prevHifz.starting,prevHifz.starting),
+          preStopping: returnValue( mgmtData.prevHifz.stopping,prevHifz.stopping), 
+          preScore: returnValue( mgmtData.prevHifz.score,prevHifz.score),
+      
+          parentName: returnValue(parentData.name, parentName?.[increase]?.parentName),
+          parentComment: returnValue(parentData.comment, parentComment?.[increase]?.parentComment),
+          parentDate: returnValue(parentData.date,  parentDate?.[increase]?.parentDate)
+        }
       );
       
       // 3. FIXED: Axios uses response.status (Fetch uses response.ok)
