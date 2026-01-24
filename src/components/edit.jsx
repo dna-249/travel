@@ -244,8 +244,8 @@ const createDataSource = (daily,k) => {
           toV: teacherData[ids]?.toV ??  toV?.[increase]?.toV ,
           fromV: teacherData[ids]?.fromV ?? fromV?.[increase]?.fromV,
           chapter: teacherData[ids]?.chapter ??  chapter?.[increase]?.chapter ,
-          weeks: teacherData[ids]?.week ??  weeks?.[increase]?.week,
-          terms: teacherData[ids]?.term ??  terms?.[increase]?.term, 
+          weeks: teacherComments?.week ??  weeks?.[increase]?.week,
+          terms: teacherComments?.term ??  terms?.[increase]?.term, 
           teacherComment: teacherComments.comment ??  teacherComment?.[increase]?.teacherComment,
           teacherName: teacherComments.name ??   teacherName?.[increase]?.teacherName, 
           teacherSign: teacherComments.signature  ??   teacherSign?.[increase]?.teacherSign , 
@@ -321,7 +321,7 @@ const createDataSource = (daily,k) => {
         <h1 className="text-2xl font-bold text-center text-blue-900 mb-4 tracking-tighter">TEACHER'S WEEKLY REPORT</h1>
         
         <div className="flex justify-between mb-4 font-bold text-[12px]">
-          <div>Week <input className={underlineInput}value={!teacherComments.week ? response?.weeks?.[increase]?.weeks: teacherComments.week}onChange={e => setTeacherComments({...teacherComments, week: e.target.value})} /> الأسبوع</div>
+          <div>Week <input className={underlineInput}value={!teacherComments.week ? response?.weeks?.[increase]?.weeks: teacherComments.week} onChange={e => setTeacherComments({...teacherComments, week: e.target.value})} /> الأسبوع</div>
           <div style={{ paddingRight:"50px"}} onClick={()=>back()}><FaArrowAltCircleLeft/> </div>
           <div style={{ paddingRight:"50px"}} onClick={()=>move()}><FaArrowAltCircleRight /></div>
           <div>Term <input className={underlineInput} value={!teacherComments.term ? response?.terms?.[increase]?.terms: teacherComments.term} onChange={e => setTeacherComments({...teacherComments, term: e.target.value})} /> الفترة</div>
