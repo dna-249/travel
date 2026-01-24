@@ -223,11 +223,7 @@ const createDataSource = (daily,k) => {
   
 
   // --- POST HANDLER ---a
-// Returns b if a is null, undefined, or an empty object
-const returnValue = (a, b) => {
-  const isEmptyObject = a && Object.keys(a).length === 0 && a.constructor === Object;
-  return (!a || isEmptyObject) ? b : a;
-};
+const returnValue = (a, b) => b || a;
 
   const submitToBackend = async (section) => {
     setStatus(prev => ({ ...prev, [section]: 'loading' }));
