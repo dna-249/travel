@@ -102,7 +102,7 @@ const AdminOptionPage = () => {
                 <div className="button-group">
                     <button 
                         className="nav-button report-btn"
-                        onClick={() => navigate(`/progress/${id}`)}
+                        onClick={() => navigate(`/veiw/${id}`)}
                     >
                         📊 Progress Report
                     </button>
