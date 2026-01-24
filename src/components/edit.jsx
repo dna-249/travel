@@ -224,7 +224,7 @@ const createDataSource = (daily,k) => {
 
   // --- POST HANDLER ---a
 const returnValue =(a,b)=>{
-  if(a === ''){
+  if(!a){
    return b
   } else {
     return a
