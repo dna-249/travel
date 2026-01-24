@@ -8,15 +8,8 @@ const Edit = () => {
   const lower = days.map((items,id )=> { if(id === 5) return items.slice(0,4).toLocaleLowerCase();  else return items.slice(0,3).toLocaleLowerCase()})
 
   const [response, setResponse] = useState([''])
-  const [datas, setDatas] =useState({ 
-      day:'', date: '', remark: '', total: '', tajweed: '', 
-      hifz: '', tajError: '', hifzError: '', toV: '', fromV: '', chapter: '' 
-    })
-const [datas2, setDatas2] =useState({
-    newHifz: { starting: '', stopping: '', score: '', grade: '', remark: '' },
-    prevHifz: { starting: '', stopping: '', score: '', grade: '', remark: '' },
-    hodComment: ''
-  })
+  const [day, setDay] =useState('')
+
 const [increase,setIncrease] =  useState(0)
 
 
@@ -25,7 +18,7 @@ const [increase,setIncrease] =  useState(0)
 
   // --- STATES ---
   const [teacherData, setTeacherData] = useState(
-    lower.map(day => ({ 
+  days.map(day => ({ 
       day, date: '', remark: '', total: '', tajweed: '', 
       hifz: '', tajError: '', hifzError: '', toV: '', fromV: '', chapter: '' 
     }))
@@ -223,13 +216,9 @@ const createDataSource = (daily,k) => {
   
 
   // --- POST HANDLER ---a
-const returnValue = (a, b) => b || a;
-
+const func =(id) =>{if(id === 'thursday'){ return items.slice(0,4).toLocaleLowerCase();}  else {return items.slice(0,3).toLocaleLowerCase()}}
   const submitToBackend = async (section) => {
     setStatus(prev => ({ ...prev, [section]: 'loading' }));
-   const arr = ['sat', 'sun', 'mon','tue','wed','thur','fri'];
-
-for (let i = 0; i < arr.length; i++) {
   
   const { 
     parentName,
@@ -243,32 +232,32 @@ for (let i = 0; i < arr.length; i++) {
      
       
       const response = await axios.put(
-        `https://portal-database-seven.vercel.app/student/edit/${id}/${arr[i]}/${increase}`, 
+        `https://portal-database-seven.vercel.app/student/edit/${id}/${func(day)}/${increase}`, 
        {
-          date: teacherData[0]?.date || date?.[increase]?.date,
-          tajweed: teacherData[0]?.tajweed || tajweed?.[increase]?.tajweed,
-          hifz: teacherData[0]?.hifz || hifz?.[increase]?.hifz ,
-          tajError: teacherData[0]?.tajError  || tajError?.[increase]?.tajError ,
-          hifzError: teacherData[0]?.hifzError || hifzError?.[increase]?.hifzError ,
-          toV: teacherData[0]?.toV ||  toV?.[increase]?.toV ,
-          fromV: teacherData[0]?.fromV || fromV?.[increase]?.fromV,
-          chapter: teacherData[0]?.chapter ||  chapter?.[increase]?.chapter ,
-          weeks: teacherData[0]?.week ||  weeks?.[increase]?.week,
-          terms: teacherData[0]?.term ||  terms?.[increase]?.term, 
-          teacherComment: teacherComments.comment ||  teacherComment?.[increase]?.teacherComment,
-          teacherName: teacherComments.name ||   teacherName?.[increase]?.teacherName, 
-          teacherSign: teacherComments.signature  ||   teacherSign?.[increase]?.teacherSign , 
-          newStarting:  mgmtData.newHifz.starting || newHifz?.starting,
-          newStopping:  mgmtData.newHifz?.stopping || newHifz?.stopping,
-          newScore:  mgmtData.newHifz?.score || newHifz?.score,
-          hodComment:  mgmtData.hodComment || hodComment,
-          prevStarting:  mgmtData.prevHifz.starting || prevHifz?.starting,
-          preStopping:  mgmtData.prevHifz?.stopping || prevHifz?.stopping, 
-          preScore:  mgmtData.prevHifz?.score || prevHifz?.score,
+          date: teacherData[0]?.date ?? date?.[increase]?.date,
+          tajweed: teacherData[0]?.tajweed ?? tajweed?.[increase]?.tajweed,
+          hifz: teacherData[0]?.hifz ?? hifz?.[increase]?.hifz ,
+          tajError: teacherData[0]?.tajError  ?? tajError?.[increase]?.tajError ,
+          hifzError: teacherData[0]?.hifzError ?? hifzError?.[increase]?.hifzError ,
+          toV: teacherData[0]?.toV ??  toV?.[increase]?.toV ,
+          fromV: teacherData[0]?.fromV ?? fromV?.[increase]?.fromV,
+          chapter: teacherData[0]?.chapter ??  chapter?.[increase]?.chapter ,
+          weeks: teacherData[0]?.week ??  weeks?.[increase]?.week,
+          terms: teacherData[0]?.term ??  terms?.[increase]?.term, 
+          teacherComment: teacherComments.comment ??  teacherComment?.[increase]?.teacherComment,
+          teacherName: teacherComments.name ??   teacherName?.[increase]?.teacherName, 
+          teacherSign: teacherComments.signature  ??   teacherSign?.[increase]?.teacherSign , 
+          newStarting:  mgmtData.newHifz.starting ?? newHifz?.starting,
+          newStopping:  mgmtData.newHifz?.stopping ?? newHifz?.stopping,
+          newScore:  mgmtData.newHifz?.score ?? newHifz?.score,
+          hodComment:  mgmtData.hodComment ?? hodComment,
+          prevStarting:  mgmtData.prevHifz.starting ?? prevHifz?.starting,
+          preStopping:  mgmtData.prevHifz?.stopping ?? prevHifz?.stopping, 
+          preScore:  mgmtData.prevHifz?.score ?? prevHifz?.score,
       
-          parentName: parentData.name ||  parentName?.[increase]?.parentName,
-          parentComment: parentData.comment ||  parentComment?.[increase]?.parentComment,
-          parentDate: parentData.date ||   parentDate?.[increase]?.parentDate
+          parentName: parentData.name ??  parentName?.[increase]?.parentName,
+          parentComment: parentData.comment ??  parentComment?.[increase]?.parentComment,
+          parentDate: parentData.date ??   parentDate?.[increase]?.parentDate
         }
       );
       
@@ -282,7 +271,7 @@ for (let i = 0; i < arr.length; i++) {
       setStatus(prev => ({ ...prev, [section]: 'error' }));
       setTimeout(() => setStatus(prev => ({ ...prev, [section]: 'idle' })), 5000);
     }
-  }
+  
 
   };
 
@@ -370,8 +359,14 @@ for (let i = 0; i < arr.length; i++) {
                     />
                   </td>
                 ))}
-                <td  className={ "border border-black bg-gray-50 font-bold text-center"}>{row.day.toLocaleUpperCase()
-                  }</td>
+                <td 
+                  onClick={() => setDay(row.day)} 
+                  className={`border border-black font-bold text-center cursor-pointer transition-all ${
+                    day === row.day ? "bg-blue-600 text-white" : "bg-gray-50 text-black hover:bg-gray-200"
+                  }`}
+                >
+                  {row.day}
+                </td>
               </tr>
             ))}
           </tbody>
