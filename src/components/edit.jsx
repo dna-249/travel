@@ -321,10 +321,10 @@ const createDataSource = (daily,k) => {
         <h1 className="text-2xl font-bold text-center text-blue-900 mb-4 tracking-tighter">TEACHER'S WEEKLY REPORT</h1>
         
         <div className="flex justify-between mb-4 font-bold text-[12px]">
-          <div>Week <input className={underlineInput} value={teacherComments.week} onChange={e => setTeacherComments({...teacherComments, week: e.target.value})} /> الأسبوع</div>
+          <div>Week <input className={underlineInput}value={!teacherComments.week ? response?.weeks?.[increase]?.weeks: teacherComments.week}onChange={e => setTeacherComments({...teacherComments, week: e.target.value})} /> الأسبوع</div>
           <div style={{ paddingRight:"50px"}} onClick={()=>back()}><FaArrowAltCircleLeft/> </div>
           <div style={{ paddingRight:"50px"}} onClick={()=>move()}><FaArrowAltCircleRight /></div>
-          <div>Term <input className={underlineInput} value={teacherComments.term} onChange={e => setTeacherComments({...teacherComments, term: e.target.value})} /> الفترة</div>
+          <div>Term <input className={underlineInput} value={!teacherComments.term ? response?.terms?.[increase]?.terms: teacherComments.term} onChange={e => setTeacherComments({...teacherComments, term: e.target.value})} /> الفترة</div>
         </div>
 
         <table className="w-full border-collapse border border-black mb-4">
