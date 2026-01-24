@@ -331,8 +331,8 @@ for (let i = 0; i < arr.length; i++) {
         
         <div className="flex justify-between mb-4 font-bold text-[12px]">
           <div>Week <input className={underlineInput} value={teacherComments.week} onChange={e => setTeacherComments({...teacherComments, week: e.target.value})} /> الأسبوع</div>
-          <div onClick={()=>back()}><FaArrowAltCircleLeft/> </div>
-          <div onClick={()=>move()}><FaArrowAltCircleRight /></div>
+          <div style={{ width:"50px"}} onClick={()=>back()}><FaArrowAltCircleLeft/> </div>
+          <div style={{ width:"50px"}} onClick={()=>move()}><FaArrowAltCircleRight /></div>
           <div>Term <input className={underlineInput} value={teacherComments.term} onChange={e => setTeacherComments({...teacherComments, term: e.target.value})} /> الفترة</div>
         </div>
 
