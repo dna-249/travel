@@ -16,7 +16,7 @@ const [increase,setIncrease] =  useState(0)
 
   // 1. FIXED: useParams is a hook and must be called with ()
   const { id } = useParams(); 
-const func =(id) =>{if(id === 'thursday'){ return id.slice(0,4).toLocaleLowerCase();}  else {return id.slice(0,3).toLocaleLowerCase()}}
+const func =(id) =>{if(id === 'Thursday'){ return id.slice(0,4).toLocaleLowerCase();}  else {return id.slice(0,3).toLocaleLowerCase()}}
 
   // --- STATES ---
   const [teacherData, setTeacherData] = useState(
