@@ -216,7 +216,7 @@ const createDataSource = (daily,k) => {
   
 
   // --- POST HANDLER ---a
-const func =(id) =>{if(id === 'thursday'){ return items.slice(0,4).toLocaleLowerCase();}  else {return items.slice(0,3).toLocaleLowerCase()}}
+const func =(id) =>{if(id === 'thursday'){ return id.slice(0,4).toLocaleLowerCase();}  else {return id.slice(0,3).toLocaleLowerCase()}}
   const submitToBackend = async (section) => {
     setStatus(prev => ({ ...prev, [section]: 'loading' }));
   
