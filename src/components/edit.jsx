@@ -225,9 +225,9 @@ const func =(id) =>{if(id === 'thursday'){ return items.slice(0,4).toLocaleLower
     parentComment,
     parentDate,
     weeks, terms, teacherComment,teacherName,teacherSign,
-    date,tajweed,hifz,tajError,hifzError,toV,fromV,chapter, } = createDataSource2(arr[i])
+    date,tajweed,hifz,tajError,hifzError,toV,fromV,chapter, } = createDataSource2(func(day))
     const {hodComment, newHifz,prevHifz} = managementFunc()
-    console.log(createDataSource2(arr[i]))
+    console.log(createDataSource2(func(day)))
     try {
      
       
