@@ -223,13 +223,7 @@ const createDataSource = (daily,k) => {
   
 
   // --- POST HANDLER ---a
-const returnValue =(a,b)=>{
-  if(!a){
-   return b
-  } else {
-    return a
-  }
-}
+const returnValue = (a, b) => a || b;
 
   const submitToBackend = async (section) => {
     setStatus(prev => ({ ...prev, [section]: 'loading' }));
