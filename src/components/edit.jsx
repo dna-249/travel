@@ -12,6 +12,7 @@ const Edit = () => {
   const [day, setDay] =useState('')
 
 const [increase,setIncrease] =  useState(0)
+const [ids,setIds] =  useState(0)
 
 
   // 1. FIXED: useParams is a hook and must be called with ()
@@ -235,16 +236,16 @@ const createDataSource = (daily,k) => {
       const response = await axios.put(
         `https://portal-database-seven.vercel.app/student/edit/${id}/${func(day)}/${increase}`, 
        {
-          date: teacherData[0]?.date ?? date?.[increase]?.date,
-          tajweed: teacherData[0]?.tajweed ?? tajweed?.[increase]?.tajweed,
-          hifz: teacherData[0]?.hifz ?? hifz?.[increase]?.hifz ,
-          tajError: teacherData[0]?.tajError  ?? tajError?.[increase]?.tajError ,
-          hifzError: teacherData[0]?.hifzError ?? hifzError?.[increase]?.hifzError ,
-          toV: teacherData[0]?.toV ??  toV?.[increase]?.toV ,
-          fromV: teacherData[0]?.fromV ?? fromV?.[increase]?.fromV,
-          chapter: teacherData[0]?.chapter ??  chapter?.[increase]?.chapter ,
-          weeks: teacherData[0]?.week ??  weeks?.[increase]?.week,
-          terms: teacherData[0]?.term ??  terms?.[increase]?.term, 
+          date: teacherData[ids]?.date ?? date?.[increase]?.date,
+          tajweed: teacherData[ids]?.tajweed ?? tajweed?.[increase]?.tajweed,
+          hifz: teacherData[ids]?.hifz ?? hifz?.[increase]?.hifz ,
+          tajError: teacherData[ids]?.tajError  ?? tajError?.[increase]?.tajError ,
+          hifzError: teacherData[ids]?.hifzError ?? hifzError?.[increase]?.hifzError ,
+          toV: teacherData[ids]?.toV ??  toV?.[increase]?.toV ,
+          fromV: teacherData[ids]?.fromV ?? fromV?.[increase]?.fromV,
+          chapter: teacherData[ids]?.chapter ??  chapter?.[increase]?.chapter ,
+          weeks: teacherData[ids]?.week ??  weeks?.[increase]?.week,
+          terms: teacherData[ids]?.term ??  terms?.[increase]?.term, 
           teacherComment: teacherComments.comment ??  teacherComment?.[increase]?.teacherComment,
           teacherName: teacherComments.name ??   teacherName?.[increase]?.teacherName, 
           teacherSign: teacherComments.signature  ??   teacherSign?.[increase]?.teacherSign , 
@@ -355,6 +356,7 @@ const createDataSource = (daily,k) => {
                         const updated = [...teacherData];
                         updated[idx][field] = e.target.value;
                         setTeacherData(updated);
+                        setIds(()=>idx)
                       }} 
             
                     />
