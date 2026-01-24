@@ -5,7 +5,7 @@ import { useParams } from 'react-router-dom';
 
 const Edit = () => {
   const days = ['Saturday', 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
-  const lower = days.map((items)=> items.slice(0,3).toLocaleLowerCase())
+  const lower = days.map((items,id )=> { if(id === 5) return items.slice(0,4).toLocaleLowerCase();  else return items.slice(0,3).toLocaleLowerCase()})
 
   const [response, setResponse] = useState([''])
   const [datas, setDatas] =useState({ 
