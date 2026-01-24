@@ -4,6 +4,7 @@ import { FaArrowAltCircleLeft, FaArrowAltCircleRight } from 'react-icons/fa';
 import { useParams } from 'react-router-dom';
 
 const Edit = () => {
+
   const days = ['Saturday', 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
   const lower = days.map((items,id )=> { if(id === 5) return items.slice(0,4).toLocaleLowerCase();  else return items.slice(0,3).toLocaleLowerCase()})
 
@@ -15,11 +16,12 @@ const [increase,setIncrease] =  useState(0)
 
   // 1. FIXED: useParams is a hook and must be called with ()
   const { id } = useParams(); 
+const func =(id) =>{if(id === 'thursday'){ return id.slice(0,4).toLocaleLowerCase();}  else {return id.slice(0,3).toLocaleLowerCase()}}
 
   // --- STATES ---
   const [teacherData, setTeacherData] = useState(
   days.map(day => ({ 
-      day, date: '', remark: '', total: '', tajweed: '', 
+      day:func(day), date: '', remark: '', total: '', tajweed: '', 
       hifz: '', tajError: '', hifzError: '', toV: '', fromV: '', chapter: '' 
     }))
   );
@@ -216,7 +218,6 @@ const createDataSource = (daily,k) => {
   
 
   // --- POST HANDLER ---a
-const func =(id) =>{if(id === 'thursday'){ return id.slice(0,4).toLocaleLowerCase();}  else {return id.slice(0,3).toLocaleLowerCase()}}
   const submitToBackend = async (section) => {
     setStatus(prev => ({ ...prev, [section]: 'loading' }));
   
