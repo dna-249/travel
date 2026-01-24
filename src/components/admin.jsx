@@ -173,7 +173,7 @@ const AdminDashboard = () => {
             `}</style>
 
             <div className="dashboard-card">
-                <h1><img src="/aiiflogo.png" width={100} height={100 }/></h1> 
+                <h1><img src="/aiiflogo.png"  style={{margin:'auto'}}   width={100} height={100 }/></h1> 
                 <h1 className="dashboard-header">
                     Welcome, Administrator 👋
                 </h1>

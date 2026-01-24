@@ -119,7 +119,7 @@ const AdminPinPage = () => {
                 
                 {/* School Header / Logo */}
                 <div style={{marginBottom: '24px'}}>
-                    <img src="/aiiflogo.png" width={100} height={100 }/>
+                    <img src="/aiiflogo.png"  style={{margin:'auto'}}  width={100} height={100 }/>
                     <h1 className="portal-title">
                         Admin Access
                     </h1>

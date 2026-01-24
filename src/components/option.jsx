@@ -30,6 +30,7 @@ const AdminOptionPage = () => {
                     padding: 32px;
                     border: 1px solid #e5e7eb;
                     text-align: center;
+
                 }
                 .portal-title {
                     font-size: 1.5rem;
@@ -90,8 +91,8 @@ const AdminOptionPage = () => {
             <div className="option-card">
                 {/* School Header / Logo */}
                 <div style={{ marginBottom: '24px' }}>
-                    <img src="/aiiflogo.png" width={100} height={100} alt="Logo" />
-                    <h1 className="portal-title">Admin Dashboard</h1>
+                    <img src="/aiiflogo.png"   style={{margin:'auto'}} width={100} height={100} alt="Logo" />
+                    <h1 className="portal-title">Welcome Back!</h1>
                 </div>
 
                 <hr style={{ marginBottom: '24px', border: 'none', borderTop: '1px solid #bfdbfe' }} />

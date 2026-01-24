@@ -391,7 +391,7 @@ const ReportPage = () => {
                 <div className="school-header">
                     
                     <div className="school-info">
-                            <img src='/aiifheader.png' height={150} width={700} />    
+                            <img src='/aiifheader.png'   style={{margin:'auto'}} height={150} width={700} />    
                           <h3 className="report-title">STATEMENT OF RESULT</h3>
                     </div>
                     <img src={studentPhoto} alt="Student" width={150}height={120} style={{ border:"1px solid #ddd",borderRadius:"5px",padding:"5px"}} />

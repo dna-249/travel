@@ -129,7 +129,7 @@ const Pay = ({ invoiceAmount = '5000.00' }) => {
                 {/* 1. Logo and Title at the Top */}
                 <div className="logo-container">
                     {/* Placeholder for the logo (must be served from a public path) */}
-                    <img src="/aiiflogo.png" width={80} height={80} alt="Institution Logo"/>
+                    <img src="/aiiflogo.png"   style={{margin:'auto'}} width={80} height={80} alt="Institution Logo"/>
                     <h1 className="portal-title">
                         Pay Your Exam Fee
                     </h1>
