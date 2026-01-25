@@ -242,7 +242,7 @@ const AdminDashboard = () => {
                     >
                         📝 View Progress 
                     </button>
-                     <button style={{textAlign:"center",padding:"15px",backgroundColor:' #10b981'}}
+                     <button style={{textAlign:"center", marginTop: '10px', padding:"15px",backgroundColor:' #10b981'}}
                         className="option-button"
                          onClick={() => navigate(`/edit/${selectedStudentId}`)}
                     >
