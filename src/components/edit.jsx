@@ -9,7 +9,7 @@ const Edit = () => {
   const lower = days.map((items,id )=> { if(id === 5) return items.slice(0,4).toLocaleLowerCase();  else return items.slice(0,3).toLocaleLowerCase()})
 
   const [response, setResponse] = useState([''])
-  const [day, setDay] =useState('')
+  const [day, setDay] =useState('day')
 
 const [increase,setIncrease] =  useState(0)
 const [ids,setIds] =  useState(0)

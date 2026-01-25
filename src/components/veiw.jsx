@@ -182,7 +182,7 @@ const createDataSource = (daily,k) => {
       };
 
       const response = await axios.put(
-        `https://portal-database-seven.vercel.app/student/push/${id}/sat`, 
+        `https://portal-database-seven.vercel.app/student/push/${id}/day`, 
        {
           // date:teacherData[increase]?.date,
           // tajweed:teacherData[increase]?.tajweed,
