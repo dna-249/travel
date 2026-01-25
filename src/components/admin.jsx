@@ -236,9 +236,16 @@ const AdminDashboard = () => {
                     </form>
 
                     <p style={{marginTop: '10px', fontSize: '0.85rem', color: '#6b7280'}}>
-                     <button style={{textAlign:"center",padding:"15px"}}
+
+                        <button style={{textAlign:"center",  padding:"15px",backgroundColor:' #10b981'}}
                         className="option-button"
-                        onClick={() => navigate(`/veiw/${selectedStudentId}`)}
+                         onClick={() => navigate(`/edit/${selectedStudentId}`)}
+                    >
+                        📝 Insert Progress
+                    </button>
+                     <button style={{textAlign:"center",marginTop: '10px', padding:"15px"}}
+                        className="option-button"
+                        onClick={() => navigate(`/progress/${selectedStudentId}`)}
                     >
                         📝 View Progress 
                     </button>
