@@ -236,7 +236,12 @@ const AdminDashboard = () => {
                     </form>
 
                     <p style={{marginTop: '10px', fontSize: '0.85rem', color: '#6b7280'}}>
-                        Currently viewing ID: <strong>{selectedStudentId || 'N/A'}</strong>
+                     <button style={{textAlign:"center",padding:"15px"}}
+                        className="option-button"
+                        onClick={() => navigate('/view')}
+                    >
+                        📝 View Progress 
+                    </button>
                     </p>
                 </div>
 
